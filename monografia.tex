@@ -1,0 +1,63 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Classe do documento
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Opções:
+%  - Graduação: bacharelado|engenharia|licenciatura
+%  - Pós-graduação: [qualificacao], mestrado|doutorado, ppca|ppginf
+
+% \documentclass[engenharia]{UnB-CIC}%
+\documentclass[mestrado,ppginf,qualificacao]{UnB-CIC}
+
+\usepackage{pdfpages}% incluir PDFs, usado no apêndice
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+% \usepackage{amsmathx}
+% \usepackage{amssymb}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage[table]{xcolor}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Informações do Trabalho
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\orientador{\prof \dr Pedro Garcia Freitas}{CiC/UnB}
+\coorientador{\prof \dr Bruno Luiggi Macchiavello Espinoza}{CiC/UnB}%
+%$\coordenador[a]{\prof[a] \dr[a] Ada Lovelace}{Bibliothèque universelle de Genève}%
+\coordenador[a]{\prof[a] \dr[a] 
+Cláudia Nalon}{CIC/UnB}%
+\diamesano{12}{outubro}{2025}%
+
+\membrobanca{\prof \dr PLACEHOLDER}{CiC/UnB}%
+\membrobanca{\prof \dr PLACEHOLDER}{CiC/UnB}%
+
+\autor{Lucas de Almeida Bandeira}{Macedo}%
+
+\titulo{Layout-Aware Zero-Shot Learning for Visual Document Matching}%
+
+\palavraschave{Redes Neurais Artificiais, Leitura Labial Automática, Trabalho de Conclusão de Curso}%
+\keywords{Artificial Neural Networks, Automatic Lipreading, Thesis}%
+
+\newcommand{\unbcic}{\texttt{UnB-CIC}}
+\newcommand{\acrit}[1]{\textit{\acrlong{#1}} (\acrshort{#1})}
+\newcommand{\acritpl}[1]{\textit{\acrlong{#1}s} (\acrshort{#1}s)}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Texto
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}%
+    \capitulo{1-Introdução}{Introduction}%
+    \capitulo{2-Teorica}{Theorical Foundation}%
+    \capitulo{3-TrabalhosRelacionados}{Related Work}%
+    \capitulo{4-Metodologia}{Metodologia}%
+    \capitulo{5-Resultados}{Resultados}%
+    \capitulo{6-Conclusao}{Conclusão}%
+    % \capitulo{1_Introducao}{Introduction}%
+    % \capitulo{2_UnB-CIC}{A Classe \unbcic}%
+    % \capitulo{3_TCC}{Capstone Project}%
+    % \capitulo{4_Apresentacao}{Apresentações}%
+    % \apendice{Apendice_Fichamento}{Fichamento de Artigo Científico}%
+    % \anexo{Anexo1}{Documentação Original \unbcic\ (parcial)}%
+\end{document}%
