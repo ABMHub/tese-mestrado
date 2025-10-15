@@ -37,3 +37,17 @@ The metric learning nature of this method makes it highly adaptable to different
 \glspl{LLM} are \gls{DL} networks trained on massive corpora of textual data to, traditionally, generate human-like text, although they can be adapted to a number of different tasks. Modern LLMs, such as GPT~\cite{brown_language_2020} and LLaMA~\cite{touvron_llama_2023}, have demonstrated remarkable performance across a wide variety of natural language processing (NLP) tasks. One of the defining characteristics of LLMs is their ability to generalize to unseen tasks without task-specific fine-tuning, a phenomenon often referred to as in-context learning. Instead of retraining the model, a user can provide a prompt containing instructions or examples, and the model adapts its behavior accordingly. This makes LLMs particularly appealing for applications where labeled data is scarce or non-existent, excelling in zero-shot and few-shot tasks.
 
 Despite their versatility, LLMs come with challenges. Their performance can degrade in highly specialized domains or when exposed to out-of-distribution inputs. Generative LLMs in particular are very susceptible to hallucination~\cite{ji_survey_2023}, where the output answer is structurally correct but has no connection to the input text, or even has fabricated information. In a corporate scenario, integrating a generative LLM into an automation pipeline is particularly challenging. Many systems depend on structured communication, and a generative model may hallucinate on the structure itself, breaking the system even if the answer was semantically correct. Even then, they continue to shape current research and development in machine learning, and their integration into hybrid or multimodal systems is a growing area of interest.
+
+\section{Active Learning}
+
+Active learning~\cite{10537213} is a machine learning paradigm that focuses on optimizing the labeling process it is especially helpful in scenarios where resources are scarce or the target dataset aimed to be particularly large. This process reduces the labeling cost by using the trained model itself to help gather more labeled data. This process can be visualized on \refFig{fig:activelearning}
+
+To use this approach, first, a small labeled dataset must be generated to start the process. This first step can be the most laborious, as there is not a auxiliary trained model yet. Then, a machine learning model must be trained with this data. This model is then used to evaluate a larger pool of unlabeled data and predict their labels. Then, the predicted labels are returned to a human hand, to validate and correct the produced labels. There are many strategies to further optimize this process, such as identifying instances where the model's predictions are uncertain or where the data points are expected to provide the most information gain if labeled. This process can be repeated as many times as needed, achieving a better model and a larger dataset at each iteration.
+
+\begin{figure}[htbp]
+%\isPreprints{\centering}{} % Only used for preprints
+\label{fig:activelearning}
+\centering
+\includegraphics[width=.6\linewidth]{images/active_learning.drawio.pdf}
+\caption{Simplified diagram of a Active Learning process.}
+\end{figure}
