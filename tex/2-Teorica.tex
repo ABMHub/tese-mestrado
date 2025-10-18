@@ -19,8 +19,16 @@ Metric learning is a framework that allows \gls{ZSL}. In summary, a metric-learn
 
 A \gls{DL} model following a metric learning framework is constructed as a siamese network. They are named siamese because they can be seen as bipartite architectures, with two parallel paths that converge in the end, even though both sides share the same weights. To construct a visual siamese network, an image model, \( g(\cdot) \), is required to transform an input image \( I \) into a feature representation in an arbitrary $n$-dimensional space, \( g(I) \). The  \( g(\cdot) \) image model is referred to as the backbone of the siamese network. This framework is illustrated in Figure \ref{fig:siamese} for reference.
 
-Losses that support metric learning, such as contrastive~\cite{chopra_learning_2005} or triplet~\cite{triplet}, follow the same strategy: cluster together elements that share a label, and split apart elements that do not. When training a siamese network, the training step should consider at least two distinct elements, and the loss function scores the step over the distance between the elements. During training, the contrastive loss considers only two elements per step, and they can either share the same class or belong to different classes. The triplet loss considers three elements per step: an anchor/reference, a positive example (same label), and a negative example (different label). In this work, the contrastive loss function is used to train the model. More details about the contrastive loss are provided in \refCap{sec:method_modeling}.%There are variants to this strategy, such as quadruplet loss~\cite{quadruplet} which considers four elements per step, but they all follow the same overall strategy. 
+Losses that support metric learning, such as contrastive~\cite{chopra_learning_2005} or triplet~\cite{triplet}, follow the same strategy: cluster together elements that share a label, and split apart elements that do not. When training a siamese network, the training step should consider at least two distinct elements, and the loss function scores the step over the distance between the elements. During training, the contrastive loss considers only two elements per step, and they can either share the same class or belong to different classes. The triplet loss considers three elements per step: an anchor/reference, a positive example (same label), and a negative example (different label). In this work, the contrastive loss function is used to train the model.
 
+Therefore, given a sample pair $\{(a, b)\}$ of feature spaces, and $y$ as a label with value $1$ if $a$ and $b$ share the same class, $0$ otherwise, the contrastive loss can be defined as:
+\begin{equation}
+        Loss = y * d(a, b)^2 + (1 + (-1 * y)) * abs(m - d(a, b))^2,
+\end{equation}
+where $d$ represents a metric function and $m$ a hyperparameter defining the lower bound distance between samples of different classes. In this context of this paper, $d$ is the Euclidean distance between two points $P = (x_1, x_2, \cdots, x_n)$ and $Q = (y_1, y_2, \cdots, y_n)$ in an $n$-dimensional space defined mathematically as:
+\begin{equation}
+d(P,Q)={\sqrt {(x_{1}-y_{1})^{2}+ \cdots +(x_{n}-y_{n})^{2}}} = \sqrt{ \sum_{i=1}^{n} (x_i - y_i)^2 }.
+\end{equation}
 
 \begin{figure}[htbp]
 %\isPreprints{\centering}{} % Only used for preprints
@@ -39,6 +47,7 @@ The metric learning nature of this method makes it highly adaptable to different
 Despite their versatility, LLMs come with challenges. Their performance can degrade in highly specialized domains or when exposed to out-of-distribution inputs. Generative LLMs in particular are very susceptible to hallucination~\cite{ji_survey_2023}, where the output answer is structurally correct but has no connection to the input text, or even has fabricated information. In a corporate scenario, integrating a generative LLM into an automation pipeline is particularly challenging. Many systems depend on structured communication, and a generative model may hallucinate on the structure itself, breaking the system even if the answer was semantically correct. Even then, they continue to shape current research and development in machine learning, and their integration into hybrid or multimodal systems is a growing area of interest.
 
 \section{Active Learning}
+\label{sec:active_learning}
 
 Active learning~\cite{10537213} is a machine learning paradigm that focuses on optimizing the labeling process it is especially helpful in scenarios where resources are scarce or the target dataset aimed to be particularly large. This process reduces the labeling cost by using the trained model itself to help gather more labeled data. This process can be visualized on \refFig{fig:activelearning}
 
@@ -49,5 +58,5 @@ To use this approach, first, a small labeled dataset must be generated to start 
 \label{fig:activelearning}
 \centering
 \includegraphics[width=.6\linewidth]{images/active_learning.drawio.pdf}
-\caption{Simplified diagram of a Active Learning process.}
+\caption{Simplified diagram of a active learning process.}
 \end{figure}

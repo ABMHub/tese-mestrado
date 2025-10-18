@@ -1,10 +1,11 @@
-Developing an effective solution for \glspl{VDM} requires addressing key challenges related to dataset availability, document structure variability, and generalization to unseen layouts. This section provides a detailed description of these components and the experimental procedures used to evaluate their effectiveness. Figure~\ref{fig1} illustrates the proposed methodology, outlining the sequential steps from dataset preparation to result analysis.
+Developing an effective solution for \glspl{VDM} requires addressing key challenges related to dataset availability, document structure variability, and generalization to unseen layouts. This section provides a detailed description of these components and the experimental procedures used to evaluate their effectiveness. 
+% Figure~\ref{fig1} illustrates the proposed methodology, outlining the sequential steps from dataset preparation to result analysis.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth, trim={0em 0em 0em 0em},clip]{images/Pipeline Pesquisa 1.png}
-\caption{Overview of the proposed \glsfirst{LA-ZSL} methodology for \glsfirst{VDM}.\label{fig1}}
-\end{figure}  
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[width=\textwidth, trim={0em 0em 0em 0em},clip]{images/Pipeline Pesquisa 1.png}
+% \caption{Overview of the proposed \glsfirst{LA-ZSL} methodology for \glsfirst{VDM}.\label{fig1}}
+% \end{figure}  
 
 \section{Dataset Construction}
 \label{sec:method_dataset}
@@ -19,7 +20,7 @@ The proposed dataset, \gls{LA-CDIP}, is built as a reorganization of the RVL-CDI
 \caption{Examples of two distinct classes under the proposed \gls{LA-CDIP} dataset. Those classes originally belonged to the same class under RVL-CDIP organization.\label{img:dataset}}
 \end{figure}   
 
-The construction of the database followed a light active learning framework, following two stages: preliminary clustering, followed by a manual reorganization. The clustering is made with a private metric learning model, trained with a private document dataset, with both the model and the dataset following the same metodology as this thesis. To generate the clusters, the trained model is used to generate a feature vector for every document in the \gls{RVL-CDIP} dataset. Next, Hierarchical Agglomerative Clustering clustering algorithm, with Ward\cite{ward1963} strategy, is employed. This algorithm allows the creation of a dynamic number of clusters, opposed to a fixed $k$ amount of clusters in algorithms, for example, required by k-Means. This is important due to the \gls{ZSL} nature of the problem, as the resulting dataset needs to achieve layout and class diversity, in other words, achieve a large number of classes. This clustering served the purpose of accelerating the manual labeling process.
+The construction of the database followed a light active learning framework (see \refCap{sec:active_learning}), following two stages: preliminary clustering, followed by a manual reorganization. The clustering is made with a private metric learning model, trained with a private document dataset, with both the model and the dataset following the same metodology as this thesis. To generate the clusters, the trained model is used to generate a feature vector for every document in the \gls{RVL-CDIP} dataset. Next, Hierarchical Agglomerative Clustering clustering algorithm, with Ward\cite{ward1963} strategy, is employed. This algorithm allows the creation of a dynamic number of clusters, opposed to a fixed $k$ amount of clusters in algorithms, for example, required by k-Means. This is important due to the \gls{ZSL} nature of the problem, as the resulting dataset needs to achieve layout and class diversity, in other words, achieve a large number of classes. This clustering served the purpose of accelerating the manual labeling process.
 
 Through the manual labeling process, the clustering served exclusively as suggestions, as the cluster themselves were not homogeneous, neither were unique, and therefore could not be taken as ground truth. The manual labeling process was separated into two steps: first, given a cluster to analyze, clean the cluster so there is only one document pattern in the cluster. And for the second step, verify if this cluster shares a document pattern with another cluster. If so, merge both clusters into one. To ensure quality on the proposed dataset, a second independent validation of the dataset is conducted, reviewing both intra-class and inter-class consistency and fixing ocasional human errors.
 
@@ -45,13 +46,4 @@ Traditional classification methods, such as entropy learning, locks the generali
 
 The dataset is benchmarked by choosing traditional, well established vision Neural Networks as the backbones. They are ResNet~\cite{he_deep_2016}, MobileNetV3~\cite{howard_searching_2019}, EfficientNet~\cite{tan_efficientnet_2019}, VGG~\cite{simonyan_very_2015}, \gls{ViT}~\cite{dosovitskiy_image_2021}. To adapt the architectures to a siamese network, only the last linear layer of each model---the classification layer---is modified into a new linear layer with an arbitrary size $n$, suitable for the problem. In summary, the model learns to draw a representation of a input document in a feature space with $n$ dimensions, such that documents that share the same class are represented clustered together, and documents that have different classes are far apart. 
 
-The trained models are exclusively visual, therefore, their input data is the $(R, G, B)$ document image matrix. First, the input image is resized into a shape compatible with each neural architecture. For most models, this shape is a $(224, 224)$ height and width. EfficientNet is the only architecture that does not follow this rule, as the different model versions increase their input size at the same time they increase the network depth and width. Then, every value of the image matrix is scaled from $0-255$ to $0-1$, and normalized with the mean and standard deviation of the current training split. During a training epoch, for each document in the dataset, a random document is chosen to close a pair. Every class has the same odds of being chosen to mitigate overfit in predominant classes. No data augmentation and no pair mining are used in these experiments.
-
-The models are trained with a supervised contrastive learning framework, and use the Contrastive Loss~\cite{chopra_learning_2005} as the loss function. It's objective is to minimize the distance between two elements of the same class, but increase the distance otherwise. Given a sample pair $\{(a, b)\}$ of feature spaces, and $y$ as a label with value $1$ if $a$ and $b$ share the same class, $0$ otherwise. Therefore: 
-\begin{equation}
-        Loss = y * d(a, b)^2 + (1 + (-1 * y)) * abs(m - d(a, b))^2,
-\end{equation}
-where $d$ represents a metric function and $m$ a hyperparameter defining the lower bound distance between samples of different classes. In this context of this paper, $m$=$0.5$ and $d$ is the Euclidean distance between two points $P = (x_1, x_2, \cdots, x_n)$ and $Q = (y_1, y_2, \cdots, y_n)$ in an $n$-dimensional space defined mathematically as:
-\begin{equation}
-d(P,Q)={\sqrt {(x_{1}-y_{1})^{2}+ \cdots +(x_{n}-y_{n})^{2}}} = \sqrt{ \sum_{i=1}^{n} (x_i - y_i)^2 }.
-\end{equation}
+The trained models are exclusively visual, therefore, their input data is the $(R, G, B)$ document image matrix. First, the input image is resized into a shape compatible with each neural architecture. For most models, this shape is a $(224, 224)$ height and width. EfficientNet is the only architecture that does not follow this rule, as the different model versions increase their input size at the same time they increase the network depth and width. Then, every value of the image matrix is scaled from $0-255$ to $0-1$, and normalized with the mean and standard deviation of the current training split. During a training epoch, for each document in the dataset, a random document is chosen to close a pair. Every class has the same odds of being chosen to mitigate overfit in predominant classes. No data augmentation and no pair mining are used in these experiments. The models are trained with a supervised contrastive learning framework, and use the Contrastive Loss~\cite{chopra_learning_2005} as the loss function.
