@@ -19,7 +19,7 @@ Metric learning is a framework that allows \gls{ZSL}. In summary, a metric-learn
 
 A \gls{DL} model following a metric learning framework is constructed as a siamese network. They are named siamese because they can be seen as bipartite architectures, with two parallel paths that converge in the end, even though both sides share the same weights. To construct a visual siamese network, an image model, \( g(\cdot) \), is required to transform an input image \( I \) into a feature representation in an arbitrary $n$-dimensional space, \( g(I) \). The  \( g(\cdot) \) image model is referred to as the backbone of the siamese network. This framework is illustrated in Figure \ref{fig:siamese} for reference.
 
-Losses that support metric learning, such as contrastive~\cite{chopra_learning_2005} or triplet~\cite{triplet}, follow the same strategy: cluster together elements that share a label, and split apart elements that do not. When training a siamese network, the training step should consider at least two distinct elements, and the loss function scores the step over the distance between the elements. During training, the contrastive loss considers only two elements per step, and they can either share the same class or belong to different classes. The triplet loss considers three elements per step: an anchor/reference, a positive example (same label), and a negative example (different label). In this work, the contrastive loss function is used to train the model.
+Losses that support metric learning, such as contrastive~\cite{chopra_learning_2005} or triplet~\cite{hoffer_deep_2018}, follow the same strategy: cluster together elements that share a label, and split apart elements that do not. When training a siamese network, the training step should consider at least two distinct elements, and the loss function scores the step over the distance between the elements. During training, the contrastive loss considers only two elements per step, and they can either share the same class or belong to different classes. The triplet loss considers three elements per step: an anchor/reference, a positive example (same label), and a negative example (different label). In this work, the contrastive loss function is used to train the model.
 
 Therefore, given a sample pair $\{(a, b)\}$ of feature spaces, and $y$ as a label with value $1$ if $a$ and $b$ share the same class, $0$ otherwise, the contrastive loss can be defined as:
 \begin{equation}
@@ -32,31 +32,35 @@ d(P,Q)={\sqrt {(x_{1}-y_{1})^{2}+ \cdots +(x_{n}-y_{n})^{2}}} = \sqrt{ \sum_{i=1
 
 \begin{figure}[htbp]
 %\isPreprints{\centering}{} % Only used for preprints
-\label{fig:siamese}
 \centering
 \includegraphics[width=0.9\linewidth]{images/siamese.png}
 \caption{Simplified architecture of a siamese network}
+\label{fig:siamese}
 \end{figure}
 
 The metric learning nature of this method makes it highly adaptable to different applications. Since feature vectors are used, clustering is a very natural application of the method, as are verification and identification. By establishing a distance threshold, it is possible to declare that two elements are similar enough to be considered a positive case, or far enough to be a negative case. Using this strategy, and having a reference for each required class, verification can be performed by comparing a given element with a certain class, effectively employing binary classification, or identification can be performed by comparing the element with every class and taking the most similar, effectively employing multiclass classification.
 
 \section{Large Language Models}
 
-\glspl{LLM} are \gls{DL} networks trained on massive corpora of textual data to, traditionally, generate human-like text, although they can be adapted to a number of different tasks. Modern LLMs, such as GPT~\cite{brown_language_2020} and LLaMA~\cite{touvron_llama_2023}, have demonstrated remarkable performance across a wide variety of natural language processing (NLP) tasks. One of the defining characteristics of LLMs is their ability to generalize to unseen tasks without task-specific fine-tuning, a phenomenon often referred to as in-context learning. Instead of retraining the model, a user can provide a prompt containing instructions or examples, and the model adapts its behavior accordingly. This makes LLMs particularly appealing for applications where labeled data is scarce or non-existent, excelling in zero-shot and few-shot tasks.
+\glspl{LLM} are \gls{DL} networks trained on massive corpora of textual data to, traditionally, generate human-like text, although they can be adapted to a number of different tasks. Modern LLMs, such as GPT~\cite{brown_language_2020} and LLaMA~\cite{touvron_llama_2023}, have demonstrated remarkable performance across a wide variety of \gls{NLP} tasks. One of the defining characteristics of LLMs is their ability to generalize to unseen tasks without task-specific fine-tuning, a phenomenon often referred to as in-context learning. Instead of retraining the model, a user can provide a prompt containing instructions or examples, and the model adapts its behavior accordingly. This makes LLMs particularly appealing for applications where labeled data is scarce or non-existent, excelling in zero-shot and few-shot tasks.
 
 Despite their versatility, LLMs come with challenges. Their performance can degrade in highly specialized domains or when exposed to out-of-distribution inputs. Generative LLMs in particular are very susceptible to hallucination~\cite{ji_survey_2023}, where the output answer is structurally correct but has no connection to the input text, or even has fabricated information. In a corporate scenario, integrating a generative LLM into an automation pipeline is particularly challenging. Many systems depend on structured communication, and a generative model may hallucinate on the structure itself, breaking the system even if the answer was semantically correct. Even then, they continue to shape current research and development in machine learning, and their integration into hybrid or multimodal systems is a growing area of interest.
+
+\section{Vision Language Models}
+
+\glspl{VLM} are multimodal versions of the \glspl{LLM}. They both follow the same constraints, except, the \gls{VLM} recieves and understands both image and text inputs, enabling the model to perform tasks such as image captioning, visual question answering, \gls{OCR} and document understanding. While \glspl{LLM} shows a great zero-shot performance across various \gls{NLP} tasks, \glspl{VLM} can perform in vision-related problems as well, making them particularly useful in the document analysis scenario.
 
 \section{Active Learning}
 \label{sec:active_learning}
 
-Active learning~\cite{10537213} is a machine learning paradigm that focuses on optimizing the labeling process it is especially helpful in scenarios where resources are scarce or the target dataset aimed to be particularly large. This process reduces the labeling cost by using the trained model itself to help gather more labeled data. This process can be visualized on \refFig{fig:activelearning}
+Active learning~\cite{settles_active_2009} is a machine learning paradigm that focuses on optimizing the labeling process it is especially helpful in scenarios where resources are scarce or the target dataset aimed to be particularly large. This process reduces the labeling cost by using the trained model itself to help gather more labeled data. This process can be visualized on \refFig{fig:activelearning}
 
 To use this approach, first, a small labeled dataset must be generated to start the process. This first step can be the most laborious, as there is not a auxiliary trained model yet. Then, a machine learning model must be trained with this data. This model is then used to evaluate a larger pool of unlabeled data and predict their labels. Then, the predicted labels are returned to a human hand, to validate and correct the produced labels. There are many strategies to further optimize this process, such as identifying instances where the model's predictions are uncertain or where the data points are expected to provide the most information gain if labeled. This process can be repeated as many times as needed, achieving a better model and a larger dataset at each iteration.
 
 \begin{figure}[htbp]
 %\isPreprints{\centering}{} % Only used for preprints
-\label{fig:activelearning}
 \centering
 \includegraphics[width=.6\linewidth]{images/active_learning.drawio.pdf}
 \caption{Simplified diagram of a active learning process.}
+\label{fig:activelearning}
 \end{figure}
