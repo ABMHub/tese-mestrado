@@ -15,7 +15,7 @@ where $p_{c}$ denotes the predicted probability of the input element belonging t
 
 \section{Metric Learning}
 
-Metric learning is a framework that allows \gls{ZSL}. In summary, a metric-learning model  \( f(\cdot) \) is trained such that, over an input element, it yields a feature vector $v$, instead of a traditional classification. This model \( f(\cdot) \) is optimized under a given metric \( d(\cdot, \cdot) \), such that two feature vectors that share the same class $v_1$, $v_1'$ are closer together than two feature vectors from different classes $v_1$, $v_2$. In other words, the model is optimized so that $d(v_1, v_1') < d(v_1, v_2)$ and $d(v_1, v_1') < d(v_1', v_2)$.
+Metric learning is a framework that allows \gls{ZSL}. In summary, a metric-learning model \( f(\cdot) \) is trained such that, over an input element, it yields a feature vector $v$, instead of a traditional classification. This model \( f(\cdot) \) is optimized under a given metric \( d(\cdot, \cdot) \), such that two feature vectors that share the same class $v_1$, $v_1'$ are closer together than two feature vectors from different classes $v_1$, $v_2$. In other words, the model is optimized so that $d(v_1, v_1') < d(v_1, v_2)$ and $d(v_1, v_1') < d(v_1', v_2)$.
 
 A \gls{DL} model following a metric learning framework is constructed as a siamese network. They are named siamese because they can be seen as bipartite architectures, with two parallel paths that converge in the end, even though both sides share the same weights. To construct a visual siamese network, an image model, \( g(\cdot) \), is required to transform an input image \( I \) into a feature representation in an arbitrary $n$-dimensional space, \( g(I) \). The  \( g(\cdot) \) image model is referred to as the backbone of the siamese network. This framework is illustrated in Figure \ref{fig:siamese} for reference.
 
@@ -40,27 +40,31 @@ d(P,Q)={\sqrt {(x_{1}-y_{1})^{2}+ \cdots +(x_{n}-y_{n})^{2}}} = \sqrt{ \sum_{i=1
 
 The metric learning nature of this method makes it highly adaptable to different applications. Since feature vectors are used, clustering is a very natural application of the method, as are verification and identification. By establishing a distance threshold, it is possible to declare that two elements are similar enough to be considered a positive case, or far enough to be a negative case. Using this strategy, and having a reference for each required class, verification can be performed by comparing a given element with a certain class, effectively employing binary classification, or identification can be performed by comparing the element with every class and taking the most similar, effectively employing multiclass classification.
 
+% \section{Vision Models}
+
+% \gls{DL} vision models are defined by their capability to analyze and generate predictions over images~\cite{trigka_comprehensive_2025}. In general, these models receive images codified as pixel matrixes $(C,H,W)$, where $C$ is the number of color channels in the image and $H$ and $W$ are the height and width of the image in number of pixels. Vision models can tackle a wide variety of tasks, such as image classification~\cite{deng_imagenet_2009}, image segmentation~\cite{ronneberger_u-net_2015} and object detection~\cite{redmon_you_2016}. Most 
+
 \section{Large Language Models}
 
 \glspl{LLM} are \gls{DL} networks trained on massive corpora of textual data to, traditionally, generate human-like text, although they can be adapted to a number of different tasks. Modern LLMs, such as GPT~\cite{brown_language_2020} and LLaMA~\cite{touvron_llama_2023}, have demonstrated remarkable performance across a wide variety of \gls{NLP} tasks. One of the defining characteristics of LLMs is their ability to generalize to unseen tasks without task-specific fine-tuning, a phenomenon often referred to as in-context learning. Instead of retraining the model, a user can provide a prompt containing instructions or examples, and the model adapts its behavior accordingly. This makes LLMs particularly appealing for applications where labeled data is scarce or non-existent, excelling in zero-shot and few-shot tasks.
 
 Despite their versatility, LLMs come with challenges. Their performance can degrade in highly specialized domains or when exposed to out-of-distribution inputs. Generative LLMs in particular are very susceptible to hallucination~\cite{ji_survey_2023}, where the output answer is structurally correct but has no connection to the input text, or even has fabricated information. In a corporate scenario, integrating a generative LLM into an automation pipeline is particularly challenging. Many systems depend on structured communication, and a generative model may hallucinate on the structure itself, breaking the system even if the answer was semantically correct. Even then, they continue to shape current research and development in machine learning, and their integration into hybrid or multimodal systems is a growing area of interest.
 
-\section{Vision Language Models}
+\subsection{Vision Language Models}
 
-\glspl{VLM} are multimodal versions of the \glspl{LLM}. They both follow the same constraints, except, the \gls{VLM} recieves and understands both image and text inputs, enabling the model to perform tasks such as image captioning, visual question answering, \gls{OCR} and document understanding. While \glspl{LLM} shows a great zero-shot performance across various \gls{NLP} tasks, \glspl{VLM} can perform in vision-related problems as well, making them particularly useful in the document analysis scenario.
+\glspl{VLM} are multimodal versions of the \glspl{LLM}. They both follow the same constraints, except the \gls{VLM} receives and understands both image and text inputs, enabling the model to perform tasks such as image captioning, visual question answering, \gls{OCR}, and document understanding. While \glspl{LLM} show great zero-shot performance across various \gls{NLP} tasks, \glspl{VLM} can perform in vision-related problems as well, making them particularly useful in the document analysis scenario.
 
 \section{Active Learning}
 \label{sec:active_learning}
 
-Active learning~\cite{settles_active_2009} is a machine learning paradigm that focuses on optimizing the labeling process it is especially helpful in scenarios where resources are scarce or the target dataset aimed to be particularly large. This process reduces the labeling cost by using the trained model itself to help gather more labeled data. This process can be visualized on \refFig{fig:activelearning}
+Active learning~\cite{settles_active_2009} is a machine learning paradigm that focuses on optimizing the labeling process. It is especially helpful in scenarios where resources are scarce or the target dataset is aimed to be particularly large. This process reduces the labeling cost by using the trained model itself to help gather more labeled data. This process can be visualized in \refFig{fig:activelearning}.
 
-To use this approach, first, a small labeled dataset must be generated to start the process. This first step can be the most laborious, as there is not a auxiliary trained model yet. Then, a machine learning model must be trained with this data. This model is then used to evaluate a larger pool of unlabeled data and predict their labels. Then, the predicted labels are returned to a human hand, to validate and correct the produced labels. There are many strategies to further optimize this process, such as identifying instances where the model's predictions are uncertain or where the data points are expected to provide the most information gain if labeled. This process can be repeated as many times as needed, achieving a better model and a larger dataset at each iteration.
+To use this approach, first, a small labeled dataset must be generated to start the process. This first step can be the most laborious, as there is not an auxiliary trained model yet. Then, a machine learning model must be trained with this data. This model is then used to evaluate a larger pool of unlabeled data and predict their labels. Then, the predicted labels are returned to a human hand to validate and correct the produced labels. There are many strategies to further optimize this process, such as identifying instances where the model's predictions are uncertain or where the data points are expected to provide the most information gain if labeled. This process can be repeated as many times as needed, achieving a better model and a larger dataset at each iteration.
 
 \begin{figure}[htbp]
 %\isPreprints{\centering}{} % Only used for preprints
 \centering
 \includegraphics[width=.6\linewidth]{images/active_learning.drawio.pdf}
-\caption{Simplified diagram of a active learning process.}
+\caption{Simplified diagram of an active learning process.}
 \label{fig:activelearning}
 \end{figure}

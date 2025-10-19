@@ -1,7 +1,7 @@
 \section{LA-CDIP Dataset}
 \label{sec:dataset}
 
-The proposed dataset is composed of 4993 documents, divided in 144 different classes. Each class has at least two documents, the biggest class has 497 documents, and the median size of the classes is 13, exposing an extra challenge on dealing with a unbalanced dataset. \refFig{fig:histplot} shows the class distribution.
+The proposed dataset is composed of 4993 documents, divided into 144 different classes. Each class has at least two documents, the biggest class has 497 documents, and the median size of the classes is 13, exposing an extra challenge in dealing with an unbalanced dataset. \refFig{fig:histplot} shows the class distribution.
 
 \begin{figure}[htbp]
 \centering
@@ -10,17 +10,17 @@ The proposed dataset is composed of 4993 documents, divided in 144 different cla
 \label{fig:histplot}
 \end{figure}  
 
-To maintain train-test data consistency, the data is split following the \gls{ZSL} and \gls{GZSL} protocols proposed by Xian et al. \cite{xian_zero-shot_2019}. Each protocol is a different method to split train and test data: \gls{ZSL} is the complete separation of train and test classes - no overlap between the splits; while the \gls{GZSL} follows a more realistic scenario by partially overlapping train and test classes, having half the test or validation set be of seen classes, and half of unseen classes. In both scenarios, the data is split into train and test data, and the train data is further divided by a 5-fold cross-validation \cite{wong_reliable_2019}.
+To maintain train-test data consistency, the data is split following the \gls{ZSL} and \gls{GZSL} protocols proposed by Xian et al. \cite{xian_zero-shot_2019}. Each protocol is a different method to split train and test data: \gls{ZSL} is the complete separation of train and test classes—no overlap between the splits; while \gls{GZSL} follows a more realistic scenario by partially overlapping train and test classes, having half the test or validation set be seen classes and half unseen classes. In both scenarios, the data is split into train and test data, and the train data is further divided by a 5-fold cross-validation \cite{wong_reliable_2019}.
 
-The data for the test scenario and the data for each split are chosen randomly, and the same for every experiment. The test scenario is picked as a sixth split for the cross-validation, so it follows the same rules for the other 5 splits. For the \gls{ZSL} scenario, a sixth of the classes are randomly chosen for each split, with no overlapping. Naturally, this scenario creates splits with variable sizes, as the classes themselves have variable sizes. For the \gls{GZSL} scenario, half the classes in the whole dataset are chosen as classes that do not overlap between splits, and other half are diluted between the splits. While constructing a split, first, the non overlapping classes are chosen for the split, then the remaining slots are filled with the overlapped classes, achieving splits with a constant size for this scenario.
+The data for the test scenario and the data for each split are chosen randomly, and remain the same for every experiment. The test scenario is picked as a sixth split for the cross-validation, so it follows the same rules as the other five splits. For the \gls{ZSL} scenario, one-sixth of the classes are randomly chosen for each split, with no overlapping. Naturally, this scenario creates splits with variable sizes, as the classes themselves have variable sizes. For the \gls{GZSL} scenario, half the classes in the whole dataset are chosen as classes that do not overlap between splits, and the other half are distributed across the splits. While constructing a split, first the nonoverlapping classes are chosen for the split, then the remaining slots are filled with the overlapping classes, achieving splits with a constant size for this scenario.
 
-This dataset can be used for a traditional visual classification problem, but since the problem is tackled with metric learning, additional considerations must be taken into account. While using a Siamese network, running inference on a single point of data returns no information, as the architecture requires some sort of comparison between different data points. Randomly selecting pairs every test can fluctuate the results, therefore, to maintain the test consistency, a test protocol is used that assures the same pairs are tested every time. For every document in the set, two other documents are chosen: one that shares the same class, and one that does not. This document is chosen randomly by its class, therefore, every class has the same probability of being picked. A protocol exists for the test set and for every cross-validation split.
+This dataset can be used for a traditional visual classification problem, but since the problem is tackled with metric learning, additional considerations must be taken into account. While using a Siamese network, running inference on a single point of data returns no information, as the architecture requires some sort of comparison between different data points. Randomly selecting pairs every test can fluctuate the results, therefore, to maintain test consistency, a test protocol is used that ensures the same pairs are tested every time. For every document in the set, two other documents are chosen: one that shares the same class, and one that does not. This document is chosen randomly by its class, therefore, every class has the same probability of being picked. A protocol exists for the test set and for every cross-validation split.
 
 
 \section{Evaluation Criteria}
 \label{sec:evaluation}
 
-Since a metric learning model yields a distance between two data points (in this case, two documents), a threshold needs to be defined to declare whether the two data points belong to the same class or not, to calculate how accurate the model is. For this, \gls{EER} is used as the metric for the experiments~\cite{agrawal_hybrid_2014}. \gls{EER} is  the point at which the \gls{FAR} and \gls{FRR} are equal. The \gls{EER} is calculated by setting the \gls{FAR} equal to the \gls{FRR} and finding the corresponding threshold at this point~\cite{hofbauer_calculating_2016}. In other words, the \gls{EER} is the value of error rate when the threshold value $\tau_{EER}$ gives 
+Since a metric learning model yields a distance between two data points (in this case, two documents), a threshold needs to be defined to declare whether the two data points belong to the same class or not, to calculate how accurate the model is. For this, \gls{EER} is used as the metric for the experiments~\cite{agrawal_hybrid_2014}. \gls{EER} is the point at which the \gls{FAR} and \gls{FRR} are equal. The \gls{EER} is calculated by setting the \gls{FAR} equal to the \gls{FRR} and finding the corresponding threshold at this point~\cite{hofbauer_calculating_2016}. In other words, the \gls{EER} is the value of error rate when the threshold value $\tau_{EER}$ gives 
 \begin{equation}
     FAR(\tau_{EER}) = FRR(\tau_{EER}),
 \end{equation}
@@ -38,12 +38,12 @@ Ten models are trained for each chosen backbone (see \refCap{sec:method_modeling
 
 \section{LLMs}
 
-For the \glspl{LLM} analysis, the chosen models are LLaVA 3.2 Vision, InternVL 2.5, Qwen2.5-VL, GPT-4o (2024-11-20), and GPT-4o-mini (2024-07-18). They were chosen given their performance in document understanding benchmarks~\cite{bai_qwen25-vl_2025,ai_llama_2024}, which  demonstrated capabilities in tasks involving visual-text reasoning, OCR, and layout-based document analysis. These models were evaluated in a zero-shot manner, without any fine-tuning or additional training.
+For the \glspl{LLM} analysis, the chosen models are LLaVA 3.2 Vision, InternVL 2.5, Qwen2.5-VL, GPT-4o (2024-11-20), and GPT-4o-mini (2024-07-18). They were chosen given their performance in document understanding benchmarks~\cite{bai_qwen25-vl_2025,ai_llama_2024}, which demonstrated capabilities in tasks involving visual-text reasoning, OCR, and layout-based document analysis. These models were evaluated in a zero-shot manner, without any fine-tuning or additional training.
 
 \section{Partial Results}
 \label{sec:results}
 
-The results of the research are presented in this chatper. This chapters's discussions revolves around Table \ref{tab:res}, where the results of every trained model are presented. The table shows the mean EER value of the cross-validation in both scenarios, as well as the mean performance of each fold on the independent test set. While the \gls{ZSL} and the \gls{GZSL} scenarios are very influential on the visual models performance, this difference is not relevant on the \gls{LLM} test, as they have not been fine-tuned for the task. While they may have been originally trained with some documents of the RVL-CDIP database, both scenarios are effectively \gls{ZSL}. The \refCap{sec:visual_models} discusses the results of the trained visual models and compare the effects of different backbones in the result. \refCap{sec:llm_result}, compares the results returned by the multimodal \glspl{LLM} chosen for this work. Finally, \refCap{sec:comparison_result}, compares both approaches.
+The results of the research are presented in this chapter. This chapter's discussion revolves around Table \ref{tab:res}, where the results of every trained model are presented. The table shows the mean EER value of the cross-validation in both scenarios, as well as the mean performance of each fold on the independent test set. While the \gls{ZSL} and \gls{GZSL} scenarios are very influential on the visual models' performance, this difference is not relevant in the \gls{LLM} test, as they have not been fine-tuned for the task. While they may have been originally trained with some documents of the RVL-CDIP database, both scenarios are effectively \gls{ZSL}. \refCap{sec:visual_models} discusses the results of the trained visual models and compares the effects of different backbones on the result. \refCap{sec:llm_result} compares the results returned by the multimodal \glspl{LLM} chosen for this work. Finally, \refCap{sec:comparison_result} compares both approaches.
 
 \begin{table}[ht]
 \caption{Comparative performance between different visual backbones and Large Language Models. Following the columns: the architecture name, the architecture edition, if exists, cross-validation over the \gls{ZSL} scenario, cross-validation over the \gls{GZSL} scenario, test performance on the \gls{ZSL} scenario, and test performance over the \gls{GZSL} scenario. Every value is a mean EER (\%) value over the \gls{CV} folds.}
@@ -87,7 +87,7 @@ GPT 4o                                  & 2024-11-20      &    *    & --     & -
 \subsection{Visual Models}
 \label{sec:visual_models}
 
-Among visual models, smaller and more cost-efficient architectures outperformed larger ones. This trend is evident in different ResNet variants: ResNet-18 and ResNet-34 showed strong performance, while larger versions (ResNet-50, ResNet-101, and ResNet-152) performed progressively worse. Additionally, the \gls{ViT}, despite excelling on datasets like ImageNet \cite{deng_imagenet_2009}, was the worst-performing model in this task. Figure \ref{fig:tsne} shows that, while none of the class separations are perfect, ResNet-18 and EfficientNet-b0 have a better inter-class separation, if compared against ViT-b and ViT-l. These larger models overfitted to the training data, with some reaching 0\% train error in certain epochs while maintaining a high validation error. The most likely cause of this behavior is the dataset size—LA-CDIP contains only 4,993 documents, with approximately two-thirds used for training in each fold. However, techniques such as tuple mining and data augmentation could help mitigate this effect by increasing the diversity of training samples and improving feature learning. The overall best models are the ResNet-34, and EfficientNet-0 and 1. They offer a balance in size, achieving a good generalization of the problem while also learning the intricacies the task demands.
+Among visual models, smaller and more cost-efficient architectures outperformed larger ones. This trend is evident in different ResNet variants: ResNet-18 and ResNet-34 showed strong performance, while larger versions (ResNet-50, ResNet-101, and ResNet-152) performed progressively worse. Additionally, the \gls{ViT}, despite excelling on datasets like ImageNet \cite{deng_imagenet_2009}, was the worst-performing model in this task. Figure \ref{fig:tsne} shows that, while none of the class separations are perfect, ResNet-18 and EfficientNet-b0 have better inter-class separation, if compared against ViT-b and ViT-l. These larger models overfitted to the training data, with some reaching 0\% train error in certain epochs while maintaining a high validation error. The most likely cause of this behavior is the dataset size—LA-CDIP contains only 4,993 documents, with approximately two-thirds used for training in each fold. However, techniques such as tuple mining and data augmentation could help mitigate this effect by increasing the diversity of training samples and improving feature learning. The overall best models are the ResNet-34 and EfficientNet-0 and -1. They offer a balance in size, achieving a good generalization of the problem while also learning the intricacies the task demands.
 
 \begin{figure}[htbp]
     \centering
@@ -121,15 +121,15 @@ In the test scenarios, the reported values represent the mean performance across
 \subsection{Large Language Models}
 \label{sec:llm_result}
 
-All models were tested under similar conditions, however, further performance improvements could be achieved through refined prompt engineering. Therefore, the results presented should not be considered as definitive comparisons of the models capabilities but rather a baseline for assessing the viability of the proposed method. Despite these limitations, \gls{LLM} results align with existing benchmarks for document understanding tasks for these models. 
+All models were tested under similar conditions; however, further performance improvements could be achieved through refined prompt engineering. Therefore, the results presented should not be considered definitive comparisons of the models' capabilities but rather a baseline for assessing the viability of the proposed method. Despite these limitations, \gls{LLM} results align with existing benchmarks for document understanding tasks for these models. 
 
 As shown in Table~\ref{tab:res}, GPT-4o exhibited the best overall performance, achieving the lowest error rates in both the \gls{ZSL} and \gls{GZSL} scenarios. The GPT-4o-mini variant performed similarly but showed slightly lower accuracy, reflecting its trade-off between efficiency and capability.
 
 Additionally, Llama 3.2 Vision faced challenges in handling multiple document inputs, requiring images to be combined into a single input before processing. This limitation impacted its ability to directly compare layouts across distinct documents, differentiating its approach from the other evaluated models.
 
-InternVL 2.5 and Qwen2.5-VL emerged as open-source alternatives for  \gls{ZSL} \gls{VDM}. Notably, the QwenVL 7B model reached performance levels close to those of GPT-4o mini, further highlighting the efficiency of these compact architectures.
+InternVL 2.5 and Qwen2.5-VL emerged as open-source alternatives for \gls{ZSL} \gls{VDM}. Notably, the QwenVL 7B model reached performance levels close to those of GPT-4o mini, further highlighting the efficiency of these compact architectures.
 
-Since the \glspl{LLM} have not been fine-tuned with the training data, the only difference between the \gls{ZSL} and \gls{GZSL} scenarios is the number of classes to compare: \gls{ZSL} has exactly $\frac{1}{6}$ of the classes and \gls{GZSL} can have every class, making \gls{GZSL} a more diverse test. Surprisingly, the two models performed with different trends between both scenarios: InternVL was better at the \gls{ZSL} split, and GPT better at the \gls{GZSL} split.
+Since the \glspl{LLM} have not been fine-tuned with the training data, the only difference between the \gls{ZSL} and \gls{GZSL} scenarios is the number of classes to compare: \gls{ZSL} has exactly $\tfrac{1}{6}$ of the classes and \gls{GZSL} can include every class, making \gls{GZSL} a more diverse test. Surprisingly, the two models performed with different trends between both scenarios: InternVL was better in the \gls{ZSL} split, and GPT better in the \gls{GZSL} split.
 
 \subsection{Comparison}
 \label{sec:comparison_result}
@@ -142,7 +142,38 @@ When compared to most \glspl{LLM}, \gls{LA-ZSL} enabled visual models to handle 
 \centering
 %\isPreprints{\centering}{} % Only used for preprints
 \includegraphics[width=1\linewidth]{images/performance_vs_parameters.png}
-\caption{Performance vs Parameters (\acrlong{ZSL} scenario)\label{fig:performance}. The lines reprensent GPT-4o and GPT-4o Mini error rates, as their parameter count were not publicly disclosed.}
+\caption{Performance vs. Parameters (\acrlong{ZSL} scenario)\label{fig:performance}. The lines represent GPT-4o and GPT-4o Mini error rates, as their parameter counts were not publicly disclosed.}
 \end{figure}  
 
 The results highlight a trade-off between model complexity and effectiveness. Smaller visual backbones, such as ResNet-18 and EfficientNet-0, achieve competitive performance while using significantly fewer parameters than large multimodal models. Notably, ResNet-18 and ResNet-34 exhibit lower error rates than several larger architectures, reinforcing the efficiency of lightweight vision models in document matching tasks.
+
+\section{Industry Uses}
+
+With the trained models shown in this chapter, an industry system can leverage the metric learning nature of the solution to achieve zero-shot \gls{DIC} in a couple of different ways. First, this model can be used in a verification system, within the same framework used for testing: given a document reference, and with a predefined acceptance threshold, a query document must be accepted if the distance to the reference is smaller than the threshold, and rejected otherwise. As mentioned in \ref{1-Introdução}, this task can be viewed as a binary classification problem, as the system will either accept or reject the document.
+
+Second, the model can be used in an identification system, which becomes similar to a multiclass classification problem: given a document reference for each available class, and with a predefined acceptance threshold, a query document must be assigned to the closest class with respect to the embedding distances, or detected as outside of the label space if no class is within the predefined threshold. \refFig{fig:ver_ind} illustrates the difference between the verification and identification tasks.
+
+\begin{figure*}[ht!]
+    \begin{subfigure}[b]{0.35\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/verification.drawio.pdf}
+        \caption{Verification task.}
+        \label{fig:verification_example}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.62\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/identification.drawio.pdf}
+        \caption{Identification task.}
+        \label{fig:identification_example}
+    \end{subfigure}
+    \caption{Comparative illustration between the verification (a) and identification (b) tasks. The verification system approves documents when the distance between the references and the query that is lower than or equal $0.5$, and rejects otherwise. The identification system chose the nearest neighbor to classify the query document.}
+    \label{fig:ver_ind}
+\end{figure*}
+
+Both tasks can be facilitated by a few design choices. For example, using multiple ground-truth references per class and computing the distance between the query document and the class centroid can improve classification robustness, as it prevents outlier samples from disproportionately representing an entire class. This decision demands more human annotation per class.
+
+Another possible choice is to use a different threshold for each class. While the model is trained to have all classes share the same acceptance threshold, it is natural that some classes in a real-world scenario have less intra-class variance than others. This, of course, increases the maintenance required per class registered in the system, as calculating a unique threshold demands testing. On the other hand, it may be of interest to change the threshold in order to increase the false rejection rate in scenarios where rejecting a correct document is cheaper than accepting an incorrect document, for example.
+
+All these examples share the same need for a database to store the references. It is possible to store the embeddings directly, instead of the document itself, to reduce the number of inferences the model must process. In the verification scenario, the complexity of an inference should increase linearly with the number of references in the class, i.e., the time to calculate the centroid of the class, $O(r)$, where $r$ is the number of references in a given class (the centroid coordinates can be stored to save time). Following the same strategy, in the identification scenario, along with the cost to calculate the centroid, there is also the cost of comparisons per class to find the nearest neighbor, which results in $O(rc)$, where $c$ is the number of classes in the system.
+
