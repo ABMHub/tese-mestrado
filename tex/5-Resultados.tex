@@ -36,9 +36,22 @@ is the probability that a positive sample (e.g., a genuine user) is incorrectly 
 
 Ten models are trained for each chosen backbone (see \refCap{sec:method_modeling}): a 5-fold cross-validation for each of the 2 scenarios, \gls{ZSL} and \gls{GZSL}. As shown in Section \ref{sec:method_dataset}, each split follows a fixed validation protocol to ensure consistency. The trained models from each split are also evaluated on the independent test set, to compare them with the \gls{LLM}s. The mean \gls{EER} is reported for every cross-validation scenario, as well as the mean \gls{EER} on the independent test set.
 
+
 \section{LLMs}
 
 For the \glspl{LLM} analysis, the chosen models are LLaVA 3.2 Vision, InternVL 2.5, Qwen2.5-VL, GPT-4o (2024-11-20), and GPT-4o-mini (2024-07-18). They were chosen given their performance in document understanding benchmarks~\cite{bai_qwen25-vl_2025,ai_llama_2024}, which demonstrated capabilities in tasks involving visual-text reasoning, OCR, and layout-based document analysis. These models were evaluated in a zero-shot manner, without any fine-tuning or additional training.
+
+\section{VDM Experimental Setup}
+
+The method was implemented in Python language, mainly using the PyTorch library~\cite{paszke_pytorch_2019}. By default, the used neural backbones adopted the following hyperparameters:
+\begin{itemize}
+    \item \gls{SGD}~\cite{robbins_stochastic_1951} optimizer;
+    \item Learning rate of $0.01$ with Momentum of $0.9$;
+    \item Weight Decay of $1^{-4}$;
+    \item 90 epochs of training;
+    \item Step learning rate decay of factor $0.1$ each 30 epochs;
+\end{itemize}
+However, some models were trained using different hyperparameters, following suggestions from their original authors. In particular, MobileNetV3 is trained with a learning rate decay factor of $0.973$ applied every 2 epochs and a weight decay of $1 \times 10^{-5}$. ViT is trained with AdamW~\cite{kingma_adam_2015}, utilizing Cosine Anneling~\cite{liu_super_2022} learning rate decay starting on $1 \times 10^{-3}$ and a weight decay of $1 \times 10^{-5}$.
 
 \section{Partial Results}
 \label{sec:results}
@@ -136,7 +149,7 @@ Since the \glspl{LLM} have not been fine-tuned with the training data, the only 
 
 Given that \gls{GZSL} is an advantageous scenario for vision models—since they have been trained on half of the classes—while \glspl{LLM} have not been fine-tuned for this task, both settings effectively serve as pure zero-shot evaluations. Therefore, the comparison was conducted in the \gls{ZSL} scenario.
 
-When compared to most \glspl{LLM}, \gls{LA-ZSL} enabled visual models to handle \gls{ZSL} \gls{VDM} while maintaining a significantly lower parameter count. This relationship between performance and model efficiency is illustrated in Figure~\ref{fig:performance}.
+When compared to most \glspl{LLM}, \gls{VDM} enabled visual models to handle \gls{ZSL} \gls{VDM} while maintaining a significantly lower parameter count. This relationship between performance and model efficiency is illustrated in Figure~\ref{fig:performance}.
 
 \begin{figure}[htbp]
 \centering

@@ -19,17 +19,6 @@ Metric learning is a framework that allows \gls{ZSL}. In summary, a metric-learn
 
 A \gls{DL} model following a metric learning framework is constructed as a siamese network. They are named siamese because they can be seen as bipartite architectures, with two parallel paths that converge in the end, even though both sides share the same weights. To construct a visual siamese network, an image model, \( g(\cdot) \), is required to transform an input image \( I \) into a feature representation in an arbitrary $n$-dimensional space, \( g(I) \). The  \( g(\cdot) \) image model is referred to as the backbone of the siamese network. This framework is illustrated in Figure \ref{fig:siamese} for reference.
 
-Losses that support metric learning, such as contrastive~\cite{chopra_learning_2005} or triplet~\cite{hoffer_deep_2018}, follow the same strategy: cluster together elements that share a label, and split apart elements that do not. When training a siamese network, the training step should consider at least two distinct elements, and the loss function scores the step over the distance between the elements. During training, the contrastive loss considers only two elements per step, and they can either share the same class or belong to different classes. The triplet loss considers three elements per step: an anchor/reference, a positive example (same label), and a negative example (different label). In this work, the contrastive loss function is used to train the model.
-
-Therefore, given a sample pair $\{(a, b)\}$ of feature spaces, and $y$ as a label with value $1$ if $a$ and $b$ share the same class, $0$ otherwise, the contrastive loss can be defined as:
-\begin{equation}
-        Loss = y * d(a, b)^2 + (1 + (-1 * y)) * abs(m - d(a, b))^2,
-\end{equation}
-where $d$ represents a metric function and $m$ a hyperparameter defining the lower bound distance between samples of different classes. In this context of this paper, $d$ is the Euclidean distance between two points $P = (x_1, x_2, \cdots, x_n)$ and $Q = (y_1, y_2, \cdots, y_n)$ in an $n$-dimensional space defined mathematically as:
-\begin{equation}
-d(P,Q)={\sqrt {(x_{1}-y_{1})^{2}+ \cdots +(x_{n}-y_{n})^{2}}} = \sqrt{ \sum_{i=1}^{n} (x_i - y_i)^2 }.
-\end{equation}
-
 \begin{figure}[htbp]
 %\isPreprints{\centering}{} % Only used for preprints
 \centering
@@ -39,6 +28,38 @@ d(P,Q)={\sqrt {(x_{1}-y_{1})^{2}+ \cdots +(x_{n}-y_{n})^{2}}} = \sqrt{ \sum_{i=1
 \end{figure}
 
 The metric learning nature of this method makes it highly adaptable to different applications. Since feature vectors are used, clustering is a very natural application of the method, as are verification and identification. By establishing a distance threshold, it is possible to declare that two elements are similar enough to be considered a positive case, or far enough to be a negative case. Using this strategy, and having a reference for each required class, verification can be performed by comparing a given element with a certain class, effectively employing binary classification, or identification can be performed by comparing the element with every class and taking the most similar, effectively employing multiclass classification.
+
+Losses that support metric learning, such as contrastive~\cite{chopra_learning_2005} or triplet~\cite{hoffer_deep_2018}, follow the same strategy: cluster together elements that share a label, and split apart elements that do not. When training a siamese network, the training step should consider at least two distinct elements, and the loss function scores the step over the distance between the elements. During training, the contrastive loss considers only two elements per step, and they can either share the same class or belong to different classes. The triplet loss considers three elements per step: an anchor/reference, a positive example (same label), and a negative example (different label). In this work, the contrastive loss function is used to train the model.
+
+\subsection{Contrastive Loss}
+
+The contrastive loss function  $\mathcal{L}$=$\mathcal{L}(m, y, x_1, x_2)$ is defined as follows:
+\begin{equation}
+    \mathcal{L} = y \cdot d(x_1, x_2)^2 + (1 - y) \cdot abs(m - d(x_1, x_2))^2,
+\end{equation}
+where $d$ metric function, $m > 0$ is a hyperparameter defining a distance margin representing the boundary to discriminate what is different and what is similar, such as $(x_1, x_2)$ are a positive input pair of documents. Lastly, $y$ is a label with value $1$, if both elements share the same class, or $0$ otherwise. Therefore, the loss function can be alternatively expressed as
+\begin{equation}
+    \mathcal{L} = \begin{cases}
+        d(x_1, x_2)^2, & \text{if } y = 1 \\
+        abs(m - d(x_1, x_2))^2, & \text{otherwise}.
+  \end{cases}
+\end{equation}
+\vspace{1em}
+
+In this context of this paper, $d$ is the Euclidean distance between two points $P = (x_{11}, x_{12}, \cdots, x_{1n})$ and $Q = (x_{21}, x_{22}, \cdots, x_{2n})$ in an $n$-dimensional space defined mathematically as:
+\begin{equation}
+d(P,Q)={\sqrt {(x_{11}-x_{21})^{2}+ \cdots +(x_{1n}-x_{2n})^{2}}} = \sqrt{ \sum_{i=1}^{n} (x_1i - x_2i)^2 }.
+\end{equation}
+
+% Therefore, given a sample pair $\{(a, b)\}$ of feature spaces, and $y$ as a label with value $1$ if $a$ and $b$ share the same class, $0$ otherwise, the contrastive loss can be defined as:
+% \begin{equation}
+%         Loss = y * d(a, b)^2 + (1 + (-1 * y)) * abs(m - d(a, b))^2,
+% \end{equation}
+% where $d$ represents a metric function and $m$ a hyperparameter defining the lower bound distance between samples of different classes. In this context of this paper, $d$ is the Euclidean distance between two points $P = (x_1, x_2, \cdots, x_n)$ and $Q = (y_1, y_2, \cdots, y_n)$ in an $n$-dimensional space defined mathematically as:
+% \begin{equation}
+% d(P,Q)={\sqrt {(x_{1}-y_{1})^{2}+ \cdots +(x_{n}-y_{n})^{2}}} = \sqrt{ \sum_{i=1}^{n} (x_i - y_i)^2 }.
+% \end{equation}
+
 
 % \section{Vision Models}
 
