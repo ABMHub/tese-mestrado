@@ -1,0 +1,54 @@
+\documentclass[aspectratio=169]{beamer}
+
+% Theme and color
+\usetheme{Madrid}
+\usecolortheme{default}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{hyperref}
+
+% Custom colors
+\definecolor{UnBBlue}{RGB}{0,61,165}
+\setbeamercolor{structure}{fg=UnBBlue}
+\setbeamercolor{title}{fg=white,bg=UnBBlue}
+\setbeamercolor{frametitle}{fg=white,bg=UnBBlue}
+
+% Title page information
+\title[Layout-Aware ZSL for VDM]{Layout-Aware Zero-Shot Learning for Visual Document Matching}
+\subtitle{Qualificação de Mestrado}
+\author{Lucas de Almeida Bandeira Macedo}
+\institute[UnB]{
+    Universidade de Brasília\\
+    Departamento de Ciência da Computação\\
+    \vspace{0.3cm}
+    Orientador: Prof. Dr. Pedro Garcia Freitas\\
+    Coorientador: Prof. Dr. Bruno Luiggi Macchiavello Espinoza
+}
+\date{Outubro de 2025}
+
+\begin{document}
+
+% Title slide
+\begin{frame}
+\titlepage
+\end{frame}
+
+% Outline
+\begin{frame}{Agenda}
+\tableofcontents
+\end{frame}
+
+% Include sections
+\input{apresentacao/1-introducao}
+\input{apresentacao/2-metodologia}
+\input{apresentacao/3-resultados}
+\input{apresentacao/4-conclusao}
+\input{apresentacao/5-final}
+
+\end{document}
