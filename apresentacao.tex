@@ -20,6 +20,18 @@
 \setbeamercolor{title}{fg=white,bg=UnBBlue}
 \setbeamercolor{frametitle}{fg=white,bg=UnBBlue}
 
+% Section title cards
+\AtBeginSection[]{
+  \begin{frame}[plain]
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
 % Title page information
 \title[Layout-Aware ZSL for VDM]{Layout-Aware Zero-Shot Learning for Visual Document Matching}
 \subtitle{Qualificação de Mestrado}

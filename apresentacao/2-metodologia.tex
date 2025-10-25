@@ -3,110 +3,130 @@
 % ============================================
 \section{Metodologia}
 
-\begin{frame}{LA-CDIP Dataset - Construção}
-\begin{columns}
-\column{0.5\textwidth}
-\textbf{Motivação:}
-\begin{itemize}
-    \item RVL-CDIP inadequado para ZSL
-    \item Classes definidas por propósito
-    \item Múltiplos subclasses por classe
-\end{itemize}
-
-\textbf{Solução - LA-CDIP:}
-\begin{itemize}
-    \item Foco em padrões estruturais
-    \item Reorganização do RVL-CDIP
-    \item Classes baseadas em layout visual
-\end{itemize}
-
-\column{0.5\textwidth}
-\includegraphics[width=\textwidth]{images/class_comparison1.png}
-\vspace{0.2cm}
-\includegraphics[width=\textwidth]{images/class_comparison2.png}
+\begin{frame}{Dataset - Motivação}
+    \begin{columns}
+    \column{0.5\textwidth}
+    \textbf{Datasets Disponíveis}
+    \begin{itemize}
+        \item PubLayNet, DocLayNet
+        \item DocVQA
+        \item CORD, SROIE
+        \item RVL-CDIP
+    \end{itemize}
+    \pause
+    \column{0.5\textwidth}
+    \textbf{RVL-CDIP}
+    \begin{itemize}
+        \item 400.000 documentos
+        \item 16 classes
+        \item email, formulário, carta...
+        \item Separado por função
+    \end{itemize}
 \end{columns}
 \end{frame}
 
-\begin{frame}{LA-CDIP Dataset - Processo de Labeling}
-\begin{block}{Framework de Active Learning}
-\textbf{Etapa 1: Clustering Preliminar}
-\begin{itemize}
-    \item Modelo privado de metric learning
-    \item Hierarchical Agglomerative Clustering com estratégia de Ward
-    \item Número dinâmico de clusters
-\end{itemize}
-
-\textbf{Etapa 2: Reorganização Manual}
-\begin{itemize}
-    \item Limpeza dos clusters (um padrão por cluster)
-    \item Merge de clusters com padrões similares
-    \item Validação independente para consistência intra e inter-classe
-\end{itemize}
-\end{block}
+\begin{frame}{Dataset - Motivação}
+    \begin{center}
+    \begin{tabular}{@{}ccc@{}}
+        \includegraphics[height=0.40\textheight]{images-apresentacao/RVL_EX_1.png} &
+        \includegraphics[height=0.40\textheight]{images-apresentacao/RVL_EX_3.png} &
+        \includegraphics[height=0.40\textheight]{images-apresentacao/RVL_EX_5.png} \\[0.01cm]
+        \includegraphics[height=0.40\textheight]{images-apresentacao/RVL_EX_2.png} &
+        \includegraphics[height=0.40\textheight]{images-apresentacao/RVL_EX_4.png} &
+        \includegraphics[height=0.40\textheight]{images-apresentacao/RVL_EX_6.png}
+    \end{tabular}
+    \end{center}
 \end{frame}
 
-\begin{frame}{Visual Document Matching - Arquitetura}
-\begin{columns}
-\column{0.6\textwidth}
-\textbf{Abordagem:}
-\begin{itemize}
-    \item Siamese Networks
-    \item Metric Learning
-    \item Mapeamento para espaço de features
-\end{itemize}
-
-\textbf{Backbones Testados:}
-\begin{itemize}
-    \item ResNet (18, 34, 50, 101, 152)
-    \item EfficientNet (B0-B3)
-    \item MobileNetV3 (Small, Large)
-    \item VGG (11, 13, 16, 19)
-    \item Vision Transformer (Base, Large)
-\end{itemize}
-
-\column{0.4\textwidth}
-\textbf{Princípio:}
+\begin{frame}{Dataset - Motivação}
+    \begin{center}
+    \begin{tabular}{@{}ccc@{}}
+        \tikz\node[draw=red!80!black,    line width=3pt, inner sep=0pt]{\includegraphics[height=0.40\textheight]{images-apresentacao/RVL_EX_1.png}}; &
+        \tikz\node[draw=green!80!black,  line width=3pt, inner sep=0pt]{\includegraphics[height=0.40\textheight]{images-apresentacao/RVL_EX_3.png}}; &
+        \tikz\node[draw=blue!80!black,   line width=3pt, inner sep=0pt]{\includegraphics[height=0.40\textheight]{images-apresentacao/RVL_EX_5.png}}; \\[0.01cm]
+        \tikz\node[draw=red!80!black,    line width=3pt, inner sep=0pt]{\includegraphics[height=0.40\textheight]{images-apresentacao/RVL_EX_2.png}}; &
+        \tikz\node[draw=green!80!black,  line width=3pt, inner sep=0pt]{\includegraphics[height=0.40\textheight]{images-apresentacao/RVL_EX_4.png}}; &
+        \tikz\node[draw=blue!80!black,   line width=3pt, inner sep=0pt]{\includegraphics[height=0.40\textheight]{images-apresentacao/RVL_EX_6.png}};
+    \end{tabular}
+    \end{center}
+\end{frame}
+    
+\begin{frame}{LA-CDIP Dataset - Processo de Rotulação}
 \begin{center}
-Documentos similares\\
-$\downarrow$\\
-Pequena distância\\
-no espaço de features\\
-\vspace{0.3cm}
-Documentos diferentes\\
-$\downarrow$\\
-Grande distância\\
-no espaço de features
+    \includegraphics[height=.8\textheight]{images-apresentacao/clusteringBB.drawio.pdf}
 \end{center}
-\end{columns}
 \end{frame}
+
+\begin{frame}{LA-CDIP Dataset - Processo de Rotulação}
+\begin{center}
+    \includegraphics[width=.8\textwidth]{images-apresentacao/ambiente_publico.drawio.pdf}
+\end{center}
+\end{frame}
+
+% \begin{frame}{Dataset - Motivação}
+%     \begin{center}
+%     \begin{tabular}{@{}ccc@{}}
+%         \tikz\node[draw=black, line width=2pt, inner sep=0pt]{\includegraphics[height=0.40\textheight]{images-apresentacao/Exemplo_cluster (1).jpg}}; &
+%         \tikz\node[draw=black, line width=2pt, inner sep=0pt]{\includegraphics[height=0.40\textheight]{images-apresentacao/Exemplo_cluster (3).jpg}}; &
+%         \tikz\node[draw=black, line width=2pt, inner sep=0pt]{\includegraphics[height=0.40\textheight]{images-apresentacao/Exemplo_cluster (5).jpg}}; \\[0.01cm]
+%         \tikz\node[draw=black, line width=2pt, inner sep=0pt]{\includegraphics[height=0.40\textheight]{images-apresentacao/Exemplo_cluster (2).jpg}}; &
+%         \tikz\node[draw=black, line width=2pt, inner sep=0pt]{\includegraphics[height=0.40\textheight]{images-apresentacao/Exemplo_cluster (4).jpg}}; &
+%         \tikz\node[draw=black, line width=2pt, inner sep=0pt]{\includegraphics[height=0.40\textheight]{images-apresentacao/Exemplo_cluster (6).jpg}};
+%     \end{tabular}
+%     \end{center}
+% \end{frame}
 
 \begin{frame}{Visual Document Matching - Ilustração}
 \begin{center}
 \includegraphics[width=0.8\textwidth]{images/vector_space_1.pdf}
-\vspace{0.3cm}
+\end{center}
+\end{frame}
+
+\begin{frame}{Visual Document Matching - Ilustração}
+\begin{center}
 \includegraphics[width=0.8\textwidth]{images/vector_space_2.pdf}
 \end{center}
 \end{frame}
 
-\begin{frame}{Pipeline de Treinamento}
-\begin{block}{Configuração}
+\begin{frame}{VDM - Arquitetura}
+    \begin{columns}
+    \column{0.55\textwidth}
+    \begin{center}
+        \includegraphics[width=\textwidth]{images/siamese.png}
+    \end{center}
+    
+    \column{0.4\textwidth}
+    \begin{equation*}
+        \mathcal{L} = \begin{cases}
+            d(x_1, x_2)^2, & \text{if } y = 1 \\
+            (m - d(x_1, x_2))^2, & \text{otherwise}.
+    \end{cases}
+    \end{equation*}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Model Backbone}
+\begin{columns}[c]
+\column{0.2\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{images-apresentacao/model_backbone.png}
+\end{center}
+
+\column{0.1\textwidth}
+\begin{center}
+{\Huge $\left\{\rule{0pt}{2cm}\right.$}
+\end{center}
+
+\column{0.45\textwidth}
 \begin{itemize}
-    \item \textbf{Input:} Matriz RGB da imagem do documento
-    \item \textbf{Pré-processamento:}
-    \begin{itemize}
-        \item Resize para (224, 224) para maioria dos modelos
-        \item Normalização de 0--255 para 0--1
-        \item Normalização com média e desvio padrão do split de treino
-    \end{itemize}
-    \item \textbf{Treinamento:}
-    \begin{itemize}
-        \item Formação de pares aleatórios
-        \item Mesma probabilidade para todas as classes
-        \item Contrastive Loss
-        \item Sem data augmentation ou pair mining
-    \end{itemize}
+    \item AlexNet
+    \item ResNet
+    \item VGG
+    \item EfficientNet
+    \item MobileNetV3
+    \item Vision Transformer (ViT)
 \end{itemize}
-\end{block}
+\end{columns}
 \end{frame}
 
 \begin{frame}{Benchmarking com LLMs}
@@ -121,16 +141,27 @@ no espaço de features
     \item GPT-4o-mini (2024-07-18)
 \end{itemize}
 
+\column{0.5\textwidth}
 \textbf{Avaliação:}
 \begin{itemize}
     \item Zero-shot (sem fine-tuning)
     \item Pontuação de similaridade 0--100
     \item 5 níveis de categorização
 \end{itemize}
-
-\column{0.5\textwidth}
-\includegraphics[width=\textwidth]{images/similar.png}
-\vspace{0.2cm}
-\includegraphics[width=\textwidth]{images/different.png}
 \end{columns}
 \end{frame}
+
+\begin{frame}{Benchmarking com LLMs - Exemplos}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{images/similar.png}
+\end{center}
+
+\column{0.5\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{images/different.png}
+\end{center}
+\end{columns}
+\end{frame}
+
