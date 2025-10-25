@@ -58,152 +58,195 @@ Para cada documento: 1 par similar + 1 par dissimilar
 \begin{frame}{Resultados - Visão Geral}
 \begin{table}
 \tiny
+\centering
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{lclcccc}
 \toprule
-\textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL CV} & \textbf{GZSL CV} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
+\textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
 \midrule
-ResNet & 18 & 11M & 5.03 & 1.54 & 4.98 & 1.51 \\
-ResNet & 34 & 21M & 4.32 & 2.10 & 4.13 & 1.53 \\
-EfficientNet & 0 & 4M & 4.41 & 2.27 & 6.02 & 0.95 \\
-EfficientNet & 1 & 6M & 3.93 & 3.54 & 8.88 & 2.70 \\
-VGG & 13 & 129M & 7.03 & 4.79 & 9.30 & 3.95 \\
-ViT & Base & 87M & 12.43 & 7.97 & 19.72 & 5.19 \\
-\midrule
-GPT-4o & 2024-11-20 & * & -- & -- & 2.75 & 1.33 \\
-GPT-4o mini & 2024-07-18 & * & -- & -- & 4.70 & 4.07 \\
-Qwen-VL & 2.5 & 7B & -- & -- & 6.61 & 4.20 \\
+AlexNet & & 57M & 8.92 & 5.45 & 17.33 & 6.31 \\ \midrule
+\multirow{4}{*}{VGG} & 11 & 129M & 7.47 & 5.01 & 14.24 & 3.95 \\
+ & 13 & 129M & 7.03 & 4.79 & 9.30 & 3.95 \\
+ & 16 & 134M & 8.29 & 5.23 & 14.74 & 4.82 \\
+ & 19 & 139M & 7.30 & 4.57 & 17.08 & 3.90 \\ \midrule
+\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \textbf{1.54} & 4.98 & 1.51 \\
+ & 34 & 21M & 4.32 & 2.10 & 4.13 & 1.53 \\
+ & 50 & 23M & 6.90 & 3.39 & 10.34 & 2.21 \\
+ & 101 & 42M & 8.20 & 2.72 & 11.31 & 1.98 \\
+ & 152 & 58M & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
+\multirow{2}{*}{MobileNetV3} & Small & 1M & 7.98 & 5.06 & 12.74 & 5.26 \\
+ & Large & 4M & 8.16 & 4.27 & 8.45 & 4.43 \\ \midrule
+\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \textbf{0.95} \\
+ & 1 & 6M & \textbf{3.93} & 3.54 & 8.88 & 2.70 \\
+ & 2 & 7M & 5.73 & 2.61 & 7.29 & 2.14 \\
+ & 3 & 10M & 5.65 & 3.64 & 7.37 & 2.34 \\ \midrule
+\multirow{2}{*}{ViT} & Base & 87M & 12.43 & 7.97 & 19.72 & 5.19 \\
+ & Large & 305M & 13.16 & 7.57 & 19.88 & 5.26 \\ \midrule
+Llama & 3.2 & 11B & -- & -- & 13.95 & 21.90 \\
 InternVL & 2.5 & 8B & -- & -- & 8.58 & 10.40 \\
-LLaMA & 3.2 & 11B & -- & -- & 13.95 & 21.90 \\
-\bottomrule
+Qwen-VL & 2.5 & 7B & -- & -- & 6.61 & 4.20 \\
+GPT-4o mini & 2024-07-18 & * & -- & -- & 4.70 & 4.07 \\
+GPT-4o & 2024-11-20 & * & -- & -- & \textbf{2.75} & \textbf{1.33}
 \end{tabular}
-\caption*{Mean EER (\%) - Valores menores são melhores}
 \end{table}
 \end{frame}
 
-\begin{frame}{Resultados - Modelos Visuais}
-\begin{block}{Principais Observações}
-\begin{itemize}
-    \item \textbf{Arquiteturas menores superaram as maiores}
-    \begin{itemize}
-        \item ResNet-18 e ResNet-34: melhor desempenho
-        \item ResNet-50, 101, 152: desempenho progressivamente pior
-    \end{itemize}
-    
-    \item \textbf{Vision Transformer (ViT): pior desempenho}
-    \begin{itemize}
-        \item Overfitting nos dados de treino
-        \item 0\% de erro de treino, alto erro de validação
-        \item Causa provável: dataset pequeno (4.993 documentos)
-    \end{itemize}
-    
-    \item \textbf{Melhores modelos:}
-    \begin{itemize}
-        \item ResNet-34, EfficientNet-0 e EfficientNet-1
-        \item Balanço entre tamanho e generalização
-    \end{itemize}
-\end{itemize}
-\end{block}
+\begin{frame}{Resultados - ResNet e EfficientNet}
+\begin{table}
+\small
+\centering
+\setlength{\tabcolsep}{8pt}
+\begin{tabular}{lclcccc}
+\toprule
+\textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
+\midrule
+\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \textbf{1.54} & 4.98 & 1.51 \\
+ & 34 & 21M & 4.32 & 2.10 & 4.13 & 1.53 \\
+ & 50 & 23M & 6.90 & 3.39 & 10.34 & 2.21 \\
+ & 101 & 42M & 8.20 & 2.72 & 11.31 & 1.98 \\
+ & 152 & 58M & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
+\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \textbf{0.95} \\
+ & 1 & 6M & \textbf{3.93} & 3.54 & 8.88 & 2.70 \\
+ & 2 & 7M & 5.73 & 2.61 & 7.29 & 2.14 \\
+ & 3 & 10M & 5.65 & 3.64 & 7.37 & 2.34 \\
+\bottomrule
+\end{tabular}
+\end{table}
 \end{frame}
 
-\begin{frame}{Resultados - Comparação ZSL vs GZSL}
-\begin{columns}
-\column{0.5\textwidth}
-\textbf{GZSL consistentemente melhor:}
-\begin{itemize}
-    \item 50\% das classes vistas no treino
-    \item Maior diferença em modelos grandes
-    \item Overfitting mitigado no cenário mais fácil
-\end{itemize}
+\begin{frame}{Resultados - ResNet, EfficientNet e ViT}
+\begin{table}
+\small
+\centering
+\setlength{\tabcolsep}{10pt}
+\begin{tabular}{lclcccc}
+\toprule
+\textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
+\midrule
+\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \textbf{1.54} & 4.98 & 1.51 \\
+ & 34 & 21M & 4.32 & 2.10 & 4.13 & 1.53 \\
+ & 50 & 23M & 6.90 & 3.39 & 10.34 & 2.21 \\
+ & 101 & 42M & 8.20 & 2.72 & 11.31 & 1.98 \\
+ & 152 & 58M & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
+\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \textbf{0.95} \\
+ & 1 & 6M & \textbf{3.93} & 3.54 & 8.88 & 2.70 \\
+ & 2 & 7M & 5.73 & 2.61 & 7.29 & 2.14 \\
+ & 3 & 10M & 5.65 & 3.64 & 7.37 & 2.34 \\ \midrule
+\multirow{2}{*}{ViT} & Base & 87M & 12.43 & 7.97 & 19.72 & 5.19 \\
+ & Large & 305M & 13.16 & 7.57 & 19.88 & 5.26 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{frame}
 
-\textbf{Test split ZSL mais desafiador:}
-\begin{itemize}
-    \item Alta variância entre splits
-    \item Padrões completamente diferentes
-    \item Taxas de erro mais altas
-\end{itemize}
-
-\column{0.5\textwidth}
-\textbf{Exemplo ResNet-18:}
-\begin{itemize}
-    \item ZSL CV: 5.03\%
-    \item GZSL CV: 1.54\%
-    \item Test ZSL: 4.98\%
-    \item Test GZSL: 1.51\%
-\end{itemize}
-
-\vspace{0.5cm}
-\textbf{Exemplo ViT-Base:}
-\begin{itemize}
-    \item ZSL CV: 12.43\%
-    \item GZSL CV: 7.97\%
-    \item Test ZSL: 19.72\%
-    \item Test GZSL: 5.19\%
-\end{itemize}
-\end{columns}
+\begin{frame}{Resultados - Visualização TSNE}
+\begin{tikzpicture}[remember picture,overlay]
+    % Tabela de fundo (mais opaca)
+    \node[anchor=center, opacity=0.3] at (current page.center) {
+        \begin{minipage}{\textwidth}
+        \begin{table}
+        \small
+        \centering
+        \setlength{\tabcolsep}{10pt}
+        \begin{tabular}{lclcccc}
+        \toprule
+        \textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
+        \midrule
+        \multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \textbf{1.54} & 4.98 & 1.51 \\
+         & 34 & 21M & 4.32 & 2.10 & 4.13 & 1.53 \\
+         & 50 & 23M & 6.90 & 3.39 & 10.34 & 2.21 \\
+         & 101 & 42M & 8.20 & 2.72 & 11.31 & 1.98 \\
+         & 152 & 58M & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
+        \multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \textbf{0.95} \\
+         & 1 & 6M & \textbf{3.93} & 3.54 & 8.88 & 2.70 \\
+         & 2 & 7M & 5.73 & 2.61 & 7.29 & 2.14 \\
+         & 3 & 10M & 5.65 & 3.64 & 7.37 & 2.34 \\ \midrule
+        \multirow{2}{*}{ViT} & Base & 87M & 12.43 & 7.97 & 19.72 & 5.19 \\
+         & Large & 305M & 13.16 & 7.57 & 19.88 & 5.26 \\
+        \bottomrule
+        \end{tabular}
+        \end{table}
+        \end{minipage}
+    };
+    
+    % Pop-up com as figuras TSNE
+    \node[anchor=center, fill=white, draw=black, line width=2pt, rounded corners=10pt, inner sep=5pt] at (current page.center) {
+        \begin{minipage}{0.55\textwidth}
+        \centering
+        \begin{tabular}{cc}
+            \includegraphics[width=0.45\textwidth]{images/ResNet.csv_18_0.pdf} &
+            \includegraphics[width=0.45\textwidth]{images/EfficientNet.csv_0_0.pdf} \\
+            \includegraphics[width=0.45\textwidth]{images/ViT.csv_b_0.pdf} &
+            \includegraphics[width=0.45\textwidth]{images/ViT.csv_l_0.pdf}
+        \end{tabular}
+        \end{minipage}
+    };
+\end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Resultados - Large Language Models}
-\begin{block}{Observações}
-\begin{itemize}
-    \item \textbf{GPT-4o: melhor desempenho geral}
-    \begin{itemize}
-        \item ZSL: 2.75\% | GZSL: 1.33\%
-        \item Porém: centenas de vezes mais caro por inferência
-    \end{itemize}
-    
-    \item \textbf{Alternativas open-source promissoras:}
-    \begin{itemize}
-        \item Qwen-VL 7B: desempenho próximo ao GPT-4o mini
-        \item InternVL 2.5: competitivo
-    \end{itemize}
-    
-    \item \textbf{LLaMA 3.2 Vision:}
-    \begin{itemize}
-        \item Limitações no manuseio de múltiplas imagens
-        \item Necessário combinar imagens em input único
-    \end{itemize}
-    
-    \item \textbf{Tendências diferentes entre cenários:}
-    \begin{itemize}
-        \item InternVL melhor no ZSL
-        \item GPT melhor no GZSL
-    \end{itemize}
-\end{itemize}
-\end{block}
+\begin{table}
+\large
+\centering
+\setlength{\tabcolsep}{15pt}
+\begin{tabular}{lclcc}
+\toprule
+\textbf{Model} & \textbf{Version} & \textbf{Params} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
+\midrule
+Llama & 3.2 & 11B & 13.95 & 21.90 \\
+InternVL & 2.5 & 8B & 8.58 & 10.40 \\
+Qwen-VL & 2.5 & 7B & 6.61 & 4.20 \\
+GPT-4o mini & 2024-07-18 & * & 4.70 & 4.07 \\
+GPT-4o & 2024-11-20 & * & \textbf{2.75} & \textbf{1.33} \\
+\bottomrule
+\end{tabular}
+\end{table}
+\vspace{0.5cm}
+\begin{center}
+\footnotesize * Parameter count not publicly disclosed
+\end{center}
+\end{frame}
+
+\begin{frame}{Resultados - Melhores Modelos Visuais vs LLMs}
+\begin{table}
+\small
+\centering
+\setlength{\tabcolsep}{8pt}
+\begin{tabular}{lclcccc}
+\toprule
+\textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
+\midrule
+\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & 1.54 & 4.98 & 1.51 \\
+ & 34 & 21M & 4.32 & 2.10 & 4.13 & 1.53 \\
+ & 50 & 23M & 6.90 & 3.39 & 10.34 & 2.21 \\
+ & 101 & 42M & 8.20 & 2.72 & 11.31 & 1.98 \\
+ & 152 & 58M & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
+\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \textbf{0.95} \\
+ & 1 & 6M & \textbf{3.93} & 3.54 & 8.88 & 2.70 \\
+ & 2 & 7M & 5.73 & 2.61 & 7.29 & 2.14 \\
+ & 3 & 10M & 5.65 & 3.64 & 7.37 & 2.34 \\ \midrule
+Llama & 3.2 & 11B & -- & -- & 13.95 & 21.90 \\
+InternVL & 2.5 & 8B & -- & -- & 8.58 & 10.40 \\
+Qwen-VL & 2.5 & 7B & -- & -- & 6.61 & 4.20 \\
+GPT-4o mini & 2024-07-18 & * & -- & -- & 4.70 & 4.07 \\
+GPT-4o & 2024-11-20 & * & -- & -- & \textbf{2.75} & 1.33 \\
+\bottomrule
+\end{tabular}
+\end{table}
 \end{frame}
 
 \begin{frame}{Comparação: Visual Models vs LLMs}
 \begin{center}
-\includegraphics[width=0.85\textwidth]{images/performance_vs_parameters.png}
+\includegraphics[width=0.65\textwidth]{images/performance_vs_parameters.png}
 \end{center}
-
-\textbf{Trade-off entre complexidade e efetividade:}
-\begin{itemize}
-    \item Modelos visuais leves (ResNet-18, EfficientNet-0): competitivos com muito menos parâmetros
-    \item GPT-4o: ligeiro ganho de performance, mas custo muito maior
-\end{itemize}
 \end{frame}
 
-\begin{frame}{Usos Industriais}
-\begin{block}{Sistema de Verificação (Classificação Binária)}
-\begin{itemize}
-    \item Dado: documento de referência + threshold
-    \item Decisão: aceitar se distância < threshold, rejeitar caso contrário
-\end{itemize}
-\end{block}
-
-\begin{block}{Sistema de Identificação (Classificação Multi-classe)}
-\begin{itemize}
-    \item Dado: referências para cada classe + threshold
-    \item Decisão: atribuir à classe mais próxima ou rejeitar se fora do threshold
-\end{itemize}
-\end{block}
-
-\textbf{Design Choices:}
-\begin{itemize}
-    \item Múltiplas referências por classe (usar centroid)
-    \item Thresholds diferentes por classe
-    \item Armazenar embeddings ao invés de imagens
-    \item Complexidade: O(r) verificação, O(rc) identificação
-\end{itemize}
+\begin{frame}{Comparação: Visual Models vs LLMs}
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[height=0.75\textheight]{images/verification.drawio.pdf} &
+\includegraphics[height=0.75\textheight]{images/identification.drawio.pdf} \\
+\textbf{Sistema de Verificação} & \textbf{Sistema de Identificação}
+\end{tabular}
+\end{center}
 \end{frame}
