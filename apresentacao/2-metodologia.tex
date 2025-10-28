@@ -51,13 +51,19 @@
     \end{center}
 \end{frame}
     
-\begin{frame}{LA-CDIP Dataset - Processo de Rotulação}
+\begin{frame}{LA-CDIP Dataset - Active Learning}
+\begin{center}
+    \includegraphics[height=.8\textheight]{images/active_learning.drawio.pdf}
+\end{center}
+\end{frame}
+
+\begin{frame}{LA-CDIP Dataset - Rotulação}
 \begin{center}
     \includegraphics[height=.8\textheight]{images-apresentacao/clusteringBB.drawio.pdf}
 \end{center}
 \end{frame}
 
-\begin{frame}{LA-CDIP Dataset - Processo de Rotulação}
+\begin{frame}{LA-CDIP Dataset - Rotulação}
 \begin{center}
     \includegraphics[width=.8\textwidth]{images-apresentacao/ambiente_publico.drawio.pdf}
 \end{center}
@@ -76,36 +82,36 @@
 %     \end{center}
 % \end{frame}
 
-\begin{frame}{Visual Document Matching - Ilustração}
+\begin{frame}{Visual Document Matching}
 \begin{center}
 \includegraphics[width=0.8\textwidth]{images/vector_space_1.pdf}
 \end{center}
 \end{frame}
 
-\begin{frame}{Visual Document Matching - Ilustração}
+\begin{frame}{Visual Document Matching}
 \begin{center}
 \includegraphics[width=0.8\textwidth]{images/vector_space_2.pdf}
 \end{center}
 \end{frame}
 
-\begin{frame}{VDM - Arquitetura}
+\begin{frame}{Visual Document Matching - Arquitetura}
     \begin{columns}
     \column{0.55\textwidth}
     \begin{center}
         \includegraphics[width=\textwidth]{images/siamese.png}
     \end{center}
     
-    \column{0.4\textwidth}
+    \column{0.44\textwidth}
     \begin{equation*}
         \mathcal{L} = \begin{cases}
             d(x_1, x_2)^2, & \text{if } y = 1 \\
-            (m - d(x_1, x_2))^2, & \text{otherwise}.
+            \max(0, m - d(x_1, x_2))^2, & \text{otherwise}.
     \end{cases}
     \end{equation*}
     \end{columns}
 \end{frame}
 
-\begin{frame}{Model Backbone}
+\begin{frame}{Visual Document Matching - Backbone}
 \begin{columns}[c]
 \column{0.2\textwidth}
 \begin{center}
@@ -151,7 +157,7 @@
 \end{columns}
 \end{frame}
 
-\begin{frame}{Benchmarking com LLMs - Exemplos}
+\begin{frame}{Benchmarking com LLMs}
 \begin{columns}
 \column{0.5\textwidth}
 \begin{center}

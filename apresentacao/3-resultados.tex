@@ -69,15 +69,15 @@ AlexNet & & 57M & 8.92 & 5.45 & 17.33 & 6.31 \\ \midrule
  & 13 & 129M & 7.03 & 4.79 & 9.30 & 3.95 \\
  & 16 & 134M & 8.29 & 5.23 & 14.74 & 4.82 \\
  & 19 & 139M & 7.30 & 4.57 & 17.08 & 3.90 \\ \midrule
-\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \textbf{1.54} & 4.98 & 1.51 \\
+\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \underline{\textbf{1.54}} & 4.98 & 1.51 \\
  & 34 & 21M & 4.32 & 2.10 & 4.13 & 1.53 \\
  & 50 & 23M & 6.90 & 3.39 & 10.34 & 2.21 \\
  & 101 & 42M & 8.20 & 2.72 & 11.31 & 1.98 \\
  & 152 & 58M & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
 \multirow{2}{*}{MobileNetV3} & Small & 1M & 7.98 & 5.06 & 12.74 & 5.26 \\
  & Large & 4M & 8.16 & 4.27 & 8.45 & 4.43 \\ \midrule
-\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \textbf{0.95} \\
- & 1 & 6M & \textbf{3.93} & 3.54 & 8.88 & 2.70 \\
+\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \underline{\textbf{0.95}} \\
+ & 1 & 6M & \underline{\textbf{3.93}} & 3.54 & 8.88 & 2.70 \\
  & 2 & 7M & 5.73 & 2.61 & 7.29 & 2.14 \\
  & 3 & 10M & 5.65 & 3.64 & 7.37 & 2.34 \\ \midrule
 \multirow{2}{*}{ViT} & Base & 87M & 12.43 & 7.97 & 19.72 & 5.19 \\
@@ -86,7 +86,7 @@ Llama & 3.2 & 11B & -- & -- & 13.95 & 21.90 \\
 InternVL & 2.5 & 8B & -- & -- & 8.58 & 10.40 \\
 Qwen-VL & 2.5 & 7B & -- & -- & 6.61 & 4.20 \\
 GPT-4o mini & 2024-07-18 & * & -- & -- & 4.70 & 4.07 \\
-GPT-4o & 2024-11-20 & * & -- & -- & \textbf{2.75} & \textbf{1.33}
+GPT-4o & 2024-11-20 & * & -- & -- & \underline{\textbf{2.75}} & \underline{\textbf{1.33}}
 \end{tabular}
 \end{table}
 \end{frame}
@@ -100,13 +100,13 @@ GPT-4o & 2024-11-20 & * & -- & -- & \textbf{2.75} & \textbf{1.33}
 \toprule
 \textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
 \midrule
-\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \textbf{1.54} & 4.98 & 1.51 \\
- & 34 & 21M & 4.32 & 2.10 & 4.13 & 1.53 \\
+\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \underline{\textbf{1.54}} & 4.98 & 1.51 \\
+ & 34 & 21M & 4.32 & 2.10 & \underline{\textbf{4.13}} & 1.53 \\
  & 50 & 23M & 6.90 & 3.39 & 10.34 & 2.21 \\
  & 101 & 42M & 8.20 & 2.72 & 11.31 & 1.98 \\
  & 152 & 58M & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
-\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \textbf{0.95} \\
- & 1 & 6M & \textbf{3.93} & 3.54 & 8.88 & 2.70 \\
+\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \underline{\textbf{0.95}} \\
+ & 1 & 6M & \underline{\textbf{3.93}} & 3.54 & 8.88 & 2.70 \\
  & 2 & 7M & 5.73 & 2.61 & 7.29 & 2.14 \\
  & 3 & 10M & 5.65 & 3.64 & 7.37 & 2.34 \\
 \bottomrule
@@ -123,13 +123,13 @@ GPT-4o & 2024-11-20 & * & -- & -- & \textbf{2.75} & \textbf{1.33}
 \toprule
 \textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
 \midrule
-\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \textbf{1.54} & 4.98 & 1.51 \\
- & 34 & 21M & 4.32 & 2.10 & 4.13 & 1.53 \\
+\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \underline{\textbf{1.54}} & 4.98 & 1.51 \\
+ & 34 & 21M & 4.32 & 2.10 & \underline{\textbf{4.13}} & 1.53 \\
  & 50 & 23M & 6.90 & 3.39 & 10.34 & 2.21 \\
  & 101 & 42M & 8.20 & 2.72 & 11.31 & 1.98 \\
  & 152 & 58M & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
-\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \textbf{0.95} \\
- & 1 & 6M & \textbf{3.93} & 3.54 & 8.88 & 2.70 \\
+\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \underline{\textbf{0.95}} \\
+ & 1 & 6M & \underline{\textbf{3.93}} & 3.54 & 8.88 & 2.70 \\
  & 2 & 7M & 5.73 & 2.61 & 7.29 & 2.14 \\
  & 3 & 10M & 5.65 & 3.64 & 7.37 & 2.34 \\ \midrule
 \multirow{2}{*}{ViT} & Base & 87M & 12.43 & 7.97 & 19.72 & 5.19 \\
@@ -152,13 +152,13 @@ GPT-4o & 2024-11-20 & * & -- & -- & \textbf{2.75} & \textbf{1.33}
         \toprule
         \textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
         \midrule
-        \multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \textbf{1.54} & 4.98 & 1.51 \\
-         & 34 & 21M & 4.32 & 2.10 & 4.13 & 1.53 \\
+        \multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \underline{\textbf{1.54}} & 4.98 & 1.51 \\
+         & 34 & 21M & 4.32 & 2.10 & \underline{\textbf{4.13}} & 1.53 \\
          & 50 & 23M & 6.90 & 3.39 & 10.34 & 2.21 \\
          & 101 & 42M & 8.20 & 2.72 & 11.31 & 1.98 \\
          & 152 & 58M & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
-        \multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \textbf{0.95} \\
-         & 1 & 6M & \textbf{3.93} & 3.54 & 8.88 & 2.70 \\
+        \multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \underline{\textbf{0.95}} \\
+         & 1 & 6M & \underline{\textbf{3.93}} & 3.54 & 8.88 & 2.70 \\
          & 2 & 7M & 5.73 & 2.61 & 7.29 & 2.14 \\
          & 3 & 10M & 5.65 & 3.64 & 7.37 & 2.34 \\ \midrule
         \multirow{2}{*}{ViT} & Base & 87M & 12.43 & 7.97 & 19.72 & 5.19 \\
@@ -197,7 +197,7 @@ Llama & 3.2 & 11B & 13.95 & 21.90 \\
 InternVL & 2.5 & 8B & 8.58 & 10.40 \\
 Qwen-VL & 2.5 & 7B & 6.61 & 4.20 \\
 GPT-4o mini & 2024-07-18 & * & 4.70 & 4.07 \\
-GPT-4o & 2024-11-20 & * & \textbf{2.75} & \textbf{1.33} \\
+GPT-4o & 2024-11-20 & * & \underline{\textbf{2.75}} & \underline{\textbf{1.33}} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -216,20 +216,20 @@ GPT-4o & 2024-11-20 & * & \textbf{2.75} & \textbf{1.33} \\
 \toprule
 \textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
 \midrule
-\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & 1.54 & 4.98 & 1.51 \\
+\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \underline{\textbf{1.54}} & 4.98 & 1.51 \\
  & 34 & 21M & 4.32 & 2.10 & 4.13 & 1.53 \\
  & 50 & 23M & 6.90 & 3.39 & 10.34 & 2.21 \\
  & 101 & 42M & 8.20 & 2.72 & 11.31 & 1.98 \\
  & 152 & 58M & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
-\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \textbf{0.95} \\
- & 1 & 6M & \textbf{3.93} & 3.54 & 8.88 & 2.70 \\
+\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \underline{\textbf{0.95}} \\
+ & 1 & 6M & \underline{\textbf{3.93}} & 3.54 & 8.88 & 2.70 \\
  & 2 & 7M & 5.73 & 2.61 & 7.29 & 2.14 \\
  & 3 & 10M & 5.65 & 3.64 & 7.37 & 2.34 \\ \midrule
 Llama & 3.2 & 11B & -- & -- & 13.95 & 21.90 \\
 InternVL & 2.5 & 8B & -- & -- & 8.58 & 10.40 \\
 Qwen-VL & 2.5 & 7B & -- & -- & 6.61 & 4.20 \\
 GPT-4o mini & 2024-07-18 & * & -- & -- & 4.70 & 4.07 \\
-GPT-4o & 2024-11-20 & * & -- & -- & \textbf{2.75} & 1.33 \\
+GPT-4o & 2024-11-20 & * & -- & -- & \underline{\textbf{2.75}} & 1.33 \\
 \bottomrule
 \end{tabular}
 \end{table}
