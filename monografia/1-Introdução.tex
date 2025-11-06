@@ -21,22 +21,43 @@ The problem arises when previously accepted documents change in form or when ent
 \section{Problem Description}
 \label{sec:problem}
 
-This work focuses on the \gls{ZSL} on \gls{DIC}, where the model must correctly classify a document image class that was not in the training set and therefore previously unseen by the model. \gls{ZSL} techniques enable a single model to address multiple classification problems, as they are not limited by the classes used in training. Most \gls{ZSL} systems work by semantically mapping the elements into a feature space, where elements from the same class are all clustered together, and different classes are placed far apart. To build a reliable \gls{ZSL} system, it is necessary to identify a set of features that serve as robust representations, ensuring that documents share features if, and only if, they belong to the same class. With \gls{DL}, this could also demand a dataset with a wide variety of classes, enough so that the model learns what makes two documents similar or different. These conditions allow \gls{ZSL} models to group together documents, even if they were completely unseen during training. Nonetheless, not every classification dataset can be easily used in an effective \gls{ZSL} solution. The lack of a specialized dataset is one of the biggest challenges in document-image \gls{ZSL} classification.
+This work focuses on the \gls{ZSL} on \gls{DIC}, where the model must correctly classify a document image class that was not in the training set and therefore previously unseen by the model. \blue{\gls{ZSL} techniques enables models to be considerably more flexible}, as they are not limited by the classes used in training. Most \gls{ZSL} systems work by semantically mapping \blue{samples} into a feature space, where \blue{samples} from the same class are all clustered together, and different classes are placed far apart. \blue{This is called metric learning, where the model is optimized to map the training samples in regards to a given metric (e.g. euclidian distance)}. To build a reliable \gls{ZSL} system, it is necessary to identify a set of features that serve as robust representations, ensuring that documents share features if, and only if, they belong to the same class. With \gls{DL}, this could also demand a dataset with a wide variety of classes, enough so that the model learns what makes two documents similar or different. These conditions allow \gls{ZSL} models to group together documents, even if they were completely unseen during training. Nonetheless, not every classification dataset can be easily used in an effective \gls{ZSL} solution. The lack of a specialized dataset is one of the biggest challenges in document-image \gls{ZSL} classification.
 
-In consequence, another main challenge in image-based document \gls{ZSL} classification is the lack of a state-of-the-art methodology. Due to the challenge in achieving \gls{ZSL} classification with the currently available datasets, most works tackle the problem by their own methodology and are often incomparable to the ones that came before~\cite{sinha_cica_2024}, unlike traditional classification and information extraction that have a widely accepted framework and baseline approaches. Many works also use pretrained \gls{LLM}~\cite{scius-bertrand_zero-shot_2025}, leveraging their previous knowledge as a tool to achieve zero-shot learning with a fine-tuning framework, which limits the cost-efficiency achievable with this strategy.
+In consequence, another main challenge in image-based document \gls{ZSL} classification is the lack of a state-of-the-art methodology. Due to the challenge in achieving \gls{ZSL} classification with the currently available datasets, \blue{most works tackle the problem by their own methodology and very often yield results that are incomparable to their pairs}~\cite{sinha_cica_2024}, unlike traditional classification and information extraction that have a widely accepted framework and baseline approaches. Many works also use pretrained \gls{LLM}~\cite{scius-bertrand_zero-shot_2025}, leveraging their previous knowledge as a tool to achieve zero-shot learning with a fine-tuning framework, which limits the cost-efficiency achievable with this strategy.
 
 But there are a few known obstacles in zero-shot document classification. First, existing datasets do not enforce disjoint class splits between training and testing, nor do they provide enough information to train an efficient \gls{ZSL} model from scratch. Second, there is an absence of a well-established, state-of-the-art classification framework capable of operating under zero-shot constraints.
 
-\section{About this work}
+\section{\blue{Research Objectives}}
+\label{sec:objectives}
 
-Following this line, this work proposes a new framework for tackling \gls{ZSL} document classification: \gls{VDM}. By leveraging metric learning techniques, documents with similar patterns can be identified and grouped into the same class/group, even if their class was not seen before during training. Through this method, \gls{VDM} shows itself as a zero-shot alternative for the identification of documents that are visually equivalent, as a matching problem. In other words, \gls{VDM} can be handled as a binary classification problem.
+The primary goal of this research is to achieve a complete framework to make a \gls{DIC} model in a \gls{ZSL} paradigm, that is, a classification model that does not require retrain every time a new document class is introduced.
 
-This work makes several key contributions, i.e.:
+To achieve the this, this work pursues the following specific goals:
+
 \begin{enumerate}
-    \item Introduces a novel visual-only document image dataset specifically designed for the task of document ZSL classification, enabling the development and evaluation of models in this domain.
-    \item Proposes a \gls{VDM} approach, based on image similarity, leveraging zero-shot learning techniques to generalize across unseen document layouts. This strategy enables generalization to previously unseen classes without additional intervention on the model itself.
-    \item Delivers a systematic evaluation of well established backbones in the context of zero-shot document layout matching, offering valuable benchmarks for future research.
+    \item Design and curate a specialized dataset for zero-shot document image classification, ensuring proper class separation between training and testing sets;
+    \item Develop a framework using metric learning techniques to enable document classification based on visual similarity;
+    \item Evaluate and compare different neural network backbones within the proposed framework to establish performance benchmarks;
 \end{enumerate}
 
-This paper is structured as follows: \refCap{2-Teorica} lays out the theoretical foundation of this work. \refCap{3-TrabalhosRelacionados} reviews the state of the art in zero-shot learning and visually-rich document understanding, highlighting existing methods and their limitations. \refCap{4-Metodologia} presents the proposed framework for \gls{VDM}, detailing its architecture, components, and underlying learning paradigm. \refCap{5-Resultados} describes the experimental setup, including datasets, evaluation metrics, and baseline comparisons, followed by a comprehensive analysis of the results. Finally, \refCap{6-Conclusao} concludes the article by summarizing the contributions, discussing potential applications, and outlining future research directions, and the timeline of this Master's research.
+\subsection{Research Hypothesis}
+
+This work is grounded on the following hypothesis:
+
+\textit{Document images that share similar visual layouts contain discriminative features that can be learned through metric learning, enabling accurate classification of previously unseen document classes by measuring visual similarity, without requiring class-specific training.}
+
+This hypothesis is supported by the premise that document layouts within the same class exhibit consistent visual patterns (placement of text blocks, logos, signatures, etc.) that distinguish them from other classes, and that these patterns can be captured through vision models trained with a metric learning framework.
+
+\section{About this work}
+
+% Following this line, this work proposes a new framework for tackling \gls{ZSL} document classification: \gls{VDM}. By leveraging metric learning techniques, documents with similar patterns can be identified and grouped into the same class/group, even if their class was not seen before during training. Through this method, \gls{VDM} shows itself as a zero-shot alternative for the identification of documents that are visually equivalent, as a matching problem. In other words, \gls{VDM} can be handled as a binary classification problem.
+
+% This work makes several key contributions, i.e.:
+% \begin{enumerate}
+%     \item Introduces a novel visual-only document image dataset specifically designed for the task of document ZSL classification, enabling the development and evaluation of models in this domain.
+%     \item Proposes a \gls{VDM} approach, based on image similarity, leveraging zero-shot learning techniques to generalize across unseen document layouts. This strategy enables generalization to previously unseen classes without additional intervention on the model itself.
+%     \item Delivers a systematic evaluation of well established backbones in the context of zero-shot document layout matching, offering valuable benchmarks for future research.
+% \end{enumerate}
+
+This \blue{dissertation} is structured as follows: \refCap{2-Teorica} lays out the theoretical foundation of this work. \refCap{3-TrabalhosRelacionados} reviews the state of the art in zero-shot learning and visually-rich document understanding, highlighting existing methods and their limitations. \refCap{4-Metodologia} presents the proposed framework for zero-shot \gls{DIC}, detailing its architecture, components, and underlying learning paradigm. \refCap{5-Resultados} describes the experimental setup, including datasets, evaluation metrics, and baseline comparisons, followed by a comprehensive analysis of the results. Finally, \refCap{6-Conclusao} concludes the \blue{dissertation} by summarizing the contributions, discussing potential applications, and outlining future research directions, and the timeline of this Master's research.
 
