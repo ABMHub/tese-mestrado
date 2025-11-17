@@ -56,6 +56,79 @@ However, some models were trained using different hyperparameters, following sug
 \section{Partial Results}
 \label{sec:results}
 
+% TODO: Add caption and label
+\begin{table}[ht]
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llccccc|cccccc}
+\toprule
+& & \multicolumn{5}{c}{Cosine} & \multicolumn{5}{c}{Euclidean} \\
+\cmidrule(lr){3-7} \cmidrule(lr){8-12}
+Model & Version & 16 & 32 & 64 & 128 & 256 & 16 & 32 & 64 & 128 & 256 \\
+\midrule
+AlexNet                 & Base  & 8.11 & 8.30 & 5.79 & 6.37 & 7.92 & 15.64 & 13.90 & 20.66 & 18.73 & 21.62 \\
+\midrule
+\multirow{4}{*}{VGG}    & 11    & 6.37 & 10.04 & 9.46 & 14.09 & 12.55 & 8.88 & 15.06 & 19.88 & 17.76 & 15.06 \\
+                        & 13    & 10.81 & 11.00 & 6.76 & 7.53 & 8.69 & 15.25 & 17.37 & 12.55 & 17.18 & 18.15 \\
+                        & 16    & 9.65 & 7.92 & 7.53 & 8.49 & 11.78 & 13.71 & 8.49 & 10.81 & 8.69 & 10.42 \\
+                        & 19    & 7.92 & 12.55 & 7.53 & 5.98 & 16.41 & 17.95 & 16.80 & 9.85 & 16.41 & 20.27 \\
+\midrule
+\multirow{5}{*}{ResNet} & 18    & 7.34 & 6.76 & 5.60 & 4.63 & 6.95 & 3.86 & 5.79 & 4.83 & 7.34 & 5.98 \\
+                        & 34    & 7.53 & 4.63 & 5.79 & 3.28 & 5.98 & 7.53 & 11.40 & 7.53 & 12.16 & 9.85 \\
+                        & 50    & 11.58 & 7.14 & 6.95 & 9.07 & 11.20 & 6.95 & 7.14 & 9.85 & 8.69 & 17.57 \\
+                        & 101   & 6.37 & 11.58 & 5.79 & 5.98 & 5.79 & 6.18 & 5.98 & 10.04 & 13.32 & 6.95 \\
+                        & 152   & 7.14 & 5.79 & 7.53 & 5.21 & 5.79 & 5.21 & 9.46 & 17.37 & 7.92 & 19.31 \\
+\midrule
+\multirow{2}{*}{MobileNet} & Small & 8.69 & 8.49 & 16.99 & 14.67 & 9.07 & 9.07 & 17.18 & 7.92 & 10.81 & 12.93 \\
+                           & Large & 10.81 & 10.04 & 8.11 & 10.81 & 8.49 & 11.20 & 14.86 & 9.27 & 7.14 & 13.32 \\
+\midrule
+\multirow{4}{*}{EfficientNet} & 0  & 9.27 & 11.20 & 11.00 & 9.85 & 10.81 & 7.92 & 6.95 & 5.02 & 4.05 & 4.83 \\
+                              & 1  & 7.92 & 6.95 & 7.14 & 5.21 & 5.60 & 5.02 & 8.69 & 8.69 & 10.04 & 11.58 \\
+                              & 2  & 12.93 & 12.55 & 10.81 & 11.58 & 10.23 & 7.92 & 8.49 & 8.30 & 7.34 & 5.41 \\
+                              & 3  & 8.11 & 9.65 & 9.27 & 5.60 & 8.49 & 5.41 & 5.60 & 6.37 & 8.49 & 11.39 \\
+\midrule
+\multirow{2}{*}{ViT}    & Base  & 20.65 & 21.05 & 21.24 & 20.65 & 18.73 & 19.88 & 17.37 & 20.27 & 19.69 & 19.69 \\
+                        & Large & 24.13 & 24.52 & 22.97 & 31.47 & 20.27 & 20.08 & 21.43 & 17.37 & 25.48 & 17.76 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llccccc|cccccc}
+\toprule
+& & \multicolumn{5}{c}{Cosine} & \multicolumn{5}{c}{Euclidean} \\
+\cmidrule(lr){3-7} \cmidrule(lr){8-12}
+Model & Version & 16 & 32 & 64 & 128 & 256 & 16 & 32 & 64 & 128 & 256 \\
+\midrule
+AlexNet                 & Base  & 2.10 & 2.10 & 1.85 & 2.10 & 1.98 & 4.70 & 9.77 & 8.65 & 11.37 & 12.36 \\
+\midrule
+\multirow{4}{*}{VGG}    & 11    & 3.46 & 2.60 & 3.46 & 3.09 & 4.94 & 4.08 & 5.32 & 6.30 & 6.43 & 7.05 \\
+                        & 13    & 2.72 & 2.47 & 2.60 & 2.47 & 3.58 & 8.15 & 5.32 & 5.32 & 8.28 & 6.30 \\
+                        & 16    & 1.73 & 0.99 & 2.97 & 1.61 & 2.72 & 6.30 & 3.96 & 4.45 & 6.18 & 4.58 \\
+                        & 19    & 3.09 & 2.22 & 2.47 & 0.87 & 2.60 & 3.58 & 7.17 & 5.44 & 3.96 & 8.65 \\
+\midrule
+\multirow{5}{*}{ResNet} & 18    & 1.36 & 0.99 & 0.74 & 0.37 & 1.11 & 3.71 & 2.35 & 3.46 & 5.44 & 2.84 \\
+                        & 34    & 1.73 & 0.87 & 1.85 & 0.62 & 0.74 & 2.84 & 3.71 & 4.33 & 3.09 & 3.58 \\
+                        & 50    & 2.72 & 1.85 & 0.99 & 1.24 & 1.61 & 6.67 & 3.21 & 4.70 & 4.33 & 6.67 \\
+                        & 101   & 2.97 & 2.47 & 2.10 & 1.98 & 1.98 & 3.21 & 4.58 & 2.97 & 7.54 & 8.65 \\
+                        & 152   & 2.72 & 2.72 & 1.85 & 2.35 & 2.47 & 6.67 & 3.96 & 5.69 & 5.81 & 5.81 \\
+\midrule
+\multirow{2}{*}{MobileNet} & Small & 6.43 & 2.84 & 4.33 & 5.69 & 4.08 & 6.43 & 8.41 & 5.69 & 5.93 & 9.27 \\
+                           & Large & 4.45 & 4.82 & 4.58 & 5.44 & 5.07 & 7.54 & 5.69 & 6.18 & 5.81 & 7.42 \\
+\midrule
+\multirow{4}{*}{EfficientNet} & 0  & 1.24 & 1.61 & 0.49 & 0.87 & 1.73 & 2.10 & 2.10 & 2.97 & 3.96 & 3.96 \\
+                              & 1  & 1.61 & 1.24 & 0.62 & 1.24 & 1.98 & 2.22 & 3.09 & 3.33 & 2.47 & 2.84 \\
+                              & 2  & 1.73 & 1.24 & 1.24 & 1.61 & 0.99 & 1.36 & 2.47 & 2.84 & 4.33 & 3.58 \\
+                              & 3  & 1.85 & 1.48 & 1.36 & 1.24 & 1.36 & 1.24 & 0.99 & 3.21 & 4.82 & 5.19 \\
+\midrule
+\multirow{2}{*}{ViT}    & Base  & 14.96 & 14.83 & 10.88 & 14.22 & 14.71 & 10.26 & 8.78 & 10.51 & 9.64 & 9.64 \\
+                        & Large & 16.07 & 17.68 & 14.83 & 22.37 & 12.73 & 10.88 & 11.37 & 8.78 & 14.09 & 10.51 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 The results of the research are presented in this chapter. This chapter's discussion revolves around Table \ref{tab:res}, where the results of every trained model are presented. The table shows the mean EER value of the cross-validation in both scenarios, as well as the mean performance of each fold on the independent test set. While the \gls{ZSL} and \gls{GZSL} scenarios are very influential on the visual models' performance, this difference is not relevant in the \gls{LLM} test, as they have not been fine-tuned for the task. While they may have been originally trained with some documents of the RVL-CDIP database, both scenarios are effectively \gls{ZSL}. \refCap{sec:visual_models} discusses the results of the trained visual models and compares the effects of different backbones on the result. \refCap{sec:llm_result} compares the results returned by the multimodal \glspl{LLM} chosen for this work. Finally, \refCap{sec:comparison_result} compares both approaches.
 
 \begin{table}[ht]
@@ -100,7 +173,7 @@ GPT 4o                                  & 2024-11-20      &    *    & --     & -
 \subsection{Visual Models}
 \label{sec:visual_models}
 
-Among visual models, smaller and more cost-efficient architectures outperformed larger ones. This trend is evident in different ResNet variants: ResNet-18 and ResNet-34 showed strong performance, while larger versions (ResNet-50, ResNet-101, and ResNet-152) performed progressively worse. Additionally, the \gls{ViT}, despite excelling on datasets like ImageNet \cite{deng_imagenet_2009}, was the worst-performing model in this task. Figure \ref{fig:tsne} shows that, while none of the class separations are perfect, ResNet-18 and EfficientNet-b0 have better inter-class separation, if compared against ViT-b and ViT-l. These larger models overfitted to the training data, with some reaching 0\% train error in certain epochs while maintaining a high validation error. The most likely cause of this behavior is the dataset size—LA-CDIP contains only 4,993 documents, with approximately two-thirds used for training in each fold. However, techniques such as tuple mining and data augmentation could help mitigate this effect by increasing the diversity of training samples and improving feature learning. The overall best models are the ResNet-34 and EfficientNet-0 and -1. They offer a balance in size, achieving a good generalization of the problem while also learning the intricacies the task demands.
+Among visual models, smaller and more cost-efficient architectures outperformed larger ones. This trend is evident in different ResNet variants: ResNet-18 and ResNet-34 showed strong performance, while larger versions (ResNet-50, ResNet-101, and ResNet-152) performed progressively worse. Additionally, the \gls{ViT}, despite excelling on datasets like ImageNet \cite{deng_imagenet_2009}, was the worst-performing model in this task, both architectures (\gls{ViT}-b and \gls{ViT}-l) achieving over three times the amount of error, in comparison with EfficientNet-b1 in the ZSL scenario. These larger models overfitted to the training data, with some reaching 0\% train error in certain epochs while maintaining a high validation error. The most likely cause of this behavior is the dataset size—LA-CDIP contains only 4,993 documents, with approximately two-thirds used for training in each fold. However, techniques such as tuple mining and data augmentation could help mitigate this effect by increasing the diversity of training samples and improving feature learning. The overall best performing models on this benchmark are the ResNet-18, achieving a $1.54\%$ error rate on the GZSL scenario, and EfficientNet-b0, achieving a $3.93\%$ error rate on the ZSL scenario. Both models offer a balance in size, achieving a good generalization of the problem while also learning the intricacies the task demands.
 
 \begin{figure}[htbp]
     \centering
@@ -124,7 +197,7 @@ Among visual models, smaller and more cost-efficient architectures outperformed 
         \includegraphics[width=\linewidth]{images/ViT.csv_l_0.pdf}
         % \caption{Different Comparison}
     \end{minipage}
-    \caption{TSNE visualization of the Test ZSL scenario. These models have been trained on the same cross-validation fold.\label{fig:tsne}}
+    \caption{TSNE visualization of the Test ZSL scenario. These models were trained on the same cross-validation fold. Each dot represents a document positioned in this two-dimensional space through TSNE dimensionality reduction. Each color represents a different class.\label{fig:tsne}}
 \end{figure}
 
 Comparing the \gls{ZSL} and the \gls{GZSL} results, the \gls{GZSL} consistently gives better results. This is expected, since half of the validation set on each fold is composed of classes seen in training. The biggest discrepancies between the two modalities can be seen in the largest models, where the overfitting damage is mitigated by the easier scenario. Even so, the best performance on the \gls{GZSL} scenario is usually connected with a good performance on the \gls{ZSL} scenario.
