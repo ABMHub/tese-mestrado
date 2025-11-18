@@ -13,42 +13,6 @@ It is mentioned very often in this paper that traditional classification cannot 
 
 where $p_{c}$ denotes the predicted probability of the input element belonging to class $c$, $y_{c}$ is a label that is $1$ if the element belongs to $c$, and $0$ otherwise, and $M$ is the number of classes. When a model is trained using a class-disjoint split, meaning that no class appears in both training and test sets, a cross-entropy classifier is unable to learn anything about the unseen classes. Since these classes are not represented in the training data, it is not possible to compute a meaningful cross-entropy loss for them. Therefore, to tackle \gls{ZSL}, another approach is needed.
 
-\section{\blue{Vision Models}}
-
-A vision-based \gls{DL} model is a \gls{NN} that accepts images as inputs. Vision models can handle a wide variety of tasks, including image classification~\cite{deng_imagenet_2009}, image segmentation~\cite{ronneberger_u-net_2015} and object detection~\cite{redmon_you_2016}. Traditionally, these models are based on \glspl{CNN}, \red{CITAR} which are neural structures specialized in extracting rich local representations of given data. In vision models, this often reflects on a two-dimentional kernel aplied over the input image:
-
-\begin{equation}
-    \label{2d_convolution}
-    (I * K)_{(i,j)} = \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} I_{(i+m, j+n)} \cdot K_{(m,n)},
-\end{equation}
-
-where $I$ is the input image, $K$ is the convolutional kernel of size $M \times N$, and $(i,j)$ represents the position in the output feature map.
-
-AlexNet \cite{krizhevsky_imagenet_2012}, the first \glspl{NN} to win the ImageNet competition \cite{deng_imagenet_2009}, used \glspl{CNN} as feature extractors to correctly classify images in a traditional classification methodology. AlexNet achieved a 15.3\% top 5 error rate in the ImageNet competition, while the second place in this year achieved 26.2\% top 5 error rate, showing the potential of \gls{CNN}-based models, against other classifiers. AlexNet success rapidly transformed the ImageNet competition, and \glspl{CNN} became increasingly common. Following this trend, VGG \cite{simonyan_very_2015} is another \gls{CNN}-based work focused its efforts to the ImageNet competition. While AlexNet used only 8 neural layers in total, VGG experiments in increasing the depth of the architecture and its effects on the performance. The second biggest model, VGG-16, uses 16 neural layers, and surpassed AlexNet performance with a 8.43\% error rate, showing that increasing the depth of a \gls{CNN} yields better results.
-
-But still, training deep \glspl{NN} is not as simple as just stacking more layers, as the problem of exploding and vanishing gradient becomes a real impediment~\cite{bengio_learning_1994,pascanu_difficulty_2013}. And yet, ResNet~\cite{he_deep_2016} is built with even more layers than the previous works. The great breakthrough of this work are the skip-connections, represented in Figure \red{REF}. Mathematically, instead of learning a desired underlying mapping $H(x)$, the network learns a residual function $F(x) = H(x) - x$, and the final output becomes $H(x) = F(x) + x$. This makes the model easier to optimize, and allows for very deep \gls{CNN} models to keep learning~\cite{he_deep_2016}. The shallowest proposed ResNet, ResNet-18, is almost as deep as the deepest VGG, VGG-19. The deepest variant, ResNet-152, achieved a $3.57\%$ top-5 error rate on the ImageNet competition.
-
-As \glspl{CNN} became increasingly more complex, a new wave of works arose aiming to simplify the current landscape. MobileNet~\cite{howard2017mobilenetsefficientconvolutionalneural,8578572,howard_searching_2019} is a series of works that progressively achieves better image classification performance, while also being sufficiently economic to be executed in mobile devices. MobileNetV3~\cite{howard_searching_2019} \red{CONTINUAR}
-
-\begin{table}[ht]
-\centering
-\caption{Comparação entre arquiteturas de redes neurais populares em visão computacional.}
-\label{tab:modelos_cnn}
-\begin{tabular}{lccc}
-\toprule
-\textbf{Model} & \textbf{Year} & \textbf{Parameters (M)} & \textbf{ImageNet Performance} \\
-\midrule
-AlexNet & 2012 & 60 & Top-5 err. 15.3\% \\
-VGG-16 & 2014 & 138 & Top-5 err. 7.3\% \\
-ResNet-152 & 2015 & 25.6 & Top-1 err. 19.38\%, Top-5 err. 4.59\% \\
-MobileNetV3-Large & 2019 & 5.4 & Top-1 err. 24.8\%, Top-5 err. 7.8\% \\
-EfficientNet-B0 & 2019 & 5.3 & Top-1 err. 22.9\%, Top-5 err. 6.7\% \\
-% EfficientNet-B7 & 2019 & 66 & Top-1 err. 15.7\%, Top-5 err. 3.0\% \\
-ViT-B/16 & 2020 & 86 & Top-1 err. 11.63\% \\
-\bottomrule
-\end{tabular}
-\end{table}
-
 \section{Metric Learning}
 
 A metric-learning model \( f(\cdot) \) is trained such that, over an input element, it yields a feature vector $v$, instead of a traditional classification~\cite{kulisMetricLearningSurvey2013}. This model \( f(\cdot) \) is optimized under a given metric \( d(\cdot, \cdot) \), such that two feature vectors that share the same class $v_1$, $v_1'$ are closer together than two feature vectors from different classes $v_1$, $v_2$. In other words, the model is optimized so that $d(v_1, v_1') < d(v_1, v_2)$ and $d(v_1, v_1') < d(v_1', v_2)$.
@@ -93,6 +57,58 @@ d(P,Q) = 1 - \frac{\sum_{i=1}^{n} x_{1i} \cdot x_{2i}}{\sqrt{\sum_{i=1}^{n} x_{1
 \end{equation}}
 
 \section{\red{Clustering}}
+
+Clustering is an unsupervised learning technique that groups data points into distinct clusters based on their similarity, without requiring labeled data \red{CITAR}. The fundamental objective is to maximize intra-cluster similarity while minimizing inter-cluster similarity, aggregating the data into meaningful groups. In the context of metric learning, clustering becomes particularly powerful as feature vectors learned through metric learning frameworks are specifically optimized to be close together when they belong to the same class and far apart otherwise. This natural alignment between metric learning objectives and clustering goals makes clustering an effective approach for tasks such as class discovery, data exploration, and \gls{ZSL} scenarios where traditional supervised methods cannot be applied.
+
+K-means \red{CITAR} is a very popular clustering algorithm. This algorithm begins with $k$ initial seeds, which we call centroids. Then, it follows a two-step iterative process: first, each element is associated with the closest centroid. Next, the centroids are recalculated as the average of the associated elements. This dissertation follows a clustering framework to discover new classes and increase the dataset (see \refCap{sec:method_dataset}), and k-means can be used in this scenario when the number of possible classes in the clustering process is previously known. However, since part of the goal is to discover new, unseen classes, it is not possible to set a $k$ value.
+
+Therefore, a more suitable clustering algorithm is a hierarchical clustering algorithm \red{CITAR}. Hierarchical clustering builds a hierarchy of clusters through a tree-like structure called a dendrogram, which represents the nested grouping of data points and the similarities at which various clusters are merged or split. There are two main approaches to hierarchical clustering: divisive (top-down) and agglomerative (bottom-up). The agglomerative approach is more commonly used and begins by treating each data point as its own individual cluster. At each iteration, the two closest clusters are merged together based on a chosen linkage criterion.
+
+The chosen linkage criterion significantly impacts the resulting cluster structure. One of the prossible strategies is the Ward's method \red{CITAR}, which is particularly effective for creating compact, spherical clusters. Ward's linkage minimizes the intra-cluster variance when merging clusters, choosing at each step the pair of clusters on which fusion results in the minimum increase in total intra-cluster variance. Formally, the distance between two clusters $C_i$ and $C_j$ using Ward's method is defined as:
+
+\begin{equation}
+d(C_i, C_j) = \frac{|C_i| \cdot |C_j|}{|C_i| + |C_j|} \|\mu_i - \mu_j\|^2,
+\end{equation}
+
+where $|C_i|$ and $|C_j|$ are the number of elements in clusters $C_i$ and $C_j$, respectively, and $\mu_i$ and $\mu_j$ are their respective centroids. This algorithm supports some stopping conditions, for example, stopping the iterations when a specified number of classes is achieved. A suitable criteria for this work is to stop merging clusters when their distance is greater than $m$, being $m$ the margin hyperparameter used on the contrastive loss, in the used metric learning model.
+
+\section{\blue{Vision Models}}
+
+A vision-based \gls{DL} model is a \gls{NN} that accepts images as inputs. Vision models can handle a wide variety of tasks, including image classification~\cite{deng_imagenet_2009}, image segmentation~\cite{ronneberger_u-net_2015} and object detection~\cite{redmon_you_2016}. Traditionally, these models are based on \glspl{CNN}~\cite{lecun_backpropagation_1989}, which are neural structures specialized in extracting rich local representations of given data. In vision models, this often reflects on a two-dimentional kernel aplied over the input image:
+
+\begin{equation}
+    \label{2d_convolution}
+    (I * K)_{(i,j)} = \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} I_{(i+m, j+n)} \cdot K_{(m,n)},
+\end{equation}
+
+where $I$ is the input image, $K$ is the convolutional kernel of size $M \times N$, and $(i,j)$ represents the position in the output feature map.
+
+AlexNet \cite{krizhevsky_imagenet_2012}, the first \glspl{NN} to win the ImageNet competition \cite{deng_imagenet_2009}, used \glspl{CNN} as feature extractors to correctly classify images in a traditional classification methodology. AlexNet achieved a 15.3\% top 5 error rate in the ImageNet competition, while the second place in this year achieved 26.2\% top 5 error rate, showing the potential of \gls{CNN}-based models, against other classifiers. AlexNet success rapidly transformed the ImageNet competition, and \glspl{CNN} became increasingly common. Following this trend, VGG \cite{simonyan_very_2015} is another \gls{CNN}-based work focused its efforts to the ImageNet competition. While AlexNet used only 8 neural layers in total, VGG experiments in increasing the depth of the architecture and its effects on the performance. The second biggest model, VGG-16, uses 16 neural layers, and surpassed AlexNet performance with a 8.43\% error rate, showing that increasing the depth of a \gls{CNN} yields better results.
+
+But still, training deep \glspl{NN} is not as simple as just stacking more layers, as the problem of exploding and vanishing gradient becomes a real impediment~\cite{bengio_learning_1994,pascanu_difficulty_2013}. And yet, ResNet~\cite{he_deep_2016} is built with even more layers than the previous works. The great breakthrough of this work are the skip-connections, represented in Figure \red{REF}. Mathematically, instead of learning a desired underlying mapping $H(x)$, the network learns a residual function $F(x) = H(x) - x$, and the final output becomes $H(x) = F(x) + x$. This makes the model easier to optimize, and allows for very deep \gls{CNN} models to keep learning, even with very deep architectures~\cite{he_deep_2016}. The shallowest proposed ResNet, ResNet-18, is almost as deep as the deepest VGG, VGG-19. The deepest variant, ResNet-152, achieved a $3.57\%$ top-5 error rate on the ImageNet competition.
+
+As \glspl{CNN} became increasingly more complex, a new wave of works arose aiming to simplify the current landscape. MobileNet~\cite{howard2017mobilenetsefficientconvolutionalneural,8578572,howard_searching_2019} is a series of works that progressively achieves better image classification performance, while aiming in an economic architecture, enough to be executed in mobile devices. MobileNetV3~\cite{howard_searching_2019} is the third iteration of this work, and the largest proposed model achieved a 7.8\% top-5 error rate in the imagenet benchmark, with 5.4 million parameters. In the same year, EfficientNet~\cite{tan_efficientnet_2019} is also published, following the same cost-economic motivation, but following a different path. Instead of focusing on devices of low processing power, EfficientNet makes changing the scaling logic for \glspl{CNN}. Instead of focusing exclusively on depth, this work proposes to also increase the width (number of filters on each convolution) and the resolution of the input image. This allows the smallest proposed model, EfficientNet-B0, to achieve a 6.7\% top-5 error rate with 5.3 million, and the biggest proposed model, EfficientNet-B7, to achieve a 3\% top-5 error rate, with 66 million parameters.
+
+\subsection{Transformers}
+
+\begin{table}[ht]
+\centering
+\caption{Comparação entre arquiteturas de redes neurais populares em visão computacional.}
+\label{tab:modelos_cnn}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Model} & \textbf{Year} & \textbf{Parameters (M)} & \textbf{ImageNet Performance} \\
+\midrule
+AlexNet & 2012 & 60 & Top-5 err. 15.3\% \\
+VGG-16 & 2014 & 138 & Top-5 err. 7.3\% \\
+ResNet-152 & 2015 & 25.6 & Top-1 err. 19.38\%, Top-5 err. 4.59\% \\
+MobileNetV3-Large & 2019 & 5.4 & Top-1 err. 24.8\%, Top-5 err. 7.8\% \\
+EfficientNet-B0 & 2019 & 5.3 & Top-1 err. 22.9\%, Top-5 err. 6.7\% \\
+EfficientNet-B7 & 2019 & 66 & Top-1 err. 15.7\%, Top-5 err. 3.0\% \\
+ViT-B/16 & 2020 & 86 & Top-1 err. 11.63\% \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Large Language Models}
 
