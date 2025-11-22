@@ -15,7 +15,18 @@ where $p_{c}$ denotes the predicted probability of the input element belonging t
 
 \section{\blue{Zero Shot Learning}}
 
-Unlike traditional classification, which requires the same classes on both the train and the test split, \gls{ZSL} is the opposite scenario: classes that are in the train set cannot be on the test set~\cite{xian_zero-shot_2019}, i.e., the train and test data split must be class-disjoint. This scenario forces the model to generalize knowledge enough to recognize unseed classes. \gls{GZSL}~\cite{xian_zero-shot_2019} is another similar scenario, but aimed at a more realistic situation. Instead of having a complete class-wise data separation, \gls{GZSL} proposes that the test split has both unseen classes and known classes. This is intended to simulate a realistic implementation, where a trained model will receive unseen classes as input for inference, but also classes seen during training.
+Unlike traditional classification, which requires the same classes on both the train and the test split, \gls{ZSL} is the opposite scenario: classes that are in the train set cannot be on the test set~\cite{xian_zero-shot_2019}, i.e., the train and test data split must be class-disjoint. This scenario forces the model to generalize knowledge enough to recognize unseen classes. \gls{GZSL}~\cite{xian_zero-shot_2019} is another similar scenario, but aimed at a more realistic situation. Instead of having a complete class-wise data separation, \gls{GZSL} proposes that the test split has both unseen classes and known classes. This is intended to simulate a realistic implementation, where a trained model will receive unseen classes as input for inference, but also classes seen during training, as seen in \refFig{fig:zsl_gzsl}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[height=0.35\linewidth]{images/zsl.drawio.pdf}
+
+\vspace{1em}
+
+\includegraphics[height=0.35\linewidth]{images/gzsl.drawio.pdf}
+\caption{\acrlong{ZSL} (top) and \acrlong{GZSL} (bottom) scenarios. \gls{ZSL} has no class intersection on train and test, while \gls{GZSL} has a partial intersection.}
+\label{fig:zsl_gzsl}
+\end{figure}
 
 \section{Metric Learning}
 
@@ -36,6 +47,7 @@ A \gls{DL} model following a metric learning framework can be constructed as a s
 \blue{There are many loss functions that support metric learning~\cite{chopra_learning_2005,hoffer_deep_2018}}, and they all follow the same strategy: cluster together elements that share a label and split apart elements that do not. When training a siamese network, the training step should consider at least two distinct elements, and the loss function scores the step over the distance between the elements. \blue{For example, the contrastive loss~\cite{chopra_learning_2005} considers only two elements per training step, and they can either share the same class or belong to different classes. In this work, the contrastive loss function is used in the experiments.}
 
 \subsection{Contrastive Loss}
+\label{sec:contrastive_loss}
 
 The contrastive loss function  $\mathcal{L}$=$\mathcal{L}(m, y, x_1, x_2)$ is defined as follows:
 \begin{equation}
@@ -74,7 +86,7 @@ The chosen linkage criterion significantly impacts the resulting cluster structu
 d(C_i, C_j) = \frac{|C_i| \cdot |C_j|}{|C_i| + |C_j|} \|\mu_i - \mu_j\|^2,
 \end{equation}
 
-where $|C_i|$ and $|C_j|$ are the number of elements in clusters $C_i$ and $C_j$, respectively, and $\mu_i$ and $\mu_j$ are their respective centroids. This algorithm supports some stopping conditions, for example, stopping the iterations when a specified number of classes is achieved. A suitable criterion for this work is to stop merging clusters when their distance is greater than $m$, where $m$ is the margin hyperparameter used in the contrastive loss of the metric learning model.
+where $|C_i|$ and $|C_j|$ are the number of elements in clusters $C_i$ and $C_j$, respectively, and $\mu_i$ and $\mu_j$ are their respective centroids. This algorithm supports some stopping conditions, for example, stopping the iterations when a specified number of classes is achieved. A suitable criterion for this work is to stop merging clusters when their distance is greater than $m$, where $m$ is the margin hyperparameter used in the contrastive loss of the metric learning model, as this model will be optimized treat $m$ as a frontier to what is similar and what is different.
 
 \section{\blue{Vision Models}}
 
@@ -93,7 +105,15 @@ where $I$ is the input image, $K$ is the convolutional kernel of size $M \times 
 
 AlexNet \cite{krizhevsky_imagenet_2012}, the first \glspl{NN} to win the ImageNet competition \cite{deng_imagenet_2009}, used \glspl{CNN} as feature extractors to correctly classify images in a traditional classification methodology. AlexNet achieved a 15.3\% top-5 error rate in the ImageNet competition, while the second place in that year achieved a 26.2\% top-5 error rate, showing the potential of \gls{CNN}-based models against other classifiers. AlexNet's success rapidly transformed the ImageNet competition, and \glspl{CNN} became increasingly common. Following this trend, VGG \cite{simonyan_very_2015} is another \gls{CNN}-based work that focused its efforts on the ImageNet competition. While AlexNet used only 8 neural layers in total, VGG experimented with increasing the depth of the architecture and its effects on performance. The second biggest model, VGG-16, uses 16 neural layers, and surpassed AlexNet performance with a 8.43\% error rate, showing that increasing the depth of a \gls{CNN} yields better results.
 
-But still, training deep \glspl{NN} is not as simple as just stacking more layers, as the problem of exploding and vanishing gradient becomes a real impediment~\cite{bengio_learning_1994,pascanu_difficulty_2013}. And yet, ResNet~\cite{he_deep_2016} is built with even more layers than the previous works. The great breakthrough of this work are the skip-connections, represented in Figure \red{REF}. Mathematically, instead of learning a desired underlying mapping $H(x)$, the network learns a residual function $F(x) = H(x) - x$, and the final output becomes $H(x) = F(x) + x$. This makes the model easier to optimize, and allows for very deep \gls{CNN} models to keep learning, even with very deep architectures~\cite{he_deep_2016}. The shallowest proposed ResNet, ResNet-18, is almost as deep as the deepest VGG, VGG-19. The deepest variant, ResNet-152, achieved a $3.57\%$ top-5 error rate on the ImageNet competition.
+But still, training deep \glspl{NN} is not as simple as just stacking more layers, as the problem of exploding and vanishing gradient becomes a real impediment~\cite{bengio_learning_1994,pascanu_difficulty_2013}. And yet, ResNet~\cite{he_deep_2016} is built with even more layers than the previous works. The great breakthrough of this work are the skip-connections, represented in \refFig{fig:skip_connection}. Mathematically, instead of learning a desired underlying mapping $H(x)$, the network learns a residual function $F(x) = H(x) - x$, and the final output becomes $H(x) = F(x) + x$. This makes the model easier to optimize, and allows for very deep \gls{CNN} models to keep learning, even with very deep architectures~\cite{he_deep_2016}. The shallowest proposed ResNet with 18 neural layers, ResNet-18, is almost as deep as the deepest VGG, VGG-19. The deepest variant, ResNet-152, achieved a $3.57\%$ top-5 error rate on the ImageNet competition.
+
+\begin{figure}[htbp]
+%\isPreprints{\centering}{} % Only used for preprints
+\centering
+\includegraphics[width=.5\linewidth]{images/skip_connection.drawio.pdf}
+\caption{Simplified diagram of a ResNet skip-connection.}
+\label{fig:skip_connection}
+\end{figure}
 
 As \glspl{CNN} became increasingly more complex, a new wave of works arose aiming to simplify the current landscape. MobileNet~\cite{howard2017mobilenetsefficientconvolutionalneural,8578572,howard_searching_2019} is a series of works that progressively achieves better image classification performance while aiming at an economical architecture capable of being executed on mobile devices. MobileNetV3~\cite{howard_searching_2019} is the third iteration of this work, and the largest proposed model achieved a 7.8\% top-5 error rate in the ImageNet benchmark, with 5.4 million parameters. In the same year, EfficientNet~\cite{tan_efficientnet_2019} was also published, following the same cost-economic motivation but following a different path. Instead of focusing on devices with low processing power, EfficientNet changes the scaling logic for \glspl{CNN}. Instead of focusing exclusively on depth, this work proposes to also increase the width (number of filters on each convolution) and the resolution of the input image. This allows the smallest proposed model, EfficientNet-B0, to achieve a 6.7\% top-5 error rate with 5.3 million parameters, and the biggest proposed model, EfficientNet-B7, to achieve a 3\% top-5 error rate, with 66 million parameters.
 

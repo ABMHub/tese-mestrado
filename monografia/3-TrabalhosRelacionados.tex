@@ -12,19 +12,70 @@ This chapter reviews existing datasets commonly used for document classification
 
 \blue{PubLayNet~\cite{zhong_publaynet_2019} and DocLayNet~\cite{pfitzmann_doclaynet_2022} are large-scale datasets specifically designed for document layout analysis tasks. PubLayNet contains over 360,000 document images, with labels for five layout categories: text, title, list, table, and figure. DocLayNet extends this scope by providing 80,863 manually annotated pages from more diverse document sources, categorized into 11 layout classes, instead of 5. While these datasets have significantly advanced document layout analysis research and serve as foundational resources for training models to detect and segment structural components, they are not designed for document classification tasks. Their labels include pixel per pixel class annotations, making them unsuitable for directly training or evaluating \gls{DIC} approaches.}
 
-More recently, the DocVQA dataset~\cite{mathew_docvqa_2021} was introduced, leveraging a subset of documents from the same collection. It comprises over 12,000 document images paired with 50,000 question-answer pairs, designed to evaluate models’ abilities in visual question answering on document images. DocVQA has since become a standard benchmark for assessing the performance of \glspl{LLM} in document understanding tasks, particularly in multimodal reasoning scenarios. FUNSD dataset~\cite{jaume_funsd_2019}, introduced in 2019, has been widely used for \gls{OCR}-based semantic relation extraction from scanned forms. Similarly, SROIE~\cite{huang_icdar2019_2019}, CORD~\cite{park_cord_2019} and XFUND~\cite{xu_layoutxlm_2021} target key-value pair extraction in receipts and invoices, focusing on structured entity retrieval, such as store names, monetary values, and transaction dates. \blue{All these three datasets focus on, in one way or another, extracting specific information from documents. Again, these labels cannot be directly used to train a classification model, as they do not provide a class-based separation, nor a class-disjoint split we expect in a \gls{ZSL} dataset.}
+More recently, the DocVQA dataset~\cite{mathew_docvqa_2021} was introduced, leveraging a subset of documents from the same collection. It comprises over 12,000 document images paired with 50,000 question-answer pairs, designed to evaluate models’ abilities in visual question answering on document images. DocVQA has since become a standard benchmark for assessing the performance of \glspl{LLM} in document understanding tasks, particularly in multimodal reasoning scenarios. FUNSD dataset~\cite{jaume_funsd_2019}, introduced in 2019, has been widely used for \gls{OCR}-based semantic relation extraction from scanned forms. Similarly, SROIE~\cite{huang_icdar2019_2019}, CORD~\cite{park_cord_2019} and XFUND~\cite{xu_layoutxlm_2021} target key-value pair extraction in receipts and invoices, focusing on structured entity retrieval, such as store names, monetary values, and transaction dates. \blue{All these three datasets focus on, in one way or another, extracting specific information from documents. Again, these labels cannot be directly used to train a classification model, as they do not provide a class-based separation, nor a class-disjoint split we expect in a \gls{ZSL} dataset. \refFig{fig:doc_understanding_examples} shows examples of document layout analysis and information extraction datasets.}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images-apresentacao/segmentation_example.jpg}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images-apresentacao/doc_IE_example.jpg}
+\end{minipage}
+\caption{Examples of document understanding datasets. Left illustrates a document layout analysis dataset, where the goal is to visually segment the layout information. Right illustrates a information extraction dataset, where the goal is to find specific informations about the document, i.e., the author name.}
+\label{fig:doc_understanding_examples}
+\end{figure}
 
 \blue{At the end of the day, the most suitable datasets for \gls{ZSL}-\gls{DIC} task are the traditional classification datasets. The biggest source of documents for these datasets is the} IIT-CDIP dataset~\cite{lewis_iit-cdip_2006}, introduced in 2006, which is a large-scale repository used for document classification and information retrieval. It originated from the Tobacco Documents Library, from the University of San Francisco Industry Documents Library collection, and contains millions of scanned documents. The most popular classification dataset derived from the IIT-CDIP is the RVL-CDIP dataset~\cite{harley_evaluation_2015}, introduced in 2015. This dataset is a labeled subset of the IIT-CDIP dataset and organizes 400,000 document images into 16 predefined categories such as letters, forms, and emails. This classification is driven by the document's purpose and uses, which hinders the performance of a ZSL model trained from scratch, with no external real-world knowledge.
-\blue{This observation is confirmed by, Larson et al.~\cite{larson_evaluation_2023}, who highlighted this difficulty by stating that each \gls{RVL-CDIP} class comprises various subclasses, as illustrated in figure \red{FIGURA RVLCDIP}. They further argue that this may constrain \gls{ZSL} solutions, as no single reference could specify an entire class without overlaps. Other traditional classification datasets suffer from the same problem, as they share very similar classes and labeling logic~\cite{Kumar2014}.}
+\blue{This observation is confirmed by, Larson et al.~\cite{larson_evaluation_2023}, who highlighted this difficulty by stating that each \gls{RVL-CDIP} class comprises various subclasses, as illustrated in \refFig{fig:rvl_examples}. They further argue that this may constrain \gls{ZSL} solutions, as no single reference could specify an entire class without overlaps. Other traditional classification datasets suffer from the same problem, as they share very similar classes and labeling logic~\cite{Kumar2014}.}
 
-\blue{Figure \red{FIGURA} illustrates the datasets, and how their labels are set. Therefore, even with these available datasets, there is still a gap that can be explored in the \gls{ZSL}-\gls{DIC} domain. The existing datasets either lack the appropriate structure for classification tasks or present challenges in zero-shot scenarios due to overlapping class definitions and the absence of explicit class-disjoint splits. This limitation motivates the need for a new benchmark that explicitly addresses these constraints and enables more robust evaluation of zero-shot document classification approaches.}
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.32\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_1.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_3.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_5.png}
+\end{minipage}
+
+\begin{minipage}{0.32\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_2.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_4.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.32\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_6.png}
+\end{minipage}
+\caption{Six examples of the RVL-CDIP dataset. Note that, despite the visual differences, these six documents all share the same class under the RVL-CDIP organization.}
+\label{fig:rvl_examples}
+\end{figure}
+
+\blue{Therefore, even with these available datasets, there is still a gap that can be explored in the \gls{ZSL}-\gls{DIC} domain. The existing datasets either lack the appropriate structure for classification tasks or present challenges in zero-shot scenarios due to overlapping class definitions and the absence of explicit class-disjoint splits. This limitation motivates the need for a new benchmark that explicitly addresses these constraints and enables more robust evaluation of zero-shot document classification approaches.}
 
 \section{Zero-Shot Document Classification}
+\label{sec:zsl-related}
 
 \blue{The \gls{ZSL}-\gls{DIC} field is historically underdeveloped. One of the possible main reasons is the lack of a proper dataset. Even then, the research community took some different approaches to \gls{ZSL}-\gls{DIC}. Most of the research is done with \gls{RVL-CDIP} dataset, even with the presented limitations.}
 
-\blue{Khalifa et al.~\cite{khalifa_contrastive_2023}, using the \gls{RVL-CDIP} dataset, proposed a matching solution for \gls{ZSL}-\gls{DIC}. Using contrastive learning, they encode both the document itself and the label string in a metric learning approach. They achieve a 39.63\% F1-score in an unsupervised setting, that is, with no task-specific training, using exclusively pre-trained models. Then, they train the models in a contrastive-learning framework and achieve 37.23\% F1-score. Note that the performance actually decreased. They mention that training the models in a subset of the classes in RVL-CDIP, then testing with the remaining classes, hinders the generalization on the unseen classes. They close the paper suggesting that the \gls{RVL-CDIP} dataset is not suited for the \gls{ZSL}-\gls{DIC} problem, and that a new dataset must be created to continue the research.}
+\blue{Khalifa et al.~\cite{khalifa_contrastive_2023}, using the \gls{RVL-CDIP} dataset, proposed a matching solution for \gls{ZSL}-\gls{DIC}. Using contrastive learning, they encode both the document itself and the label string in a metric learning approach. They achieve a 39.63\% F1-score in an unsupervised setting, that is, with no task-specific training, using exclusively pre-trained models. Then, they train the models in a contrastive-learning framework and achieve 37.23\% F1-score. Note that the performance actually decreased. They mention that training the models in a subset of the classes in RVL-CDIP, then testing with the remaining classes, hinders the generalization on the unseen classes. They close the paper suggesting that the \gls{RVL-CDIP} dataset is not suited for the \gls{ZSL}-\gls{DIC} problem, and that a new dataset must be created to continue the research, arguing that the RVL-CDIP classes are comprised of various subclasses.}
 
-Scius et al.~\cite{scius-bertrand_zero-shot_2025} investigate the application of \glspl{LLM}, such as GPT-4~\red{CITAR} and RoBERTa \red{CITAR}, for zero-shot prompting and few-shot fine-tuning in document image classification. \blue{Focusing on their zero-shot experiments, their framework is based on describing to the \gls{LLM}, through a prompt, about the classification task and how it should classify each document.} Their study demonstrates that \glspl{LLM} can achieve competitive performance with minimal labeled data, challenging the traditional reliance on large annotated datasets. \blue{Their best performance with open source \gls{LLM} achieved an average of 54.4\% accuracy, using a model of 123 billion parameters, and achieved 69.9\% accuracy with GPT-4-Vision, which has an undisclosed parameter count.}
+Scius et al.~\cite{scius-bertrand_zero-shot_2025} investigate the application of \glspl{LLM}, such as GPT-4~\cite{openai_gpt-4_2024} and RoBERTa~\cite{liu_roberta_2019}, for zero-shot prompting and few-shot fine-tuning in document image classification. \blue{Focusing on their zero-shot experiments, their framework is based on describing to the \gls{LLM}, through a prompt, about the classification task and how it should classify each document.} Their study demonstrates that \glspl{LLM} can achieve competitive performance with minimal labeled data, challenging the traditional reliance on large annotated datasets. \blue{Their best performance with open source \gls{LLM} achieved an average of 54.4\% accuracy, using a model of 123 billion parameters, and achieved 69.9\% accuracy with GPT-4-Vision, which has an undisclosed parameter count.}
 
 \blue{Based on Khalifa et al.~\cite{khalifa_contrastive_2023} work,} Sinha et al.~\cite{sinha_cica_2024} introduce CICA, a framework that enhances CLIP's~\cite{radford_learning_2021} performance in zero-shot classification \blue{by joining it with a content-encoder, which aligns its own feature representations with the feature space used by CLIP in a contrastive-learning approach. CICA manages to bypass the \gls{RVL-CDIP} limitations by exploring CLIP's pre-trained knowledge, achieving a 67.29\% average accuracy. Compared to the previous works, this study emphasize data-efficient approaches to document classification. However, their approach is not suitable for a from-scratch training, which would allow an even greater efficiency gain.}
