@@ -146,17 +146,17 @@ ViT-B/16 & 2020 & 86 & Top-1 err. 11.63\% \\
 \end{tabular}
 \end{table}
 
-\section{Active Learning}
-\label{sec:active_learning}
+% \section{Active Learning}
+% \label{sec:active_learning}
 
-Active learning~\cite{settles_active_2009} is a machine learning paradigm that focuses on optimizing the labeling process. It is especially helpful in scenarios where resources are scarce or the target dataset is aimed to be particularly large. This process reduces the labeling cost by using the trained model itself to help gather more labeled data. This process can be visualized in \refFig{fig:activelearning}.
+% Active learning~\cite{settles_active_2009} is a machine learning paradigm that focuses on optimizing the labeling process. It is especially helpful in scenarios where resources are scarce or the target dataset is aimed to be particularly large. This process reduces the labeling cost by using the trained model itself to help gather more labeled data. This process can be visualized in \refFig{fig:activelearning}.
 
-To use this approach, first, a small labeled dataset must be generated to start the process. This first step can be the most laborious, as there is no auxiliary trained model yet. Then, a machine learning model must be trained with this data. This model is then used to evaluate a larger pool of unlabeled data and predict their labels. Then, the predicted labels are returned to a human annotator to validate and correct the produced labels. There are many strategies to further optimize this process, such as identifying instances where the model's predictions are uncertain or where the data points are expected to provide the most information gain if labeled. This process can be repeated as many times as needed, achieving a better model and a larger dataset at each iteration.
+% To use this approach, first, a small labeled dataset must be generated to start the process. This first step can be the most laborious, as there is no auxiliary trained model yet. Then, a machine learning model must be trained with this data. This model is then used to evaluate a larger pool of unlabeled data and predict their labels. Then, the predicted labels are returned to a human annotator to validate and correct the produced labels. There are many strategies to further optimize this process, such as identifying instances where the model's predictions are uncertain or where the data points are expected to provide the most information gain if labeled. This process can be repeated as many times as needed, achieving a better model and a larger dataset at each iteration.
 
-\begin{figure}[htbp]
-%\isPreprints{\centering}{} % Only used for preprints
-\centering
-\includegraphics[width=.6\linewidth]{images/active_learning.drawio.pdf}
-\caption{Simplified diagram of an active learning process.}
-\label{fig:activelearning}
-\end{figure}
+% \begin{figure}[htbp]
+% %\isPreprints{\centering}{} % Only used for preprints
+% \centering
+% \includegraphics[width=.6\linewidth]{images/active_learning.drawio.pdf}
+% \caption{Simplified diagram of an active learning process.}
+% \label{fig:activelearning}
+% \end{figure}
