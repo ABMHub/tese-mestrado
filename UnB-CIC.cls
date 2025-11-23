@@ -544,11 +544,11 @@
 	{\cleardoublepage\thispagestyle{empty}}
 	{}
 
-% \newenvironment{agradecimentos}
-% 	{\begin{paginatitulo}%
-% 	\pdfbookmark{Agradecimentos}{acknowledgements}%
-% 		\chapter*{Agradecimentos}}%
-% 	{\end{paginatitulo}}
+\newenvironment{agradecimentos}
+	{\begin{paginatitulo}%
+	\pdfbookmark{Agradecimentos}{acknowledgements}%
+		\chapter*{Agradecimentos}}%
+	{\end{paginatitulo}}
 
 \renewenvironment{abstract}
 	{\begin{paginatitulo}%
@@ -566,11 +566,11 @@
 		{\vskip 15pt\noindent\textbf{Palavras-chave:}\ \@@palavraschave%
     \end{paginatitulo}}
 
-% \newenvironment{dedicatoria}
-% 	{\begin{paginatitulo}%
-% 	\pdfbookmark{Dedicat\'oria}{dedication}%
-% 		\chapter*{Dedicat\'oria}}%
-% 	{\end{paginatitulo}}
+\newenvironment{dedicatoria}
+	{\begin{paginatitulo}%
+	\pdfbookmark{Dedicat\'oria}{dedication}%
+		\chapter*{Dedicat\'oria}}%
+	{\end{paginatitulo}}
 
 \def\@printfulltitle{%
 	\@ifundefined{@subtitle}{%
@@ -885,8 +885,8 @@
 \newcommand{\@conteudoPreTextual}{%
 	\maketitle%
 	\if@qualificacao\else%
-		% \@IncluirSecao{dedicatoria}%
-		% \@IncluirSecao{agradecimentos}%
+		\@IncluirSecao{dedicatoria}%
+		\@IncluirSecao{agradecimentos}%
 
 		% *NÃO RETIRAR*, é importante registrar este apoio da CAPES.
 		% O presente trabalho foi realizado com apoio da Coordenação de Aperfeiçoamento de Pessoal de Nível Superior - Brasil (CAPES), por meio do Acesso ao Portal de Periódicos.

@@ -1,5 +1,5 @@
-The goal of this chapter is to offer the theoretical basis for ideas that are assumed but not elaborated in \refCap{3-TrabalhosRelacionados}, \refCap{4-SolucaoProposta} and \refCap{5-Metodologia}.
-
+The goal of this chapter is to offer the theoretical basis for ideas that are assumed but not elaborated in \refCap{3-TrabalhosRelacionados}, \refCap{4-SolucaoProposta} and \refCap{5-Metodologia}. \blue{This chapter covers the base knowledge behind the architectural decisions, the learning paradigm and alternative aplications of the proposed \gls{VDM} framework.
+}
 \section{Traditional Classification}
 
 It is mentioned very often in this paper that traditional classification cannot generalize over unseen classes. In the context of this work, it can be specified further: \gls{DL} models, trained with a cross-entropy learning framework, cannot classify an element into a class that has not been mapped beforehand. This is because the model is trained to minimize the cross-entropy loss function over a labeled dataset, associating each input with a fixed class label. For a single instance, the cross-entropy equation is as follows:
@@ -54,7 +54,7 @@ The contrastive loss function  $\mathcal{L}$=$\mathcal{L}(m, y, x_1, x_2)$ is de
 \begin{equation}
     \mathcal{L} = y \cdot d(x_1, x_2)^2 + (1 - y) \cdot \max(0, m - d(x_1, x_2))^2,
 \end{equation}
-where $d$ is the metric function, $m > 0$ is a hyperparameter defining a distance margin representing the boundary to discriminate what is different and what is similar, and $(x_1, x_2)$ is an input pair. Lastly, $y$ is a label with value $1$, if both elements share the same class, or $0$ otherwise. Therefore, the loss function can be alternatively expressed as
+where $d$ is the metric function, $(x_1, x_2)$ is an input pair, and $m > 0$ is a hyperparameter defining a distance margin representing the boundary to discriminate what is different and what is similar, \blue{as illustrated in figure \refFig{fig:contrastive_margin}}. Lastly, $y$ is a label with value $1$, if both elements share the same class, or $0$ otherwise. Therefore, the loss function can be alternatively expressed as
 \begin{equation}
     \mathcal{L} = \begin{cases}
         d(x_1, x_2)^2, & \text{if } y = 1 \\
@@ -63,7 +63,13 @@ where $d$ is the metric function, $m > 0$ is a hyperparameter defining a distanc
 \end{equation}
 \vspace{1em}
 
-\red{IMAGEM CONTRASTIVE LOSS MARGEM M}
+\begin{figure}[htbp]
+%\isPreprints{\centering}{} % Only used for preprints
+\centering
+\includegraphics[width=.5\linewidth]{images/contrastive_margin_grid.drawio.pdf}
+\caption{Figure demonstrating the effect of the margin hyperparameter $m$ on the contrastive loss function. The model optimizes the feature representations so every element within radius $m$ around certain reference shares the same class, while the elements outside this area have different classes.}
+\label{fig:contrastive_margin}
+\end{figure}
 
 \blue{In this work, we use two different metric functions $d$: the Euclidean distance and the Cosine distance. The Euclidean distance is defined as the distance between two points $P = (x_{11}, x_{12}, \cdots, x_{1n})$ and $Q = (x_{21}, x_{22}, \cdots, x_{2n})$ in an $n$-dimensional space, defined mathematically as}:
 \begin{equation}
