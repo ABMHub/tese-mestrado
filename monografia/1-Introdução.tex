@@ -50,14 +50,14 @@ This hypothesis is supported by the premise that document layouts within the sam
 
 \section{About this work}
 
-% Following this line, this work proposes a new framework for tackling \gls{ZSL} document classification: \gls{VDM}. By leveraging metric learning techniques, documents with similar patterns can be identified and grouped into the same class/group, even if their class was not seen before during training. Through this method, \gls{VDM} shows itself as a zero-shot alternative for the identification of documents that are visually equivalent, as a matching problem. In other words, \gls{VDM} can be handled as a binary classification problem.
+Following this line, this work proposes a new framework for tackling \gls{ZSL}-\gls{DIC}: \gls{VDM}. \blue{The proposed framework traces de similarity between documents to decide whether or not they share the same class, even with this class has not been seen during training. Through this method, \gls{VDM} shows itself as a zero-shot alternative for the identification of documents that are visually equivalent, as a matching problem. In other words, \gls{VDM} can be handled as a binary classification problem.}
 
-% This work makes several key contributions, i.e.:
-% \begin{enumerate}
-%     \item Introduces a novel visual-only document image dataset specifically designed for the task of document ZSL classification, enabling the development and evaluation of models in this domain.
-%     \item Proposes a \gls{VDM} approach, based on image similarity, leveraging zero-shot learning techniques to generalize across unseen document layouts. This strategy enables generalization to previously unseen classes without additional intervention on the model itself.
-%     \item Delivers a systematic evaluation of well established backbones in the context of zero-shot document layout matching, offering valuable benchmarks for future research.
-% \end{enumerate}
+This work makes several key contributions, i.e.:
+\begin{enumerate}
+    \item Introduces a novel document image dataset specifically designed for the task of document ZSL classification, enabling the development and evaluation of models in this domain.
+    \item Proposes the \gls{VDM} approach, based on image similarity, leveraging zero-shot learning techniques to generalize across unseen document layouts. This strategy enables generalization to previously unseen classes without additional intervention on the model itself.
+    \item Delivers a systematic evaluation of well established backbones in the context of zero-shot document layout matching, offering valuable benchmarks for future research.
+\end{enumerate}
 
-This \blue{dissertation} is structured as follows: \refCap{2-Teorica} lays out the theoretical foundation of this work. \refCap{3-TrabalhosRelacionados} reviews the state of the art in zero-shot learning and visually-rich document understanding, highlighting existing methods and their limitations. \refCap{4-Metodologia} presents the proposed framework for zero-shot \gls{DIC}, detailing its architecture, components, and underlying learning paradigm. \refCap{5-Resultados} describes the experimental setup, including datasets, evaluation metrics, and baseline comparisons, followed by a comprehensive analysis of the results. Finally, \refCap{6-Conclusao} concludes the \blue{dissertation} by summarizing the contributions, discussing potential applications, and outlining future research directions, and the timeline of this Master's research.
+This \blue{dissertation} is structured as follows: \refCap{2-Teorica} lays out the theoretical foundation of this work. \refCap{3-TrabalhosRelacionados} reviews the state of the art in zero-shot learning and visually-rich document understanding, highlighting existing methods and their limitations. \refCap{4-SolucaoProposta} introduces the proposed \gls{VDM} framework, its architecture and components. \refCap{5-Metodologia} presents the datalabeling process and the experimental setup. \refCap{6-Resultados} describes the experimental setup, including datasets, evaluation metrics, and baseline comparisons, followed by a comprehensive analysis of the results. Finally, \refCap{7-Conclusao} concludes the \blue{dissertation} by summarizing the contributions, discussing potential applications, and outlining future research directions, and the timeline of this Master's research.
 

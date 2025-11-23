@@ -1,4 +1,4 @@
-The goal of this chapter is to offer the theoretical basis for ideas that are assumed but not elaborated in \refCap{3-TrabalhosRelacionados} and \refCap{4-Metodologia}.
+The goal of this chapter is to offer the theoretical basis for ideas that are assumed but not elaborated in \refCap{3-TrabalhosRelacionados}, \refCap{4-SolucaoProposta} and \refCap{5-Metodologia}.
 
 \section{Traditional Classification}
 
@@ -14,6 +14,7 @@ It is mentioned very often in this paper that traditional classification cannot 
 where $p_{c}$ denotes the predicted probability of the input element belonging to class $c$, $y_{c}$ is a label that is $1$ if the element belongs to $c$ and $0$ otherwise, and $M$ is the number of classes. When a model is trained using a class-disjoint split, meaning that no class appears in both training and test sets, a cross-entropy classifier is unable to learn anything about the unseen classes. Since these classes are not represented in the training data, it is not possible to compute a meaningful cross-entropy loss for them. Therefore, to tackle \gls{ZSL}, another approach is needed.
 
 \section{\blue{Zero Shot Learning}}
+\label{sec:zsl}
 
 Unlike traditional classification, which requires the same classes on both the train and the test split, \gls{ZSL} is the opposite scenario: classes that are in the train set cannot be on the test set~\cite{xian_zero-shot_2019}, i.e., the train and test data split must be class-disjoint. This scenario forces the model to generalize knowledge enough to recognize unseen classes. \gls{GZSL}~\cite{xian_zero-shot_2019} is another similar scenario, but aimed at a more realistic situation. Instead of having a complete class-wise data separation, \gls{GZSL} proposes that the test split has both unseen classes and known classes. This is intended to simulate a realistic implementation, where a trained model will receive unseen classes as input for inference, but also classes seen during training, as seen in \refFig{fig:zsl_gzsl}.
 
@@ -62,6 +63,8 @@ where $d$ is the metric function, $m > 0$ is a hyperparameter defining a distanc
 \end{equation}
 \vspace{1em}
 
+\red{IMAGEM CONTRASTIVE LOSS MARGEM M}
+
 \blue{In this work, we use two different metric functions $d$: the Euclidean distance and the Cosine distance. The Euclidean distance is defined as the distance between two points $P = (x_{11}, x_{12}, \cdots, x_{1n})$ and $Q = (x_{21}, x_{22}, \cdots, x_{2n})$ in an $n$-dimensional space, defined mathematically as}:
 \begin{equation}
 d(P,Q)={\sqrt {(x_{11}-x_{21})^{2}+ \cdots +(x_{1n}-x_{2n})^{2}}} = \sqrt{ \sum_{i=1}^{n} (x_1i - x_2i)^2 }.
@@ -73,6 +76,7 @@ d(P,Q) = 1 - \frac{\sum_{i=1}^{n} x_{1i} \cdot x_{2i}}{\sqrt{\sum_{i=1}^{n} x_{1
 \end{equation}}
 
 \section{\blue{Clustering}}
+\label{sec:clustering}
 
 Clustering techniques are used extensively in this research, as part of the labeling process. Clustering is an unsupervised learning technique that groups data points into distinct clusters based on their similarity, without requiring labeled data~\cite{bishop_pattern_2006}. The fundamental objective is to maximize intra-cluster similarity while minimizing inter-cluster similarity, aggregating the data into meaningful groups. In the context of metric learning, clustering becomes particularly powerful as feature vectors learned through metric learning frameworks are specifically optimized to be close together when they belong to the same class and far apart otherwise. This natural alignment between metric learning objectives and clustering goals makes clustering an effective approach for tasks such as class discovery, data exploration, and \gls{ZSL} scenarios where traditional supervised methods cannot be applied.
 
@@ -90,7 +94,7 @@ where $|C_i|$ and $|C_j|$ are the number of elements in clusters $C_i$ and $C_j$
 
 \section{\blue{Vision Models}}
 
-This section presents the neural architectures used as backbones in this work. All models discussed here are evaluated with the metric learning framework, and their comparative performance analyzed in \refCap{5-Resultados}.
+This section presents the neural architectures used as backbones in this work. All models discussed here are evaluated with the metric learning framework, and their comparative performance analyzed in \refCap{6-Resultados}.
 
 \subsection{Convolutional Neural Networks}
 
