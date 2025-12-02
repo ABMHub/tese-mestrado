@@ -550,6 +550,12 @@
 		\chapter*{Agradecimentos}}%
 	{\end{paginatitulo}}
 
+\newenvironment{disclaimer}
+	{\begin{paginatitulo}%
+	\pdfbookmark{Disclaimer}{disclaimer}%
+		\chapter*{Disclaimer}}%
+	{\end{paginatitulo}}
+	
 \renewenvironment{abstract}
 	{\begin{paginatitulo}%
 	\begin{otherlanguage*}{english}
@@ -894,6 +900,7 @@
 	\@IncluirSecao{resumo}%
 	\selectlanguage{american}%
 	\@IncluirSecao{abstract}%
+	\@IncluirSecao{disclaimer}%
 	% \selectlanguage{brazil}%
     % \selectbiblanguage{brazil}%
 	\@erroSeNaoExiste{bibliografia.bib}%
