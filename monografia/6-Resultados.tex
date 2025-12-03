@@ -64,7 +64,7 @@ AlexNet                 & Base  & - & - & - & - & - & - & - & - & - & - & - & - 
 \label{tab:tuning_raw}
 \end{table}
 
-The experiments in \refTab{tab:tuning_raw} use the first fold of the cross-validation as the train and validation splits, and the resported values are from the independent test split. This table is used to find the best possible parameter configuration for each architecture. The remaining experiments on this work are done with the best hyperparameters found. To better analyse these results, this table is split into other three different tables: \refTab{outdim_agg} shows the output dimentions, 
+The experiments in \refTab{tab:tuning_raw} use the first fold of the cross-validation as the train and validation splits, and the resported values are from the independent test split. This table is used to find the best possible parameter configuration for each architecture, and the remaining experiments on this work are done with the best hyperparameters found. To better analyse these results, this table is split into other three different tables.
 
 \begin{table}[ht]
 \centering
@@ -80,59 +80,63 @@ Embedding Size & Mean & Std & Mean & Std & Mean & Std \\
 128 & - & - & - & - & - & - \\
 256 & - & - & - & - & - & - \\
 512 & - & - & - & - & - & - \\
+\midrule
+All & - & - & - & - & - & - \\
 \bottomrule
 \end{tabular}
-\caption{Average performance over each possible output dimension, considering the Euclidean distance, the Cosine distance, and considering both distances.}
+\caption{Average performance over each possible output dimension, considering the Euclidean distance, the Cosine distance, and considering both distances. The last row considers every embedding size, to measure the best average distance metric.}
 \label{tab:outdim_agg}
 \end{table}
 
+\refTab{tab:outdim_agg} shows the average \gls{EER} for each combination of metric distance and embedding size. We can see that \red{ANALISAR QUANDO TIVER DADOS}. The last two columns on this table brings the average \gls{EER} for each embedding size, despite the distance metric. Through that, we can see that \red{ANALISAR QUANDO TIVER DADOS}. Finally, the last row brings the average performance for each distance metric, independently of any other parameter. This shows that \red{ANALISAR QUANDO TIVER DADOS}.
+
+\begin{table}[ht]
+    \centering
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{ccc|cc|cc}
+        & \multicolumn{2}{c}{Euclidean} & \multicolumn{2}{c}{Cosine} & \multicolumn{2}{c}{Both} \\
+        \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+        Architecture & Mean & Std & Mean & Std & Mean & Std \\
+        \midrule
+        AlexNet         & - & - & - & - & - & - \\
+        VGG             & - & - & - & - & - & - \\
+        ResNet          & - & - & - & - & - & - \\
+        MobileNetV3     & - & - & - & - & - & - \\
+        EfficientNet    & - & - & - & - & - & - \\
+        ViT             & - & - & - & - & - & - \\
+        \bottomrule
+    \end{tabular}
+    \caption{Average performance over each possible architecture, considering the Euclidean distance, the Cosine distance, and considering both distances.}
+    \label{tab:architecture_agg}
+\end{table}
+
+\refTab{tab:architecture_agg} shows the average \gls{EER} for each combination of metric distance and chosen architecture. \red{ANALISAR MELHORES MÉTRICAS PARA CADA ARQUITETURA.} Again, the last two columns shows the performance of each architecture, independently of the chosen distance metric. \red{ANALISAR MELHORES ARQUITETURAS.}
 
 \begin{table}[ht]
 \centering
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{ccc|cc|cc}
-& \multicolumn{2}{c}{Euclidean} & \multicolumn{2}{c}{Cosine} & \multicolumn{2}{c}{Both} \\
-\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
-Architecture & Mean & Std & Mean & Std & Mean & Std \\
+\begin{tabular}{ccc|cc|cc|cc|cc|cc}
+& \multicolumn{2}{c}{16} & \multicolumn{2}{c}{32} & \multicolumn{2}{c}{64} & \multicolumn{2}{c}{128} & \multicolumn{2}{c}{256} & \multicolumn{2}{c}{512} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11} \cmidrule(lr){12-13}
+Architecture & Mean & Std & Mean & Std & Mean & Std  & Mean & Std & Mean & Std & Mean & Std\\
 \midrule
-AlexNet         & - & - & - & - & - & - \\
-VGG             & - & - & - & - & - & - \\
-ResNet          & - & - & - & - & - & - \\
-MobileNetV3     & - & - & - & - & - & - \\
-EfficientNet    & - & - & - & - & - & - \\
-ViT             & - & - & - & - & - & - \\
+AlexNet         & - & - & - & - & - & - & - & - & - & - & - & - \\
+VGG             & - & - & - & - & - & - & - & - & - & - & - & - \\
+ResNet          & - & - & - & - & - & - & - & - & - & - & - & - \\
+MobileNetV3     & - & - & - & - & - & - & - & - & - & - & - & - \\
+EfficientNet    & - & - & - & - & - & - & - & - & - & - & - & - \\
+ViT             & - & - & - & - & - & - & - & - & - & - & - & - \\
 \bottomrule
 \end{tabular}
-\caption{Average performance over each possible architecture, considering the Euclidean distance, the Cosine distance, and considering both distances.}
-\label{tab:architecture_agg}
-\end{table}
-%TABELA NÚMERO 3
-
-\begin{table}[ht]
-\centering
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{ccc|cc|cc}
-& \multicolumn{2}{c}{Euclidean} & \multicolumn{2}{c}{Cosine} & \multicolumn{2}{c}{Both} \\
-\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
-Architecture & Mean & Std & Mean & Std & Mean & Std \\
-\midrule
-AlexNet         & - & - & - & - & - & - \\
-VGG             & - & - & - & - & - & - \\
-ResNet          & - & - & - & - & - & - \\
-MobileNetV3     & - & - & - & - & - & - \\
-EfficientNet    & - & - & - & - & - & - \\
-ViT             & - & - & - & - & - & - \\
-\bottomrule
-\end{tabular}
-\caption{Average performance over each possible architecture, considering the Euclidean distance, the Cosine distance, and considering both distances.}
-\label{tab:architecture_agg}
+\caption{Average performance over each possible architecture, considering each output dimension.}
+\label{tab:architecture_dim_agg}
 \end{table}
 
-\red{ANALISAR RESUTLADOS QUANDO ELES EXISTIREM}
+Finally, the \ref{tab:architecture_dim_agg} shows the performance of each architecture, for each possible embedding size. \red{ANALISAR MELHORES DIM PARA CADA ARQUITEUTRA.}
 
-The remaining of the experiments in this work are done with the best configuration of each architecture.
+\section{Benchmark}
 
-The results of the research are presented in this chapter. This chapter's discussion revolves around Table \ref{tab:res}, where the results of every trained model are presented. The table shows the mean EER value of the cross-validation in both scenarios, as well as the mean performance of each fold on the independent test set. While the \gls{ZSL} and \gls{GZSL} scenarios are very influential on the visual models' performance, this difference is not relevant in the \gls{LLM} test, as they have not been fine-tuned for the task. While they may have been originally trained with some documents of the RVL-CDIP database, both scenarios are effectively \gls{ZSL}. \refCap{sec:visual_models} discusses the results of the trained visual models and compares the effects of different backbones on the result. \refCap{sec:llm_result} compares the results returned by the multimodal \glspl{LLM} chosen for this work. Finally, \refCap{sec:comparison_result} compares both approaches.
+This sections's discussion revolves around Table \ref{tab:res}, where the results of every trained model are presented. The table shows the average EER value of the cross-validation in both scenarios, as well as the average performance of each fold on the independent test set. \red{OQ MAIS?}
 
 \begin{table}[ht]
 \caption{Comparative performance between different visual backbones and Large Language Models. Following the columns: the architecture name, the architecture edition, if exists, cross-validation over the \gls{ZSL} scenario, cross-validation over the \gls{GZSL} scenario, test performance on the \gls{ZSL} scenario, and test performance over the \gls{GZSL} scenario. Every value is a mean EER (\%) value over the \gls{CV} folds.}
@@ -141,45 +145,22 @@ The results of the research are presented in this chapter. This chapter's discus
 \setlength{\tabcolsep}{6pt}
 \begin{tabular}{lclcccc}
 \toprule
-Architecture                            & Edition & Params & \gls{ZSL}    & \gls{GZSL}    & Test \gls{ZSL} & Test \gls{GZSL} \\
+& & & \multicolumn{2}{c}{\gls{ZSL}} & \multicolumn{2}{c}{Test \gls{ZSL}} \\
+\cmidrule(lr){4-5} \cmidrule(lr){6-7}
+Architecture           & Edition & Params & Mean   & Std   & Mean   & Std   \\
 \midrule
-AlexNet                                 &         &  57M   & 8.92   & 5.45    & 17.33    & 6.31      \\ \midrule
-\multirow{4}{*}{VGG}                    & 11      &  129M  & 7.47   & 5.01    & 14.24    & 3.95      \\
-                                        & 13      &  129M  & 7.03   & 4.79    & 9.30     & 3.95      \\
-                                        & 16      &  134M  & 8.29   & 5.23    & 14.74    & 4.82      \\
-                                        & 19      &  139M  & 7.30   & 4.57    & 17.08    & 3.90      \\ \midrule
-\multirow{5}{*}{ResNet}                 & 18      &  11M   & 5.03   & 1.54    & 4.98     & 1.51      \\
-                                        & 34      &  21M   & 4.32   & 2.10    & 4.13     & 1.53      \\
-                                        & 50      &  23M   & 6.90   & 3.39    & 10.34    & 2.21      \\
-                                        & 101     &  42M   & 8.20   & 2.72    & 11.31    & 1.98      \\
-                                        & 152     &  58M   & 9.44   & 3.38    & 12.70    & 2.39      \\ \midrule
-\multirow{2}{*}{MobileNetV3}            & Small   &  1M    & 7.98   & 5.06    & 12.74    & 5.26      \\
-                                        & Large   &  4M    & 8.16   & 4.27    & 8.45     & 4.43      \\ \midrule
-\multirow{4}{*}{EfficientNet}           & 0       &  4M    & 4.41   & 2.27    & 6.02     & 0.95      \\
-                                        & 1       &  6M    & 3.93   & 3.54    & 8.88     & 2.70      \\
-                                        & 2       &  7M    & 5.73   & 2.61    & 7.29     & 2.14      \\
-                                        & 3       &  10M   & 5.65   & 3.64    & 7.37     & 2.34      \\ \midrule
-\multirow{2}{*}{\gls{ViT}}              & Base    &  87M   & 12.43  & 7.97    & 19.72    & 5.19      \\
-                                        & Large   &  305M  & 13.16  & 7.57    & 19.88    & 5.26      \\ \midrule
-Llama                                &  3.2     &     11B   & --     & --      & 13.95    & 21.90     \\
-InternVL                             & 2.5      &   8B     & --     & --      & 8.58     & 10.40     \\
-Qwen-VL                              & 2.5       &   7B     & --     & --      & 6.61     & 4.20      \\
-GPT 4o mini                                 & 2024-07-18    &   *     & --     & --      & 4.70     & 4.07      \\
-GPT 4o                                  & 2024-11-20      &    *    & --     & --      & 2.75     & 1.33      \\ \bottomrule
-
+AlexNet                & -       &  -     & -     & -    & -     & -    \\
+VGG                    & -       &  -     & -     & -    & -     & -    \\
+ResNet                 & -       &  -     & -     & -    & -     & -    \\
+MobileNetV3            & -       &  -     & -     & -    & -     & -    \\
+EfficientNet           & -       &  -     & -     & -    & -     & -    \\
+\gls{ViT}              & -       &  -     & -     & -    & -     & -    \\
+\bottomrule
 \end{tabular}
-\smallskip
-\parbox[t]{\textwidth}{\footnotesize
-    * The parameter count of GPT-4o has not been publicly disclosed.}
 \end{table}
 
 \subsection{Visual Models}
 \label{sec:visual_models}
-
-% TODO: Considere adicionar uma análise mais detalhada sobre o trade-off entre
-% tamanho do modelo e performance. A discussão atual menciona overfitting, mas
-% poderia explorar mais profundamente por que modelos menores funcionam melhor
-% neste contexto específico (dataset pequeno, alta granularidade de classes).
 
 Among visual models, smaller and more cost-efficient architectures outperformed larger ones. This trend is evident in different ResNet variants: ResNet-18 and ResNet-34 showed strong performance, while larger versions (ResNet-50, ResNet-101, and ResNet-152) performed progressively worse. Additionally, the \gls{ViT}, despite excelling on datasets like ImageNet \cite{deng_imagenet_2009}, was the worst-performing model in this task, both architectures (\gls{ViT}-b and \gls{ViT}-l) achieving over three times the amount of error, in comparison with EfficientNet-b1 in the ZSL scenario. These larger models overfitted to the training data, with some reaching 0\% train error in certain epochs while maintaining a high validation error. The most likely cause of this behavior is the dataset size—LA-CDIP contains only 4,993 documents, with approximately two-thirds used for training in each fold. However, techniques such as tuple mining and data augmentation could help mitigate this effect by increasing the diversity of training samples and improving feature learning. The overall best performing models on this benchmark are the ResNet-18, achieving a $1.54\%$ error rate on the GZSL scenario, and EfficientNet-b0, achieving a $3.93\%$ error rate on the ZSL scenario. Both models offer a balance in size, achieving a good generalization of the problem while also learning the intricacies the task demands.
 
