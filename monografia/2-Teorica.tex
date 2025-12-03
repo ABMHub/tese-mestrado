@@ -66,18 +66,26 @@ A \gls{DL} model following a metric learning framework can be constructed as a S
 \subsection{Contrastive Loss}
 \label{sec:contrastive_loss}
 
-The contrastive loss function  $\mathcal{L}$=$\mathcal{L}(m, y, x_1, x_2)$ is defined as follows:
-\begin{equation}
+\red{Mais uma seção que está carecendo de referências. Por favor, procure uma survey ou algum trabalho que explique de maneira didática sobre Contrastive loss e seu uso em metric learning.}
+
+
+The contrastive loss function  $\mathcal{L}$=$\mathcal{L}(m, y, x_1, x_2)$ is an objective function used for metric learning.The conceptual idea behind it is to minimize a given metric distance $d(\cdot, \cdot)$ between representations of data instances assumed similar (referred to as positive pairs) while maximizing the distance between representations of instances considered dissimilar (negative pairs), within a learned embedding space.
+
+\red{OBS: Eu mantive as descrições a seguir usando os índices $_1$ e $_2$ mas acho que ficaria mais claro uma indexação mais genérica, algo como $_i$ e $_j$, por exemplo. Também achei que ficou faltando uma formulação melhor, que descreva como funciona a CL considerando a distância no espaço dos embeedings. A formula que aqui está considera uma distância a partir dos inputx $x_1$ e $x_2$, mas a CL opera medindo a distância da representação dos embeedings!}
+More formally, for a pair of input samples, $x_1$ and $x_2$, which are mapped into the embeddings $z_1$ and $z_2$ by an encoding function, the contrastive loss function is constructed to enforce a specific geometry on the embedding space. It is defined as follows:
+\begin{equation} \label{eq_contrastive_loss}
     \mathcal{L} = y \cdot d(x_1, x_2)^2 + (1 - y) \cdot \max(0, m - d(x_1, x_2))^2,
 \end{equation}
-where $d$ is the metric function, $(x_1, x_2)$ is an input pair, and $m > 0$ is a hyperparameter defining a distance margin representing the boundary to discriminate what is different and what is similar, \blue{as illustrated in figure \refFig{fig:contrastive_margin}}. Lastly, $y$ is a label with value $1$, if both elements share the same class, or $0$ otherwise. Therefore, the loss function can be alternatively expressed as
-\begin{equation}
+where $d$ is the metric function, $(x_1, x_2)$ is an input pair, and $m > 0$ is a hyperparameter defining a distance margin representing the boundary to discriminate what is different and what is similar, \blue{as illustrated in figure \refFig{fig:contrastive_margin}}. Lastly, $y$ is a label with value $1$, if both elements share the same class, or $0$ otherwise. In other words, this function can be alternatively expressed as
+\begin{equation} label{eq_contrastive_loss_alternative}
     \mathcal{L} = \begin{cases}
         d(x_1, x_2)^2, & \text{if } y = 1 \\
         \max(0, m - d(x_1, x_2))^2, & \text{otherwise}.
   \end{cases}
 \end{equation}
-\vspace{1em}
+ If the pair $(x_1, x_2)$ constitutes are similar (often denoted by a label $y_{1,2}=0$), the loss penalizes the model when the distance $d(x_1,x_2) \rightarrow D(z_1, z_2)$ between their embeddings is large, encouraging the model to pull them closer.
+
+
 
 \begin{figure}[htbp]
 %\isPreprints{\centering}{} % Only used for preprints
