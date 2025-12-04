@@ -139,30 +139,30 @@ Finally, the \ref{tab:architecture_dim_agg} shows the performance of each archit
 This sections's discussion revolves around Table \ref{tab:res}, where the results of every trained model are presented. The table shows the average EER value of the cross-validation in both scenarios, as well as the average performance of each fold on the independent test set. \red{OQ MAIS?}
 
 \begin{table}[ht]
-\caption{Comparative performance between different visual backbones and Large Language Models. Following the columns: the architecture name, the architecture edition, if exists, cross-validation over the \gls{ZSL} scenario, cross-validation over the \gls{GZSL} scenario, test performance on the \gls{ZSL} scenario, and test performance over the \gls{GZSL} scenario. Every value is a mean EER (\%) value over the \gls{CV} folds.}
-\label{tab:res}
-\centering
-\setlength{\tabcolsep}{6pt}
-\begin{tabular}{lclcccc}
-\toprule
-& & & \multicolumn{2}{c}{\gls{ZSL}} & \multicolumn{2}{c}{Test \gls{ZSL}} \\
-\cmidrule(lr){4-5} \cmidrule(lr){6-7}
-Architecture           & Edition & Params & Mean   & Std   & Mean   & Std   \\
-\midrule
-AlexNet                & -       &  -     & -     & -    & -     & -    \\
-VGG                    & -       &  -     & -     & -    & -     & -    \\
-ResNet                 & -       &  -     & -     & -    & -     & -    \\
-MobileNetV3            & -       &  -     & -     & -    & -     & -    \\
-EfficientNet           & -       &  -     & -     & -    & -     & -    \\
-\gls{ViT}              & -       &  -     & -     & -    & -     & -    \\
-\bottomrule
-\end{tabular}
+    \centering
+    \setlength{\tabcolsep}{6pt}
+    \begin{tabular}{lclcccc}
+        \toprule
+        & & & \multicolumn{2}{c}{\gls{ZSL}} & \multicolumn{2}{c}{Test \gls{ZSL}} \\
+        \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+        Architecture           & Edition & Params & Mean   & Std   & Mean   & Std   \\
+        \midrule
+        AlexNet                & -       &  -     & -     & -    & -     & -    \\
+        VGG                    & -       &  -     & -     & -    & -     & -    \\
+        ResNet                 & -       &  -     & -     & -    & -     & -    \\
+        MobileNetV3            & -       &  -     & -     & -    & -     & -    \\
+        EfficientNet           & -       &  -     & -     & -    & -     & -    \\
+        \gls{ViT}              & -       &  -     & -     & -    & -     & -    \\
+        \bottomrule
+    \end{tabular}
+    \caption{Comparative performance between different visual backbones. Following the columns: the architecture name, the architecture edition, cross-validation over the \gls{ZSL} scenario, cross-validation over the \gls{GZSL} scenario, test performance on the \gls{ZSL} scenario, and test performance over the \gls{GZSL} scenario. Every value is a mean EER (\%) value over the five \gls{CV} folds.}
+    \label{tab:res}
 \end{table}
 
 \subsection{Visual Models}
 \label{sec:visual_models}
 
-Among visual models, smaller and more cost-efficient architectures outperformed larger ones. This trend is evident in different ResNet variants: ResNet-18 and ResNet-34 showed strong performance, while larger versions (ResNet-50, ResNet-101, and ResNet-152) performed progressively worse. Additionally, the \gls{ViT}, despite excelling on datasets like ImageNet \cite{deng_imagenet_2009}, was the worst-performing model in this task, both architectures (\gls{ViT}-b and \gls{ViT}-l) achieving over three times the amount of error, in comparison with EfficientNet-b1 in the ZSL scenario. These larger models overfitted to the training data, with some reaching 0\% train error in certain epochs while maintaining a high validation error. The most likely cause of this behavior is the dataset size—LA-CDIP contains only 4,993 documents, with approximately two-thirds used for training in each fold. However, techniques such as tuple mining and data augmentation could help mitigate this effect by increasing the diversity of training samples and improving feature learning. The overall best performing models on this benchmark are the ResNet-18, achieving a $1.54\%$ error rate on the GZSL scenario, and EfficientNet-b0, achieving a $3.93\%$ error rate on the ZSL scenario. Both models offer a balance in size, achieving a good generalization of the problem while also learning the intricacies the task demands.
+\red{Among visual models, smaller and more cost-efficient architectures outperformed larger ones. This trend is evident in different ResNet variants: ResNet-18 and ResNet-34 showed strong performance, while larger versions (ResNet-50, ResNet-101, and ResNet-152) performed progressively worse. Additionally, the \gls{ViT}, despite excelling on datasets like ImageNet \cite{deng_imagenet_2009}, was the worst-performing model in this task, both architectures (\gls{ViT}-b and \gls{ViT}-l) achieving over three times the amount of error, in comparison with EfficientNet-b1 in the ZSL scenario. These larger models overfitted to the training data, with some reaching 0\% train error in certain epochs while maintaining a high validation error. The most likely cause of this behavior is the dataset size—LA-CDIP contains only 4,993 documents, with approximately two-thirds used for training in each fold. However, techniques such as tuple mining and data augmentation could help mitigate this effect by increasing the diversity of training samples and improving feature learning. The overall best performing models on this benchmark are the ResNet-18, achieving a $1.54\%$ error rate on the GZSL scenario, and EfficientNet-b0, achieving a $3.93\%$ error rate on the ZSL scenario. Both models offer a balance in size, achieving a good generalization of the problem while also learning the intricacies the task demands.}
 
 \begin{figure}[htbp]
     \centering
@@ -189,49 +189,10 @@ Among visual models, smaller and more cost-efficient architectures outperformed 
     \caption{TSNE visualization of the Test ZSL scenario. These models were trained on the same cross-validation fold. Each dot represents a document positioned in this two-dimensional space through TSNE dimensionality reduction. Each color represents a different class.\label{fig:tsne}}
 \end{figure}
 
-Comparing the \gls{ZSL} and the \gls{GZSL} results, the \gls{GZSL} consistently gives better results. This is expected, since half of the validation set on each fold is composed of classes seen in training. The biggest discrepancies between the two modalities can be seen in the largest models, where the overfitting damage is mitigated by the easier scenario. Even so, the best performance on the \gls{GZSL} scenario is usually connected with a good performance on the \gls{ZSL} scenario.
+\red{Comparing the \gls{ZSL} and the \gls{GZSL} results, the \gls{GZSL} consistently gives better results. This is expected, since half of the validation set on each fold is composed of classes seen in training. The biggest discrepancies between the two modalities can be seen in the largest models, where the overfitting damage is mitigated by the easier scenario. Even so, the best performance on the \gls{GZSL} scenario is usually connected with a good performance on the \gls{ZSL} scenario.}
 
-In the test scenarios, the reported values represent the mean performance across all folds, evaluated on the same set. Since this is a Zero-shot data split, there is inherently a high variance over the different splits, since they test on entirely different patterns each fold. By chance, the \gls{ZSL} test split is more challenging than average, resulting in higher error rates for most models relative to the mean cross-validation error rate. The test \gls{GZSL} scenario follows the opposite reasoning.
+\red{In the test scenarios, the reported values represent the mean performance across all folds, evaluated on the same set. Since this is a Zero-shot data split, there is inherently a high variance over the different splits, since they test on entirely different patterns each fold. By chance, the \gls{ZSL} test split is more challenging than average, resulting in higher error rates for most models relative to the mean cross-validation error rate. The test \gls{GZSL} scenario follows the opposite reasoning.}
 
-\subsection{Large Language Models}
-\label{sec:llm_result}
-
-% TODO: Esta seção menciona que "further performance improvements could be achieved
-% through refined prompt engineering", mas não fornece exemplos dos prompts usados.
-% Considere adicionar um apêndice com os prompts exatos utilizados para melhorar
-% a reprodutibilidade e permitir que outros pesquisadores entendam as limitações.
-
-All models were tested under similar conditions; however, further performance improvements could be achieved through refined prompt engineering. Therefore, the results presented should not be considered definitive comparisons of the models' capabilities but rather a baseline for assessing the viability of the proposed method. Despite these limitations, \gls{LLM} results align with existing benchmarks for document understanding tasks for these models. 
-
-As shown in Table~\ref{tab:res}, GPT-4o exhibited the best overall performance, achieving the lowest error rates in both the \gls{ZSL} and \gls{GZSL} scenarios. The GPT-4o-mini variant performed similarly but showed slightly lower accuracy, reflecting its trade-off between efficiency and capability.
-
-Additionally, Llama 3.2 Vision faced challenges in handling multiple document inputs, requiring images to be combined into a single input before processing. This limitation impacted its ability to directly compare layouts across distinct documents, differentiating its approach from the other evaluated models.
-
-InternVL 2.5 and Qwen2.5-VL emerged as open-source alternatives for \gls{ZSL} \gls{VDM}. Notably, the QwenVL 7B model reached performance levels close to those of GPT-4o mini, further highlighting the efficiency of these compact architectures.
-
-Since the \glspl{LLM} have not been fine-tuned with the training data, the only difference between the \gls{ZSL} and \gls{GZSL} scenarios is the number of classes to compare: \gls{ZSL} has exactly $\tfrac{1}{6}$ of the classes and \gls{GZSL} can include every class, making \gls{GZSL} a more diverse test. Surprisingly, the two models performed with different trends between both scenarios: InternVL was better in the \gls{ZSL} split, and GPT better in the \gls{GZSL} split.
-
-\subsection{Comparison}
-\label{sec:comparison_result}
-
-% TODO: A comparação entre VDM e LLMs poderia ser expandida para discutir outros
-% aspectos além de performance e número de parâmetros, como: tempo de inferência,
-% custo computacional, requisitos de memória, facilidade de deployment, custos
-% de API (para modelos proprietários), etc. Isso forneceria uma visão mais
-% completa para tomada de decisão em aplicações práticas.
-
-Given that \gls{GZSL} is an advantageous scenario for vision models—since they have been trained on half of the classes—while \glspl{LLM} have not been fine-tuned for this task, both settings effectively serve as pure zero-shot evaluations. Therefore, the comparison was conducted in the \gls{ZSL} scenario.
-
-When compared to most \glspl{LLM}, \gls{VDM} enabled visual models to handle \gls{ZSL} \gls{VDM} while maintaining a significantly lower parameter count. This relationship between performance and model efficiency is illustrated in Figure~\ref{fig:performance}.
-
-\begin{figure}[htbp]
-\centering
-%\isPreprints{\centering}{} % Only used for preprints
-\includegraphics[width=1\linewidth]{images/performance_vs_parameters.png}
-\caption{Performance vs. Parameters (\acrlong{ZSL} scenario)\label{fig:performance}. The lines represent GPT-4o and GPT-4o Mini error rates, as their parameter counts were not publicly disclosed.}
-\end{figure}  
-
-The results highlight a trade-off between model complexity and effectiveness. Smaller visual backbones, such as ResNet-18 and EfficientNet-0, achieve competitive performance while using significantly fewer parameters than large multimodal models. Notably, ResNet-18 and ResNet-34 exhibit lower error rates than several larger architectures, reinforcing the efficiency of lightweight vision models in document matching tasks.
 
 \section{Industry Uses}
 
