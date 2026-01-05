@@ -1,0 +1,75 @@
+\documentclass[aspectratio=169]{beamer}
+
+% Theme and color
+\usetheme{Madrid}
+\usecolortheme{default}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{shadows}
+\usepackage[table]{xcolor}
+\usepackage{nicematrix}
+
+% Custom colors
+\definecolor{UnBBlue}{RGB}{0,61,165}
+\setbeamercolor{structure}{fg=UnBBlue}
+\setbeamercolor{title}{fg=white,bg=UnBBlue}
+\setbeamercolor{frametitle}{fg=white,bg=UnBBlue}
+
+% Section title cards
+\AtBeginSection[]{
+  \begin{frame}[plain]
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+% Title page information
+\title[Towards ZS-DIC]{Towards Zero-Shot Document Image Classification}
+\subtitle{Artigo WPOS}
+\author{Lucas de Almeida Bandeira Macedo}
+\institute[UnB]{
+    Universidade de Brasília\\
+    Departamento de Ciência da Computação\\
+    \vspace{0.3cm}
+    João Paulo Costa\\
+    João Pedro Felix de Almeida\\
+    Marina Silva Lyra\\
+    Daniel Alves de Santana\\
+    Pedro Garcia Freitas\\
+    Li Weigang
+    
+}
+\date{Novembro de 2025}
+
+\begin{document}
+
+% Title slide
+\begin{frame}
+\titlepage
+\end{frame}
+
+% Outline
+\begin{frame}{Capítulos}
+\tableofcontents
+\end{frame}
+
+% Include sections
+\input{apresentacao-resumida/1-introducao}
+\input{apresentacao-resumida/2-metodologia}
+\input{apresentacao-resumida/3-resultados}
+\input{apresentacao-resumida/4-conclusao}
+\input{apresentacao-resumida/5-final}
+
+\end{document}

@@ -1,215 +1,240 @@
-% TODO: Este é o novo capítulo de Resultados. Após validar o conteúdo, renomeie para
-% 5-Resultados.tex (substituindo o arquivo atual) ou ajuste a numeração conforme necessário.
+\section{\blue{Dataset Construction}}
+\label{sec:res_dataset}
 
-\section{Partial Results}
+The dataset construction followed a sequence of incremental steps, following the methodology presented in \refCap{sec:method_dataset}. The proposed labeling method assumes that a model trained with the current iteration of the dataset will be able to create better (i.e., more precise) labels if compared to training with the previous iteration (should have less data), which will then speed up the human annotation process. \refTab{tab:dataset_iterations} shows this behavior. This table details every iteration of the training loop: the achieved number of documents, followed by number of classes, and the similarity between what was automatically clustered versus the resulting human annotated labels. Each iteration begins with an automatic clustering produced by a model trained on the dataset achieved by the previous iteration. The first iteration takes the dataset from a previous work~\cite{10.1007/978-3-032-09368-4_12} and creates a new, independent dataset.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{ccccc}
+    \toprule
+    Iteration & Number of Documents & Number of Classes & \gls{ARI} & \gls{NMI} \\
+    \midrule
+    1 & 10,659 & 512 & 0.131 & 0.665 \\
+    2 & 12,246 & 560 & 0.141 & 0.650 \\
+    3 & 17,295 & 665 & 0.440 & 0.784 \\
+    \bottomrule
+\end{tabular}
+\caption{Iterative dataset construction metrics. Each row shows information of an iteration of the dataset, such as the total number of documents and classes in the dataset at that iteration. ARI and NMI are similarity metrics between the automatic labeling process and the final, human annotated labels.}
+\label{tab:dataset_iterations}
+\end{table}
+
+The table shows an increase in cluster similarity with the growth of the dataset. In particular, the increase from the second to the third iteration is greater than the increase from the first to the second. It is possible that the data achieved by the first iteration had the same overall quality as the data achieved by the previous work, meaning that models trained in these datasets achieved similar behavior. The labeling loop then follows with a leap of cluster quality in the third iteration, revealing evidence that the labeling method can optimize the manual process. Furthermore, the second and the third iterations both lasted the same duration, and yet, the second iteration achieved 1,587 new documents, and the third, 5,049. This is empirical evidence that the cluster similarity is inversely related to the time spent per document on the manual annotation process. The remaining experiments in this work are done with the last iteration of the dataset.
+
+\section{Hyperparameter search}
 \label{sec:results}
 
-% TODO: As tabelas abaixo não têm caption nem label. Considere adicionar descrições
-% apropriadas para cada tabela, indicando qual cenário (ZSL/GZSL) e qual métrica
-% está sendo apresentada. Isso melhorará a legibilidade e permitirá referências
-% cruzadas no texto.
-
-% TODO: Considere adicionar uma breve introdução antes das tabelas explicando
-% o que será apresentado nas próximas seções.
+Before making a proper benchmark, a hyperparameter search is necessary. Most hyperparameters are already set, as they are taken from the original works (see \refCap{sec:experimental_setup}), but hyperparameters related to the metric-learning nature have not been set. \refTab{tab:tuning_raw} shows the search for the remaining configurations: the architecture edition, the distance metric and the embedding size.
 
 \begin{table}[ht]
 \centering
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{llccccc|cccccc}
+\footnotesize
+\begin{tabular}{llcccccc|ccccccc}
 \toprule
-& & \multicolumn{5}{c}{Cosine} & \multicolumn{5}{c}{Euclidean} \\
-\cmidrule(lr){3-7} \cmidrule(lr){8-12}
-Model & Version & 16 & 32 & 64 & 128 & 256 & 16 & 32 & 64 & 128 & 256 \\
+& & \multicolumn{6}{c}{Euclidean} & \multicolumn{6}{c}{Cosine} \\
+\cmidrule(lr){3-8} \cmidrule(lr){9-14}
+Model & Ed. & 16 & 32 & 64 & 128 & 256 & 512 & 16 & 32 & 64 & 128 & 256 & 512 \\
 \midrule
-AlexNet                 & Base  & 8.11 & 8.30 & 5.79 & 6.37 & 7.92 & 15.64 & 13.90 & 20.66 & 18.73 & 21.62 \\
+AlexNet                 &   & 24.71 & 20.45 & 34.81 & 33.61 & 31.07 & 22.31 & 21.21 & 20.21 & 21.62 & 18.44 & 22.14 & \underline{\textbf{15.26}} \\
 \midrule
-\multirow{4}{*}{VGG}    & 11    & 6.37 & 10.04 & 9.46 & 14.09 & 12.55 & 8.88 & 15.06 & 19.88 & 17.76 & 15.06 \\
-                        & 13    & 10.81 & 11.00 & 6.76 & 7.53 & 8.69 & 15.25 & 17.37 & 12.55 & 17.18 & 18.15 \\
-                        & 16    & 9.65 & 7.92 & 7.53 & 8.49 & 11.78 & 13.71 & 8.49 & 10.81 & 8.69 & 10.42 \\
-                        & 19    & 7.92 & 12.55 & 7.53 & 5.98 & 16.41 & 17.95 & 16.80 & 9.85 & 16.41 & 20.27 \\
+\multirow{4}{*}{VGG}    & 11    & 19.35 & 32.73 & 9.03 & 31.68 & 30.82 & 34.59 & 22.80 & 29.38 & 20.23 & 22.02 & 29.31 & 26.39 \\
+                        & 13    & 22.38 & 8.83 & 24.05 & 14.82 & 33.05 & 11.69 & 18.22 & 23.61 & 13.85 & 19.59 & 24.22 & 30.01 \\
+                        & 16    & 7.63 & 4.82 & 30.80 & 12.57 & 23.39 & 8.90 & 12.01 & 27.76 & 22.65 & 30.23 & 25.68 & 32.63 \\
+                        & 19    & 13.26 & 1.81 & 29.79 & 18.08 & 27.67 & 11.86 & 23.48 & 23.17 & 19.69 & 21.18 & 1.66 & \underline{\textbf{1.57}} \\
 \midrule
-\multirow{5}{*}{ResNet} & 18    & 7.34 & 6.76 & 5.60 & 4.63 & 6.95 & 3.86 & 5.79 & 4.83 & 7.34 & 5.98 \\
-                        & 34    & 7.53 & 4.63 & 5.79 & 3.28 & 5.98 & 7.53 & 11.40 & 7.53 & 12.16 & 9.85 \\
-                        & 50    & 11.58 & 7.14 & 6.95 & 9.07 & 11.20 & 6.95 & 7.14 & 9.85 & 8.69 & 17.57 \\
-                        & 101   & 6.37 & 11.58 & 5.79 & 5.98 & 5.79 & 6.18 & 5.98 & 10.04 & 13.32 & 6.95 \\
-                        & 152   & 7.14 & 5.79 & 7.53 & 5.21 & 5.79 & 5.21 & 9.46 & 17.37 & 7.92 & 19.31 \\
+\multirow{5}{*}{ResNet} & 18    & 3.52 & 7.07 & 9.00 & 7.05 & 3.40 & 1.66 & 19.35 & 11.69 & 2.94 & 2.35 & 1.64 & 2.64 \\
+                        & 34    & 9.10 & 10.30 & 7.36 & 8.07 & 17.71 & 3.30 & 3.23 & 4.82 & 1.54 & 5.48 & \underline{\textbf{0.49}} & 0.61 \\
+                        & 50    & 7.07 & 26.47 & 11.69 & 4.01 & 23.24 & 14.75 & 15.95 & 17.25 & 4.31 & 6.04 & 10.37 & 10.10 \\
+                        & 101   & 21.80 & 19.06 & 20.72 & 21.23 & 31.99 & 19.06 & 13.04 & 6.73 & 3.84 & 2.42 & 7.75 & 24.93 \\
+                        & 152   & 7.14 & 4.77 & 14.24 & 13.72 & 5.70 & 16.85 & 4.26 & 8.98 & 2.62 & 15.63 & 13.70 & 9.34 \\
 \midrule
-\multirow{2}{*}{MobileNet} & Small & 8.69 & 8.49 & 16.99 & 14.67 & 9.07 & 9.07 & 17.18 & 7.92 & 10.81 & 12.93 \\
-                           & Large & 10.81 & 10.04 & 8.11 & 10.81 & 8.49 & 11.20 & 14.86 & 9.27 & 7.14 & 13.32 \\
+\multirow{2}{*}{MobileNet} & S. & 7.44 & 13.60 & 48.29 & 16.24 & 29.87 & 39.97 & 20.38 & 6.36 & 5.53 & 14.04 & 5.14 & 5.60 \\
+                           & L. & 22.82 & 43.79 & 38.01 & 46.16 & 44.32 & 31.60 & 17.34 & 16.44 & 17.10 & 10.57 & \underline{\textbf{5.09}} & 12.84 \\
 \midrule
-\multirow{4}{*}{EfficientNet} & 0  & 9.27 & 11.20 & 11.00 & 9.85 & 10.81 & 7.92 & 6.95 & 5.02 & 4.05 & 4.83 \\
-                              & 1  & 7.92 & 6.95 & 7.14 & 5.21 & 5.60 & 5.02 & 8.69 & 8.69 & 10.04 & 11.58 \\
-                              & 2  & 12.93 & 12.55 & 10.81 & 11.58 & 10.23 & 7.92 & 8.49 & 8.30 & 7.34 & 5.41 \\
-                              & 3  & 8.11 & 9.65 & 9.27 & 5.60 & 8.49 & 5.41 & 5.60 & 6.37 & 8.49 & 11.39 \\
+\multirow{4}{*}{EfficientNet} & 0  & 7.61 & 1.00 & 5.68 & 1.88 & 14.46 & \underline{\textbf{0.73}} & 2.67 & 5.53 & 3.96 & 8.73 & 2.62 & 2.81 \\
+                              & 1  & 4.99 & 7.44 & 5.31 & 3.33 & 6.73 & 5.09 & 2.54 & 4.84 & 3.86 & 5.75 & 1.37 & 2.40 \\
+                              & 2  & 3.42 & 4.11 & 4.26 & 3.99 & 2.15 & 13.50 & 4.87 & 3.11 & 2.59 & 12.77 & 4.26 & 6.65 \\
+                              & 3  & 19.50 & 5.28 & 4.26 & 8.71 & 11.15 & 8.00 & 10.10 & 4.35 & 3.99 & 12.87 & 10.59 & 6.09 \\
 \midrule
-\multirow{2}{*}{ViT}    & Base  & 20.65 & 21.05 & 21.24 & 20.65 & 18.73 & 19.88 & 17.37 & 20.27 & 19.69 & 19.69 \\
-                        & Large & 24.13 & 24.52 & 22.97 & 31.47 & 20.27 & 20.08 & 21.43 & 17.37 & 25.48 & 17.76 \\
+\multirow{2}{*}{ViT}    & B.  & 29.43 & 33.19 & 17.95 & 28.01 & 25.15 & 24.66 & 30.26 & 37.77 & 38.60 & 26.83 & 18.62 & 32.27 \\
+                        & L. & 19.32 & 27.81 & 28.69 & \underline{\textbf{16.81}} & 22.60 & 21.72 & 25.76 & 18.15 & 40.17 & 38.43 & 22.38 & 30.53 \\
 \bottomrule
 \end{tabular}
+\caption{Results of the hyperparameter search for each architecture in \gls{EER}. Searching for: the architecture edition (e.g. ResNet-18 or ResNet-34), the distance metric (Euclidean or cosine), and the output embedding size.}
+\label{tab:tuning_raw}
 \end{table}
+
+The experiments in \refTab{tab:tuning_raw} use the first fold of the cross-validation as the train and validation splits, and the reported values are from the independent test split. This table is used to find the best possible parameter configuration for each architecture, and the remaining experiments in this work are done with the best hyperparameters found. To better analyze these results, this table is split into three other different tables.
 
 \begin{table}[ht]
 \centering
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{llccccc|cccccc}
-\toprule
-& & \multicolumn{5}{c}{Cosine} & \multicolumn{5}{c}{Euclidean} \\
-\cmidrule(lr){3-7} \cmidrule(lr){8-12}
-Model & Version & 16 & 32 & 64 & 128 & 256 & 16 & 32 & 64 & 128 & 256 \\
+\begin{tabular}{ccc|cc|cc}
+& \multicolumn{2}{c}{Euclidean} & \multicolumn{2}{c}{Cosine} & \multicolumn{2}{c}{Both} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+Embedding Size & Mean & Std & Mean & Std & Mean & Std \\
 \midrule
-AlexNet                 & Base  & 2.10 & 2.10 & 1.85 & 2.10 & 1.98 & 4.70 & 9.77 & 8.65 & 11.37 & 12.36 \\
+16  & 13.92 & 8.39 & 14.86 & 8.69 & 14.39 & 8.43 \\
+32  & 15.14 & 12.81 & 15.01 & 10.33 & 15.07 & 11.47 \\
+64  & 19.39 & 13.77 & 12.81 & 11.99 & 15.92 & 13.10 \\
+128 & 16.11 & 12.14 & 15.19 & 9.96 & 15.65 & 10.95 \\
+256 & 21.36 & 11.91 & \underline{\textbf{11.50}} & 9.74 & 16.43 & 11.83 \\
+512 & 16.13 & 11.37 & 14.04 & 11.96 & 15.08 & 11.55 \\
 \midrule
-\multirow{4}{*}{VGG}    & 11    & 3.46 & 2.60 & 3.46 & 3.09 & 4.94 & 4.08 & 5.32 & 6.30 & 6.43 & 7.05 \\
-                        & 13    & 2.72 & 2.47 & 2.60 & 2.47 & 3.58 & 8.15 & 5.32 & 5.32 & 8.28 & 6.30 \\
-                        & 16    & 1.73 & 0.99 & 2.97 & 1.61 & 2.72 & 6.30 & 3.96 & 4.45 & 6.18 & 4.58 \\
-                        & 19    & 3.09 & 2.22 & 2.47 & 0.87 & 2.60 & 3.58 & 7.17 & 5.44 & 3.96 & 8.65 \\
-\midrule
-\multirow{5}{*}{ResNet} & 18    & 1.36 & 0.99 & 0.74 & 0.37 & 1.11 & 3.71 & 2.35 & 3.46 & 5.44 & 2.84 \\
-                        & 34    & 1.73 & 0.87 & 1.85 & 0.62 & 0.74 & 2.84 & 3.71 & 4.33 & 3.09 & 3.58 \\
-                        & 50    & 2.72 & 1.85 & 0.99 & 1.24 & 1.61 & 6.67 & 3.21 & 4.70 & 4.33 & 6.67 \\
-                        & 101   & 2.97 & 2.47 & 2.10 & 1.98 & 1.98 & 3.21 & 4.58 & 2.97 & 7.54 & 8.65 \\
-                        & 152   & 2.72 & 2.72 & 1.85 & 2.35 & 2.47 & 6.67 & 3.96 & 5.69 & 5.81 & 5.81 \\
-\midrule
-\multirow{2}{*}{MobileNet} & Small & 6.43 & 2.84 & 4.33 & 5.69 & 4.08 & 6.43 & 8.41 & 5.69 & 5.93 & 9.27 \\
-                           & Large & 4.45 & 4.82 & 4.58 & 5.44 & 5.07 & 7.54 & 5.69 & 6.18 & 5.81 & 7.42 \\
-\midrule
-\multirow{4}{*}{EfficientNet} & 0  & 1.24 & 1.61 & 0.49 & 0.87 & 1.73 & 2.10 & 2.10 & 2.97 & 3.96 & 3.96 \\
-                              & 1  & 1.61 & 1.24 & 0.62 & 1.24 & 1.98 & 2.22 & 3.09 & 3.33 & 2.47 & 2.84 \\
-                              & 2  & 1.73 & 1.24 & 1.24 & 1.61 & 0.99 & 1.36 & 2.47 & 2.84 & 4.33 & 3.58 \\
-                              & 3  & 1.85 & 1.48 & 1.36 & 1.24 & 1.36 & 1.24 & 0.99 & 3.21 & 4.82 & 5.19 \\
-\midrule
-\multirow{2}{*}{ViT}    & Base  & 14.96 & 14.83 & 10.88 & 14.22 & 14.71 & 10.26 & 8.78 & 10.51 & 9.64 & 9.64 \\
-                        & Large & 16.07 & 17.68 & 14.83 & 22.37 & 12.73 & 10.88 & 11.37 & 8.78 & 14.09 & 10.51 \\
+All & 16.99 & 11.83 & 13.89 & 10.37 & 15.42 & 11.20 \\
 \bottomrule
 \end{tabular}
+\caption{Average performance in \gls{EER} over each possible output dimension, considering the Euclidean distance, the Cosine distance, and considering both distances. The last row considers every embedding size, to measure the best average distance metric.}
+\label{tab:outdim_agg}
 \end{table}
 
-The results of the research are presented in this chapter. This chapter's discussion revolves around Table \ref{tab:res}, where the results of every trained model are presented. The table shows the mean EER value of the cross-validation in both scenarios, as well as the mean performance of each fold on the independent test set. While the \gls{ZSL} and \gls{GZSL} scenarios are very influential on the visual models' performance, this difference is not relevant in the \gls{LLM} test, as they have not been fine-tuned for the task. While they may have been originally trained with some documents of the RVL-CDIP database, both scenarios are effectively \gls{ZSL}. \refCap{sec:visual_models} discusses the results of the trained visual models and compares the effects of different backbones on the result. \refCap{sec:llm_result} compares the results returned by the multimodal \glspl{LLM} chosen for this work. Finally, \refCap{sec:comparison_result} compares both approaches.
+% revise esse aqui
+\refTab{tab:outdim_agg} shows the average \gls{EER} for each combination of metric distance and embedding size. We can see that the best overall combination is an embedding of size 256, and using the cosine distance. We can see in the last row, where the results are averaged across every embedding size, that the cosine distance is indeed the best overall metric distance, with a absolute difference of 3.10\% \gls{EER} from the Euclidean distance. This is evidence that most architectures used in these experiments work better with the cosine distance for this problem. The last two columns on this table bring the average \gls{EER} for each embedding size, averaging the distance metrics. In these columns, we can see that the smaller embedding size used, 16, is actually the best overall, with the lowest standard deviation. A smaller embedding size implies a smaller feature space, therefore, it is possible that models trained with 16 embedding size are less prone to overfitting, achieving stable but moderate results. Higher embedding sizes, while more prone to overfitting, also hold the potential to handle more classes without entanglement. We can see this behavior in \refTab{tab:tuning_raw}: while embedding size of 16 is the best average value, it was not once the best hyperparameter for any architecture, and most best configurations use 256 or 512 embedding size.
 
 \begin{table}[ht]
-\caption{Comparative performance between different visual backbones and Large Language Models. Following the columns: the architecture name, the architecture edition, if exists, cross-validation over the \gls{ZSL} scenario, cross-validation over the \gls{GZSL} scenario, test performance on the \gls{ZSL} scenario, and test performance over the \gls{GZSL} scenario. Every value is a mean EER (\%) value over the \gls{CV} folds.}
-\label{tab:res}
-\centering
-\setlength{\tabcolsep}{6pt}
-\begin{tabular}{lclcccc}
-\toprule
-Architecture                            & Edition & Params & \gls{ZSL}    & \gls{GZSL}    & Test \gls{ZSL} & Test \gls{GZSL} \\
-\midrule
-AlexNet                                 &         &  57M   & 8.92   & 5.45    & 17.33    & 6.31      \\ \midrule
-\multirow{4}{*}{VGG}                    & 11      &  129M  & 7.47   & 5.01    & 14.24    & 3.95      \\
-                                        & 13      &  129M  & 7.03   & 4.79    & 9.30     & 3.95      \\
-                                        & 16      &  134M  & 8.29   & 5.23    & 14.74    & 4.82      \\
-                                        & 19      &  139M  & 7.30   & 4.57    & 17.08    & 3.90      \\ \midrule
-\multirow{5}{*}{ResNet}                 & 18      &  11M   & 5.03   & 1.54    & 4.98     & 1.51      \\
-                                        & 34      &  21M   & 4.32   & 2.10    & 4.13     & 1.53      \\
-                                        & 50      &  23M   & 6.90   & 3.39    & 10.34    & 2.21      \\
-                                        & 101     &  42M   & 8.20   & 2.72    & 11.31    & 1.98      \\
-                                        & 152     &  58M   & 9.44   & 3.38    & 12.70    & 2.39      \\ \midrule
-\multirow{2}{*}{MobileNetV3}            & Small   &  1M    & 7.98   & 5.06    & 12.74    & 5.26      \\
-                                        & Large   &  4M    & 8.16   & 4.27    & 8.45     & 4.43      \\ \midrule
-\multirow{4}{*}{EfficientNet}           & 0       &  4M    & 4.41   & 2.27    & 6.02     & 0.95      \\
-                                        & 1       &  6M    & 3.93   & 3.54    & 8.88     & 2.70      \\
-                                        & 2       &  7M    & 5.73   & 2.61    & 7.29     & 2.14      \\
-                                        & 3       &  10M   & 5.65   & 3.64    & 7.37     & 2.34      \\ \midrule
-\multirow{2}{*}{\gls{ViT}}              & Base    &  87M   & 12.43  & 7.97    & 19.72    & 5.19      \\
-                                        & Large   &  305M  & 13.16  & 7.57    & 19.88    & 5.26      \\ \midrule
-Llama                                &  3.2     &     11B   & --     & --      & 13.95    & 21.90     \\
-InternVL                             & 2.5      &   8B     & --     & --      & 8.58     & 10.40     \\
-Qwen-VL                              & 2.5       &   7B     & --     & --      & 6.61     & 4.20      \\
-GPT 4o mini                                 & 2024-07-18    &   *     & --     & --      & 4.70     & 4.07      \\
-GPT 4o                                  & 2024-11-20      &    *    & --     & --      & 2.75     & 1.33      \\ \bottomrule
-
-\end{tabular}
-\smallskip
-\parbox[t]{\textwidth}{\footnotesize
-    * The parameter count of GPT-4o has not been publicly disclosed.}
+    \centering
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{ccc|cc|cc}
+        & \multicolumn{2}{c}{Euclidean} & \multicolumn{2}{c}{Cosine} & \multicolumn{2}{c}{Both} \\
+        \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+        Architecture & Mean & Std & Mean & Std & Mean & Std \\
+        \midrule
+        AlexNet         & 27.83 & 6.12 & 19.81 & 2.58 & 23.82 & 6.13 \\
+        VGG             & 19.32 & 10.30 & 21.72 & 7.96 & 20.52 & 9.19 \\
+        ResNet          & 12.30 & 8.01 & 8.01 & 6.26 & 10.08 & 7.42 \\
+        MobileNetV3     & 31.84 & 13.93 & 11.37 & 5.69 & 21.61 & 14.75 \\
+        EfficientNet    & 6.36 & 4.50 & 5.39 & 3.30 & 5.87 & 3.93 \\
+        ViT             & 24.61 & 5.06 & 29.98 & 7.81 & 27.30 & 6.99 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Average performance in \gls{EER} over each possible architecture, considering the Euclidean distance, the Cosine distance, and considering both distances.}
+    \label{tab:architecture_agg}
 \end{table}
 
-\subsection{Visual Models}
-\label{sec:visual_models}
+\refTab{tab:architecture_agg} shows the average \gls{EER} for each combination of distance function and chosen architecture. We can see that the best combination of architecture and metric distance is EfficientNet with cosine distance. Most architectures perform better with cosine distance, with the exception of \gls{ViT} and VGG. MobileNet performed particularly bad with the Euclidean distance, with almost three times the \gls{EER} if compared against using the cosine distance. \refTab{tab:tuning_raw} shows that some experiments with this combination got near 50\% \gls{EER}, a score that would be as bad as a completely random decision. In these cases, the trained models mostly did not learn across all the 300 epochs they were trained on. Again, the last two columns shows the performance of each architecture, independently of the chosen distance metric. The best overall architecture in these experiments is the EfficientNet variants, followed by ResNet and VGG.
 
-% TODO: Considere adicionar uma análise mais detalhada sobre o trade-off entre
-% tamanho do modelo e performance. A discussão atual menciona overfitting, mas
-% poderia explorar mais profundamente por que modelos menores funcionam melhor
-% neste contexto específico (dataset pequeno, alta granularidade de classes).
+\begin{table}[ht]
+\centering
+\setlength{\tabcolsep}{4pt}
+\footnotesize 
+\begin{tabular}{ccc|cc|cc|cc|cc|cc}
+& \multicolumn{2}{c}{16} & \multicolumn{2}{c}{32} & \multicolumn{2}{c}{64} & \multicolumn{2}{c}{128} & \multicolumn{2}{c}{256} & \multicolumn{2}{c}{512} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11} \cmidrule(lr){12-13}
+Architecture & Mean & Std & Mean & Std & Mean & Std  & Mean & Std & Mean & Std & Mean & Std\\
+\midrule
+AlexNet         & 22.96 & 2.47 & 20.33 & 0.17  & 28.22 & 9.32  & 26.03 & 10.72 & 26.60 & 6.31  & 18.79 & 4.98 \\
+VGG             & 17.39 & 5.82 & 19.01 & 12.02 & 21.26 & 7.38  & 21.27 & 6.76  & 24.47 & 9.79  & 19.71 & 12.60 \\
+ResNet          & 10.45 & 6.73 & 11.71 & 7.10  & 7.83  & 6.17  & 8.60  & 6.26  & 11.60 & 10.19 & 10.33 & 8.37 \\
+MobileNetV3     & 16.99 & 6.75 & 20.05 & 16.39 & 27.23 & 19.44 & 21.75 & 16.44 & 21.10 & 19.39 & 22.50 & 15.99 \\
+EfficientNet    & 6.96  & 5.68 & 4.46  & 1.88  & 4.24  & 0.94  & 7.25  & 4.20  & 6.67  & 4.88  & 5.66  & 3.99 \\
+ViT             & 26.19 & 4.98 & 29.23 & 8.43  & 31.35 & 10.28 & 27.52 & 8.84  & 22.19 & 2.69  & 27.29 & 4.94 \\
+\bottomrule
+\end{tabular}
+\caption{Average performance in \gls{EER} over each possible architecture, considering each output dimension.}
+\label{tab:architecture_dim_agg}
+\end{table}
 
-Among visual models, smaller and more cost-efficient architectures outperformed larger ones. This trend is evident in different ResNet variants: ResNet-18 and ResNet-34 showed strong performance, while larger versions (ResNet-50, ResNet-101, and ResNet-152) performed progressively worse. Additionally, the \gls{ViT}, despite excelling on datasets like ImageNet \cite{deng_imagenet_2009}, was the worst-performing model in this task, both architectures (\gls{ViT}-b and \gls{ViT}-l) achieving over three times the amount of error, in comparison with EfficientNet-b1 in the ZSL scenario. These larger models overfitted to the training data, with some reaching 0\% train error in certain epochs while maintaining a high validation error. The most likely cause of this behavior is the dataset size—LA-CDIP contains only 4,993 documents, with approximately two-thirds used for training in each fold. However, techniques such as tuple mining and data augmentation could help mitigate this effect by increasing the diversity of training samples and improving feature learning. The overall best performing models on this benchmark are the ResNet-18, achieving a $1.54\%$ error rate on the GZSL scenario, and EfficientNet-b0, achieving a $3.93\%$ error rate on the ZSL scenario. Both models offer a balance in size, achieving a good generalization of the problem while also learning the intricacies the task demands.
+Finally, the \ref{tab:architecture_dim_agg} shows the performance of each architecture, for each possible embedding size. This table shows some of the behaviors pointed out in the two previous paragraphs: embedding size of value 16 having lower overall standard deviation and EfficientNet achieving the lowest average \gls{EER}. The best combination of embedding size and architecture, in average, is EfficientNet with size 64, and is different from the best hyperparameter combination found on \refTab{tab:tuning_raw}, which is using embedding size 512. This shows, again, that while bigger embeddings may increase the potential for better models, it can also increase the variability of the results. \refFig{fig:boxplot} shows a boxplot of the \gls{EER} in relation to the embedding size, across all experiments shown in \refTab{tab:tuning_raw}. Note that the error oscillates across the size options and is neither strictly increasing nor decreasing, and the most stable parameter is still the 16 embedding size.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{images/boxplot_eer_embedding_size.pdf}
+    \caption{Boxplot of the \gls{EER} over the different chosen embedding sizes. In each box, the blue line represents the median value, and the red shape represents the average value.}
+    \label{fig:boxplot}
+\end{figure}
+
+\section{Benchmark}
+
+This section's discussion revolves around Table \ref{tab:res}, where the results of every trained model are presented. The table shows the average EER value of the cross-validation in both scenarios (\gls{ZSL} and \gls{GZSL}). Every model is trained with the best set of hyperparameters, found on \refTab{tab:tuning_raw}.
+
+\begin{table}[ht]
+    \centering
+    \setlength{\tabcolsep}{4pt}
+    % \begin{tabular}{lcccccccccc}
+    \begin{tabular}{lccccc}
+        \toprule
+        & & \multicolumn{2}{c}{\gls{ZSL}} & \multicolumn{2}{c}{\gls{GZSL}}\\ %& \multicolumn{2}{c}{Test \gls{ZSL}} & \multicolumn{2}{c}{Test \gls{GZSL}} \\
+        \cmidrule(lr){3-4} \cmidrule(lr){5-6}% \cmidrule(lr){7-8} \cmidrule(lr){9-10}
+        Architecture           & Params & Mean   & Std   & Mean   & Std   \\%& Mean   & Std   & Mean  & Std  \\
+        \midrule
+        AlexNet                &  57M   & 10.05 & 8.80  & 13.09 & 1.43  \\%& 18.26 & 5.35  & 5.68  & 0.13 \\
+        VGG-19                 &  139M  & 7.79  & 5.02  & 12.30 & 2.04  \\%& 29.07 & 3.11  & 4.55  & 0.85 \\0.047258
+        ResNet-34              &  21M   & 4.72  & 4.11  & 2.55  & 2.29  \\%& 2.51  & 1.31  & 4.76  & 0.53 \\
+        MobileNetV3-Large      &  4M    & 9.32  & 4.16  & 10.77 & 1.54  \\%& 11.47 & 6.19  & 5.13  & 0.89 \\
+        EfficientNet-b0        &  4M    & 6.92  & 4.07  & 6.51  & 2.28  \\%& 3.93  & 1.82  & 3.66  & 0.67 \\
+        \gls{ViT}-Large              &  305M  & 15.93 & 5.93  & 13.50 & 1.32  \\%& 20.77 & 1.99  & 7.50  & 0.56 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Comparative performance between different visual backbones. Following the columns: the architecture name, number of parameters for each trained model, cross-validation over the \gls{ZSL} scenario and cross-validation over the \gls{GZSL} scenario. Every value is a mean EER (\%) value over the five \gls{CV} folds.}
+    \label{tab:res}
+\end{table}
+
+Immediately, we can see that the overall best models in this experiment are the ResNet-34 and EfficientNet-b0. They offer a better balance between performance and economy, being the smallest models that perform the best. Usually, the larger the model, more data it needs to perform well, and with a small dataset, smaller models usually perform at least as good as the larger models  \cite{hestness2017deeplearningscalingpredictable}. With this observation, we can observe that ResNet and EfficientNet reside in the balance between model complexity and performance. Lowering the parameter count, we find MobileNetV3-Large, which does not perform as good as the other two models, despite being at least more economic. In the hyperparameter search, MobileNetV3-Small showed even higher error rate, showing that the MobileNetV3 architecture is already too economic for this problem. In the other direction, VGG and \gls{ViT} performed worse than EfficientNet and ResNet. This is evidence that the increased architecture complexity did not suit the size of the dataset. \gls{ViT}, in particular, being a transformer architecture~\cite{vaswani_attention_2023}, performed the worst of all architectures in these experiments, as it is specially data demanding. \refFig{fig:tsne} shows the TSNE visualization of the \gls{ZSL} scenario. Every plot shows the representations of every element in a single validation split, where a dot is a vector representation of a document, and each color is a different class. We can see that, on this particular fold, the representations of the ResNet, EfficientNet and VGG models are well defined and well separated, while the representations on \gls{ViT}, the largest model, is very entangled.
 
 \begin{figure}[htbp]
     \centering
     \begin{minipage}{0.4\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{images/ResNet.csv_18_0.pdf}
+        \includegraphics[width=\linewidth]{images/tsne-resnet.pdf}
         % \caption{Similar Comparison}
     \end{minipage}
     \begin{minipage}{0.4\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{images/EfficientNet.csv_0_0.pdf}
+        \includegraphics[width=\linewidth]{images/tsne-efficientnet.pdf}
         % \caption{Different Comparison}
     \end{minipage}
     \begin{minipage}{0.4\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{images/ViT.csv_b_0.pdf}
+        \includegraphics[width=\linewidth]{images/tsne-vgg.pdf}
         % \caption{Different Comparison}
     \end{minipage}
     \begin{minipage}{0.4\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{images/ViT.csv_l_0.pdf}
+        \includegraphics[width=\linewidth]{images/tsne-vit.pdf}
         % \caption{Different Comparison}
     \end{minipage}
     \caption{TSNE visualization of the Test ZSL scenario. These models were trained on the same cross-validation fold. Each dot represents a document positioned in this two-dimensional space through TSNE dimensionality reduction. Each color represents a different class.\label{fig:tsne}}
 \end{figure}
 
-Comparing the \gls{ZSL} and the \gls{GZSL} results, the \gls{GZSL} consistently gives better results. This is expected, since half of the validation set on each fold is composed of classes seen in training. The biggest discrepancies between the two modalities can be seen in the largest models, where the overfitting damage is mitigated by the easier scenario. Even so, the best performance on the \gls{GZSL} scenario is usually connected with a good performance on the \gls{ZSL} scenario.
+The difference between \gls{ZSL} and \gls{GZSL} is the data split. While \gls{ZSL} is class-disjoint, \gls{GZSL} has both seen and unseen classes on the validation split (see \refCap{sec:zsl}). The \gls{GZSL} split has some great advantages: first, it is likely to decrease the error on models prone to overfitting on the seen classes, as some of them will appear on the validation test as well. Second, the greater class diversity on the training set should increase the model potential to generalize to unseen classes. On the other hand, the \gls{GZSL} also increases the amount of classes present on the validation set, raising the overall difficulty, especially for models that can not make use of the advantages. For reference, each \gls{ZSL} validation split has 111 classes, while the \gls{GZSL} splits have an average of 253.8 classes. This difference separates the trained models into two groups: ResNet, EfficientNet and \gls{ViT} perform better in the \gls{GZSL} split, while AlexNet, VGG and MobileNet perform worse. 
 
-In the test scenarios, the reported values represent the mean performance across all folds, evaluated on the same set. Since this is a Zero-shot data split, there is inherently a high variance over the different splits, since they test on entirely different patterns each fold. By chance, the \gls{ZSL} test split is more challenging than average, resulting in higher error rates for most models relative to the mean cross-validation error rate. The test \gls{GZSL} scenario follows the opposite reasoning.
+The better performance on the \gls{GZSL} split with the ResNet and EfficientNet models suggest that the generalization advantages exceed the difficulty increase. The worse performance on the AlexNet, VGG and MobileNet suggest that the difficulty increase weighted more than the advantages. \gls{ViT} is a particular case. \refFig{fig:overfit} shows the \gls{ZSL} loss value per epoch on both the train and test split on every architecture. This figure shows that the \gls{ViT} architecture is the only one to diverge on the validation loss score, while overfitting on the train loss score, explaining why the \gls{GZSL} error decreased. \refTab{tab:gzsl_summary} shows the different error rates for two different categories: the error rate on pairs that their classes were not seen during training, and the error rate on pairs where at least one of the elements was seen during training. With the exception of VGG, every architecture performed better on the seen scenario, which indicates that the increased difficulty on the \gls{GZSL} scenario is, indeed, the culprit.
 
-\subsection{Large Language Models}
-\label{sec:llm_result}
+\begin{figure}
+    \centering
+    \begin{subfigure}[a]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/overfit_graph_train.pdf}
+        \caption{Training loss.}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/overfit_graph.pdf}
+        \caption{Validation loss.}
+    \end{subfigure}
+    \caption{Loss curves over training epochs for all architectures in the \gls{ZSL} scenario, showing both training (a) and validation (b) performance.}
+    \label{fig:overfit}
+\end{figure}
 
-% TODO: Esta seção menciona que "further performance improvements could be achieved
-% through refined prompt engineering", mas não fornece exemplos dos prompts usados.
-% Considere adicionar um apêndice com os prompts exatos utilizados para melhorar
-% a reprodutibilidade e permitir que outros pesquisadores entendam as limitações.
-
-All models were tested under similar conditions; however, further performance improvements could be achieved through refined prompt engineering. Therefore, the results presented should not be considered definitive comparisons of the models' capabilities but rather a baseline for assessing the viability of the proposed method. Despite these limitations, \gls{LLM} results align with existing benchmarks for document understanding tasks for these models. 
-
-As shown in Table~\ref{tab:res}, GPT-4o exhibited the best overall performance, achieving the lowest error rates in both the \gls{ZSL} and \gls{GZSL} scenarios. The GPT-4o-mini variant performed similarly but showed slightly lower accuracy, reflecting its trade-off between efficiency and capability.
-
-Additionally, Llama 3.2 Vision faced challenges in handling multiple document inputs, requiring images to be combined into a single input before processing. This limitation impacted its ability to directly compare layouts across distinct documents, differentiating its approach from the other evaluated models.
-
-InternVL 2.5 and Qwen2.5-VL emerged as open-source alternatives for \gls{ZSL} \gls{VDM}. Notably, the QwenVL 7B model reached performance levels close to those of GPT-4o mini, further highlighting the efficiency of these compact architectures.
-
-Since the \glspl{LLM} have not been fine-tuned with the training data, the only difference between the \gls{ZSL} and \gls{GZSL} scenarios is the number of classes to compare: \gls{ZSL} has exactly $\tfrac{1}{6}$ of the classes and \gls{GZSL} can include every class, making \gls{GZSL} a more diverse test. Surprisingly, the two models performed with different trends between both scenarios: InternVL was better in the \gls{ZSL} split, and GPT better in the \gls{GZSL} split.
-
-\subsection{Comparison}
-\label{sec:comparison_result}
-
-% TODO: A comparação entre VDM e LLMs poderia ser expandida para discutir outros
-% aspectos além de performance e número de parâmetros, como: tempo de inferência,
-% custo computacional, requisitos de memória, facilidade de deployment, custos
-% de API (para modelos proprietários), etc. Isso forneceria uma visão mais
-% completa para tomada de decisão em aplicações práticas.
-
-Given that \gls{GZSL} is an advantageous scenario for vision models—since they have been trained on half of the classes—while \glspl{LLM} have not been fine-tuned for this task, both settings effectively serve as pure zero-shot evaluations. Therefore, the comparison was conducted in the \gls{ZSL} scenario.
-
-When compared to most \glspl{LLM}, \gls{VDM} enabled visual models to handle \gls{ZSL} \gls{VDM} while maintaining a significantly lower parameter count. This relationship between performance and model efficiency is illustrated in Figure~\ref{fig:performance}.
-
-\begin{figure}[htbp]
-\centering
-%\isPreprints{\centering}{} % Only used for preprints
-\includegraphics[width=1\linewidth]{images/performance_vs_parameters.png}
-\caption{Performance vs. Parameters (\acrlong{ZSL} scenario)\label{fig:performance}. The lines represent GPT-4o and GPT-4o Mini error rates, as their parameter counts were not publicly disclosed.}
-\end{figure}  
-
-The results highlight a trade-off between model complexity and effectiveness. Smaller visual backbones, such as ResNet-18 and EfficientNet-0, achieve competitive performance while using significantly fewer parameters than large multimodal models. Notably, ResNet-18 and ResNet-34 exhibit lower error rates than several larger architectures, reinforcing the efficiency of lightweight vision models in document matching tasks.
+\begin{table}[ht!]
+    \centering
+    \caption{Summary of error rates for each architectures in the \gls{GZSL} scenario, for seen or unseen pairs.}
+    \label{tab:gzsl_summary}
+    \begin{tabular}{lcc}
+        \toprule
+        \textbf{Architecture} & \textbf{Seen Error Rate} & \textbf{Unseen Error Rate} \\
+        \midrule
+        AlexNet & 13.06 & 13.84 \\
+        EfficientNet & 5.20 & 10.28 \\
+        MobileNet & 14.21 & 14.42 \\
+        ResNet & 3.07 & 8.64 \\
+        VGG & 15.14 & 13.99 \\
+        ViT & 13.11 & 16.00 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 \section{Industry Uses}
-
-% TODO: Esta seção sobre "Industry Uses" parece mais apropriada para um capítulo
-% de Discussão ou Conclusão, pois não apresenta resultados experimentais, mas sim
-% possíveis aplicações práticas. Considere mover para o capítulo de Conclusão
-% ou criar uma seção de "Discussão" separada.
 
 With the trained models shown in this chapter, an industry system can leverage the metric learning nature of the solution to achieve zero-shot \gls{DIC} in a couple of different ways. First, this model can be used in a verification system, within the same framework used for testing: given a document reference, and with a predefined acceptance threshold, a query document must be accepted if the distance to the reference is smaller than the threshold, and rejected otherwise. As mentioned in \ref{1-Introdução}, this task can be viewed as a binary classification problem, as the system will either accept or reject the document.
 
@@ -229,7 +254,7 @@ Second, the model can be used in an identification system, which becomes similar
         \caption{Identification task.}
         \label{fig:identification_example}
     \end{subfigure}
-    \caption{Comparative illustration between the verification (a) and identification (b) tasks. The verification system approves documents when the distance between the references and the query that is lower than or equal $0.5$, and rejects otherwise. The identification system chose the nearest neighbor to classify the query document.}
+    \caption{Comparative illustration between the verification (a) and identification (b) tasks. The verification system approves documents when the distance between the references and the query is lower than or equal to $0.5$, and rejects otherwise. The identification system chooses the nearest neighbor to classify the query document.}
     \label{fig:ver_ind}
 \end{figure*}
 

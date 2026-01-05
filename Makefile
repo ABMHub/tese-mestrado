@@ -20,6 +20,12 @@ build: $(PROJECT).tex
 .PHONY: clean
 clean:
 	@echo "--- Cleaning intermediate files ---"
-	rm -f $(PROJECT).aux $(PROJECT).log $(PROJECT).toc $(PROJECT).out $(PROJECT).bbl $(PROJECT).blg $(PROJECT).dvi $(PROJECT).lof $(PROJECT).lot $(PROJECT).idx $(PROJECT).ilg $(PROJECT).ind $(PROJECT).gls $(PROJECT).glo $(PROJECT).ist $(PROJECT).acn $(PROJECT).acr $(PROJECT).alg $(PROJECT).glg $(PROJECT).run.xml $(PROJECT).synctex.gz $(PROJECT).glsdefs
-	# Remove the final PDF to ensure a clean build next time
-	rm -f $(PROJECT).pdf
+	rm -f $(PROJECT).aux $(PROJECT).log $(PROJECT).toc $(PROJECT).out \
+	      $(PROJECT).bbl $(PROJECT).blg $(PROJECT).dvi \
+	      $(PROJECT).lof $(PROJECT).lot \
+	      $(PROJECT).idx $(PROJECT).ilg $(PROJECT).ind \
+	      $(PROJECT).gls $(PROJECT).glo $(PROJECT).ist \
+	      $(PROJECT).acn $(PROJECT).acr $(PROJECT).alg \
+	      $(PROJECT).glg $(PROJECT).run.xml $(PROJECT).synctex.gz \
+	      $(PROJECT).glsdefs
+	rm -f $(PROJECT).pdfmake 

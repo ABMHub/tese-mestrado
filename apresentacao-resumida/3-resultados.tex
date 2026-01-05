@@ -1,0 +1,301 @@
+% ============================================
+% SECTION 3: Results
+% ============================================
+\section{Resultados}
+
+\begin{frame}{LA-CDIP Dataset - Estatísticas}
+\begin{columns}
+\column{0.5\textwidth}
+\textbf{Composição:}
+\begin{itemize}
+    \item 4.993 documentos
+    \item 144 classes diferentes
+    \item Min: 2 documentos/classe
+    \item Max: 497 documentos/classe
+    \item Mediana: 13 documentos/classe
+\end{itemize}
+
+\column{0.5\textwidth}
+\includegraphics[width=\textwidth]{images/hist2.eps}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Resultados - Equal Error Rate (\%)}
+\begin{table}
+\scriptsize
+\centering
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lclcc}
+\toprule
+\textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{Test ZSL} \\
+\midrule
+\multirow{4}{*}{VGG} & 11 & 129M & 7.47 & 14.24 \\
+ & 13 & 129M & 7.03 & 9.30 \\
+ & 16 & 134M & 8.29 & 14.74 \\
+ & 19 & 139M & 7.30 & 17.08 \\ \midrule
+\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & 4.98 \\
+ & 34 & 21M & 4.32 & 4.13 \\
+ & 50 & 23M & 6.90 & 10.34 \\
+ & 101 & 42M & 8.20 & 11.31 \\
+ & 152 & 58M & 9.44 & 12.70 \\ \midrule
+\multirow{2}{*}{MobileNetV3} & Small & 1M & 7.98 & 12.74 \\
+ & Large & 4M & 8.16 & 8.45 \\ \midrule
+\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 6.02 \\
+ & 1 & 6M & \underline{\textbf{3.93}} & 8.88 \\
+ & 2 & 7M & 5.73 & 7.29 \\
+ & 3 & 10M & 5.65 & 7.37 \\ \midrule
+\multirow{2}{*}{ViT} & Base & 87M & 12.43 & 19.72 \\
+ & Large & 305M & 13.16 & 19.88
+\end{tabular}
+\end{table}
+\end{frame}
+
+% \begin{frame}{Resultados - Equal Error Rate (\%)}
+% \begin{table}
+% \scriptsize
+% \centering
+% \setlength{\tabcolsep}{3pt}
+% \begin{NiceTabular}{lclcc}
+% \toprule
+% \Block[tikz={fill=red!20}]{*-1}{}{\textbf{Architecture}} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{Test ZSL} \\
+% \midrule
+% \Block[tikz={fill=red!20}]{4-1}{VGG} & 11 & 129M & 7.47 & 14.24 \\
+%  & 13 & 129M & 7.03 & 9.30 \\
+%  & 16 & 134M & 8.29 & 14.74 \\
+%  & 19 & 139M & 7.30 & 17.08 \\ \midrule
+% \Block[tikz={fill=red!20}]{5-1}{ResNet} & 18 & 11M & 5.03 & 4.98 \\
+%  & 34 & 21M & 4.32 & 4.13 \\
+%  & 50 & 23M & 6.90 & 10.34 \\
+%  & 101 & 42M & 8.20 & 11.31 \\
+%  & 152 & 58M & 9.44 & 12.70 \\ \midrule
+% \Block[tikz={fill=red!20}]{2-1}{MobileNetV3} & Small & 1M & 7.98 & 12.74 \\
+%  & Large & 4M & 8.16 & 8.45 \\ \midrule
+% \Block[tikz={fill=red!20}]{4-1}{EfficientNet} & 0 & 4M & 4.41 & 6.02 \\
+%  & 1 & 6M & \underline{\textbf{3.93}} & 8.88 \\
+%  & 2 & 7M & 5.73 & 7.29 \\
+%  & 3 & 10M & 5.65 & 7.37 \\ \midrule
+% \Block[tikz={fill=red!20}]{2-1}{ViT} & Base & 87M & 12.43 & 19.72 \\
+%  & Large & 305M & 13.16 & 19.88
+% \end{NiceTabular}
+% \end{table}
+% \end{frame}
+
+% \begin{frame}{Resultados - Equal Error Rate (\%)}
+% \begin{table}
+% \scriptsize
+% \centering
+% \setlength{\tabcolsep}{3pt}
+% \begin{NiceTabular}{lclcc}
+% \toprule
+% \textbf{Architecture} & \Block[tikz={fill=red!20}]{*-1}{}{\textbf{Edition}} & \textbf{Params} & \textbf{ZSL} & \textbf{Test ZSL} \\
+% \midrule
+% \multirow{4}{*}{VGG} & \Block[tikz={fill=red!20}]{}{11} & 129M & 7.47 & 14.24 \\
+%  & \Block[tikz={fill=red!20}]{}{13} & 129M & 7.03 & 9.30 \\
+%  & \Block[tikz={fill=red!20}]{}{16} & 134M & 8.29 & 14.74 \\
+%  & \Block[tikz={fill=red!20}]{}{19} & 139M & 7.30 & 17.08 \\ \midrule
+% \multirow{5}{*}{ResNet} & \Block[tikz={fill=red!20}]{}{18} & 11M & 5.03 & 4.98 \\
+%  & \Block[tikz={fill=red!20}]{}{34} & 21M & 4.32 & 4.13 \\
+%  & \Block[tikz={fill=red!20}]{}{50} & 23M & 6.90 & 10.34 \\
+%  & \Block[tikz={fill=red!20}]{}{101} & 42M & 8.20 & 11.31 \\
+%  & \Block[tikz={fill=red!20}]{}{152} & 58M & 9.44 & 12.70 \\ \midrule
+% \multirow{2}{*}{MobileNetV3} & \Block[tikz={fill=red!20}]{}{Small} & 1M & 7.98 & 12.74 \\
+%  & \Block[tikz={fill=red!20}]{}{Large} & 4M & 8.16 & 8.45 \\ \midrule
+% \multirow{4}{*}{EfficientNet} & \Block[tikz={fill=red!20}]{}{0} & 4M & 4.41 & 6.02 \\
+%  & \Block[tikz={fill=red!20}]{}{1} & 6M & \underline{\textbf{3.93}} & 8.88 \\
+%  & \Block[tikz={fill=red!20}]{}{2} & 7M & 5.73 & 7.29 \\
+%  & \Block[tikz={fill=red!20}]{}{3} & 10M & 5.65 & 7.37 \\ \midrule
+% \multirow{2}{*}{ViT} & \Block[tikz={fill=red!20}]{}{Base} & 87M & 12.43 & 19.72 \\
+%  & \Block[tikz={fill=red!20}]{}{Large} & 305M & 13.16 & 19.88 \\ \midrule
+% \end{NiceTabular}
+% \end{table}
+% \end{frame}
+
+% \begin{frame}{Resultados - Equal Error Rate (\%)}
+% \begin{table}
+% \scriptsize
+% \centering
+% \setlength{\tabcolsep}{3pt}
+% \begin{NiceTabular}{lclcc}
+% \toprule
+% \textbf{Architecture} & \textbf{Edition} & \Block[tikz={fill=red!20}]{*-1}{}{\textbf{Params}} & \textbf{ZSL} & \textbf{Test ZSL} \\
+% \midrule
+% \multirow{4}{*}{VGG} & 11 & \Block[tikz={fill=red!20}]{}{129M} & 7.47 & 14.24 \\
+%  & 13 & \Block[tikz={fill=red!20}]{}{129M} & 7.03 & 9.30 \\
+%  & 16 & \Block[tikz={fill=red!20}]{}{134M} & 8.29 & 14.74 \\
+%  & 19 & \Block[tikz={fill=red!20}]{}{139M} & 7.30 & 17.08 \\ \midrule
+% \multirow{5}{*}{ResNet} & 18 & \Block[tikz={fill=red!20}]{}{11M} & 5.03 & 4.98 \\
+%  & 34 & \Block[tikz={fill=red!20}]{}{21M} & 4.32 & 4.13 \\
+%  & 50 & \Block[tikz={fill=red!20}]{}{23M} & 6.90 & 10.34 \\
+%  & 101 & \Block[tikz={fill=red!20}]{}{42M} & 8.20 & 11.31 \\
+%  & 152 & \Block[tikz={fill=red!20}]{}{58M} & 9.44 & 12.70 \\ \midrule
+% \multirow{2}{*}{MobileNetV3} & Small & \Block[tikz={fill=red!20}]{}{1M} & 7.98 & 12.74 \\
+%  & Large & \Block[tikz={fill=red!20}]{}{4M} & 8.16 & 8.45 \\ \midrule
+% \multirow{4}{*}{EfficientNet} & 0 & \Block[tikz={fill=red!20}]{}{4M} & 4.41 & 6.02 \\
+%  & 1 & \Block[tikz={fill=red!20}]{}{6M} & \underline{\textbf{3.93}} & 8.88 \\
+%  & 2 & \Block[tikz={fill=red!20}]{}{7M} & 5.73 & 7.29 \\
+%  & 3 & \Block[tikz={fill=red!20}]{}{10M} & 5.65 & 7.37 \\ \midrule
+% \multirow{2}{*}{ViT} & Base & \Block[tikz={fill=red!20}]{}{87M} & 12.43 & 19.72 \\
+%  & Large & \Block[tikz={fill=red!20}]{}{305M} & 8.16 & 8.45
+% \end{NiceTabular}
+% \end{table}
+% \end{frame}
+
+% \begin{frame}{Resultados - Equal Error Rate (\%)}
+% \begin{table}
+% \scriptsize
+% \centering
+% \setlength{\tabcolsep}{3pt}
+% \begin{NiceTabular}{lclcc}
+% \toprule
+% \textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \Block[tikz={fill=red!20}]{}{\textbf{ZSL}} & \textbf{Test ZSL} \\
+% \midrule
+% \multirow{4}{*}{VGG} & 11 & 129M & \Block[tikz={fill=red!20}]{}{7.47} & 14.24 \\
+%  & 13 & 129M & \Block[tikz={fill=red!20}]{}{7.03} & 9.30 \\
+%  & 16 & 134M & \Block[tikz={fill=red!20}]{}{8.29} & 14.74 \\
+%  & 19 & 139M & \Block[tikz={fill=red!20}]{}{7.30} & 17.08 \\ \midrule
+% \multirow{5}{*}{ResNet} & 18 & 11M & \Block[tikz={fill=red!20}]{}{5.03} & 4.98 \\
+%  & 34 & 21M & \Block[tikz={fill=red!20}]{}{4.32} & 4.13 \\
+%  & 50 & 23M & \Block[tikz={fill=red!20}]{}{6.90} & 10.34 \\
+%  & 101 & 42M & \Block[tikz={fill=red!20}]{}{8.20} & 11.31 \\
+%  & 152 & 58M & \Block[tikz={fill=red!20}]{}{9.44} & 12.70 \\ \midrule
+% \multirow{2}{*}{MobileNetV3} & Small & 1M & \Block[tikz={fill=red!20}]{}{7.98} & 12.74 \\
+%  & Large & 4M & \Block[tikz={fill=red!20}]{}{8.16} & 8.45 \\ \midrule
+% \multirow{4}{*}{EfficientNet} & 0 & 4M & \Block[tikz={fill=red!20}]{}{4.41} & 6.02 \\
+%  & 1 & 6M & \Block[tikz={fill=red!20}]{}{\underline{\textbf{3.93}}} & 8.88 \\
+%  & 2 & 7M & \Block[tikz={fill=red!20}]{}{5.73} & 7.29 \\
+%  & 3 & 10M & \Block[tikz={fill=red!20}]{}{5.65} & 7.37 \\ \midrule
+% \multirow{2}{*}{ViT} & Base & 87M & \Block[tikz={fill=red!20}]{}{12.43} & 19.72 \\
+%  & Large & 305M & \Block[tikz={fill=red!20}]{}{13.16} & 19.88
+% \end{NiceTabular}
+% \end{table}
+% \end{frame}
+
+% \begin{frame}{Resultados - Equal Error Rate (\%)}
+% \begin{table}
+% \scriptsize
+% \centering
+% \setlength{\tabcolsep}{3pt}
+% \begin{NiceTabular}{lclcc}
+% \toprule
+% \textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \Block[tikz={fill=red!20}]{}{\textbf{Test ZSL}} \\
+% \midrule
+% \multirow{4}{*}{VGG} & 11 & 129M & 7.47 & \Block[tikz={fill=red!20}]{}{14.24} \\
+%  & 13 & 129M & 7.03 & \Block[tikz={fill=red!20}]{}{9.30} \\
+%  & 16 & 134M & 8.29 & \Block[tikz={fill=red!20}]{}{14.74} \\
+%  & 19 & 139M & 7.30 & \Block[tikz={fill=red!20}]{}{17.08} \\ \midrule
+% \multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \Block[tikz={fill=red!20}]{}{4.98} \\
+%  & 34 & 21M & 4.32 & \Block[tikz={fill=red!20}]{}{4.13} \\
+%  & 50 & 23M & 6.90 & \Block[tikz={fill=red!20}]{}{10.34} \\
+%  & 101 & 42M & 8.20 & \Block[tikz={fill=red!20}]{}{11.31} \\
+%  & 152 & 58M & 9.44 & \Block[tikz={fill=red!20}]{}{12.70} \\ \midrule
+% \multirow{2}{*}{MobileNetV3} & Small & 1M & 7.98 & \Block[tikz={fill=red!20}]{}{12.74} \\
+%  & Large & 4M & 8.16 & \Block[tikz={fill=red!20}]{}{8.45} \\ \midrule
+% \multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & \Block[tikz={fill=red!20}]{}{6.02} \\
+%  & 1 & 6M & \underline{\textbf{3.93}} & \Block[tikz={fill=red!20}]{}{8.88} \\
+%  & 2 & 7M & 5.73 & \Block[tikz={fill=red!20}]{}{7.29} \\
+%  & 3 & 10M & 5.65 & \Block[tikz={fill=red!20}]{}{7.37} \\ \midrule
+% \multirow{2}{*}{ViT} & Base & 87M & 12.43 & \Block[tikz={fill=red!20}]{}{19.72} \\
+%  & Large & 305M & 13.16 & \Block[tikz={fill=red!20}]{}{19.88}
+% \end{NiceTabular}
+% \end{table}
+% \end{frame}
+
+% \begin{frame}{Resultados - Equal Error Rate (\%)}
+% \begin{table}
+% \scriptsize
+% \centering
+% \setlength{\tabcolsep}{3pt}
+% \begin{tabular}{lclcc}
+% \toprule
+% \textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{Test ZSL} \\
+% \midrule
+% \multirow{4}{*}{VGG} & 11 & 129M & 7.47 & 14.24 \\
+%  & 13 & 129M & 7.03 & 9.30 \\
+%  & 16 & 134M & 8.29 & 14.74 \\
+%  & 19 & 139M & 7.30 & 17.08 \\ \midrule
+% \multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & 4.98 \\
+%  & 34 & 21M & 4.32 & 4.13 \\
+%  & 50 & 23M & 6.90 & 10.34 \\
+%  & 101 & 42M & 8.20 & 11.31 \\
+%  & 152 & 58M & 9.44 & 12.70 \\ \midrule
+% \multirow{2}{*}{MobileNetV3} & Small & 1M & 7.98 & 12.74 \\
+%  & Large & 4M & 8.16 & 8.45 \\ \midrule
+% \multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 6.02 \\
+%  & 1 & 6M & \underline{\textbf{3.93}} & 8.88 \\
+%  & 2 & 7M & 5.73 & 7.29 \\
+%  & 3 & 10M & 5.65 & 7.37 \\ \midrule
+% \multirow{2}{*}{ViT} & Base & 87M & 12.43 & 19.72 \\
+%  & Large & 305M & 13.16 & 19.88
+% \end{tabular}
+% \end{table}
+% \end{frame}
+
+\begin{frame}{Resultados - Equal Error Rate (\%)}
+\begin{table}
+\small
+\centering
+\setlength{\tabcolsep}{10pt}
+\begin{NiceTabular}{lclcc}
+\toprule
+\textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \Block[tikz={fill=red!20}]{}{\textbf{ZSL}} & \textbf{Test ZSL} \\
+\midrule
+\multirow{5}{*}{ResNet} & 18 & 11M & \Block[tikz={fill=red!20}]{}{5.03} & 4.98 \\
+ & 34 & 21M & \Block[tikz={fill=red!20}]{}{4.32} & \underline{\textbf{4.13}} \\
+ & 50 & 23M & \Block[tikz={fill=red!20}]{}{6.90} & 10.34 \\
+ & 101 & 42M & \Block[tikz={fill=red!20}]{}{8.20} & 11.31 \\
+ & 152 & 58M & \Block[tikz={fill=red!20}]{}{9.44} & 12.70 \\ \midrule
+\multirow{4}{*}{EfficientNet} & 0 & 4M & \Block[tikz={fill=red!20}]{}{4.41} & 6.02 \\
+ & 1 & 6M & \Block[tikz={fill=red!20}]{}{\underline{\textbf{3.93}}} & 8.88 \\
+ & 2 & 7M & \Block[tikz={fill=red!20}]{}{5.73} & 7.29 \\
+ & 3 & 10M & \Block[tikz={fill=red!20}]{}{5.65} & 7.37 \\ \midrule
+\multirow{2}{*}{ViT} & Base & 87M & \Block[tikz={fill=red!20}]{}{12.43} & 19.72 \\
+ & Large & 305M & \Block[tikz={fill=red!20}]{}{13.16} & 19.88 \\
+\bottomrule
+\end{NiceTabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Resultados - Visualização TSNE}
+\begin{tikzpicture}[remember picture,overlay]
+    % Tabela de fundo (mais opaca)
+    \node[anchor=center, opacity=0.3] at (current page.center) {
+        \begin{minipage}{\textwidth}
+        \begin{table}
+        \small
+        \centering
+        \setlength{\tabcolsep}{10pt}
+        \begin{tabular}{lclcc}
+        \toprule
+        \textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{Test ZSL} \\
+        \midrule
+        \multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & 4.98 \\
+         & 34 & 21M & 4.32 & \underline{\textbf{4.13}} \\
+         & 50 & 23M & 6.90 & 10.34 \\
+         & 101 & 42M & 8.20 & 11.31 \\
+         & 152 & 58M & 9.44 & 12.70 \\ \midrule
+        \multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 6.02 \\
+         & 1 & 6M & \underline{\textbf{3.93}} & 8.88 \\
+         & 2 & 7M & 5.73 & 7.29 \\
+         & 3 & 10M & 5.65 & 7.37 \\ \midrule
+        \multirow{2}{*}{ViT} & Base & 87M & 12.43 & 19.72 \\
+         & Large & 305M & 13.16 & 19.88 \\
+        \bottomrule
+        \end{tabular}
+        \end{table}
+        \end{minipage}
+    };
+    
+    % Pop-up com as figuras TSNE
+    \node[anchor=center, fill=white, draw=black, line width=2pt, rounded corners=10pt, inner sep=5pt] at (current page.center) {
+        \begin{minipage}{0.55\textwidth}
+        \centering
+        \begin{tabular}{cc}
+            \includegraphics[width=0.45\textwidth]{images/ResNet.csv_18_0.pdf} &
+            \includegraphics[width=0.45\textwidth]{images/EfficientNet.csv_0_0.pdf} \\
+            \includegraphics[width=0.45\textwidth]{images/ViT.csv_b_0.pdf} &
+            \includegraphics[width=0.45\textwidth]{images/ViT.csv_l_0.pdf}
+        \end{tabular}
+        \end{minipage}
+    };
+\end{tikzpicture}
+\end{frame}

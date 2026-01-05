@@ -1403,3 +1403,126 @@ series = {NIPS '20}
 	keywords = {Computer Science - Computation and Language},
 	file = {Preprint PDF:C\:\\Users\\lucas\\Zotero\\storage\\MFMNMRGR\\Liu et al. - 2019 - RoBERTa A Robustly Optimized BERT Pretraining Approach.pdf:application/pdf;Snapshot:C\:\\Users\\lucas\\Zotero\\storage\\JZF9LF94\\1907.html:text/html},
 }
+
+@article{6fd45ff5-8145-3f39-a258-8e3ef378c6a4,
+ ISSN = {01621459, 1537274X},
+ URL = {http://www.jstor.org/stable/2284239},
+ abstract = {Many intuitively appealing methods have been suggested for clustering data, however, interpretation of their results has been hindered by the lack of objective criteria. This article proposes several criteria which isolate specific aspects of the performance of a method, such as its retrieval of inherent structure, its sensitivity to resampling and the stability of its results in the light of new data. These criteria depend on a measure of similarity between two different clusterings of the same set of data; the measure essentially considers how each pair of data points is assigned in each clustering.},
+ author = {William M. Rand},
+ journal = {Journal of the American Statistical Association},
+ number = {336},
+ pages = {846--850},
+ publisher = {[American Statistical Association, Taylor & Francis, Ltd.]},
+ title = {Objective Criteria for the Evaluation of Clustering Methods},
+ urldate = {2025-12-01},
+ volume = {66},
+ year = {1971}
+}
+
+@article{10.1162/153244303321897735,
+author = {Strehl, Alexander and Ghosh, Joydeep},
+title = {Cluster ensembles --- a knowledge reuse framework for combining multiple partitions},
+year = {2003},
+issue_date = {3/1/2003},
+publisher = {JMLR.org},
+volume = {3},
+number = {null},
+issn = {1532-4435},
+url = {https://doi.org/10.1162/153244303321897735},
+doi = {10.1162/153244303321897735},
+abstract = {This paper introduces the problem of combining multiple partitionings of a set of objects into a single consolidated clustering without accessing the features or algorithms that determined these partitionings. We first identify several application scenarios for the resultant 'knowledge reuse' framework that we call cluster ensembles. The cluster ensemble problem is then formalized as a combinatorial optimization problem in terms of shared mutual information. In addition to a direct maximization approach, we propose three effective and efficient techniques for obtaining high-quality combiners (consensus functions). The first combiner induces a similarity measure from the partitionings and then reclusters the objects. The second combiner is based on hypergraph partitioning. The third one collapses groups of clusters into meta-clusters which then compete for each object to determine the combined clustering. Due to the low computational costs of our techniques, it is quite feasible to use a supra-consensus function that evaluates all three approaches against the objective function and picks the best solution for a given situation. We evaluate the effectiveness of cluster ensembles in three qualitatively different application scenarios: (i) where the original clusters were formed based on non-identical sets of features, (ii) where the original clustering algorithms worked on non-identical sets of objects, and (iii) where a common data-set is used and the main purpose of combining multiple clusterings is to improve the quality and robustness of the solution. Promising results are obtained in all three situations for synthetic as well as real data-sets.},
+journal = {J. Mach. Learn. Res.},
+month = mar,
+pages = {583–617},
+numpages = {35},
+keywords = {unsupervised learning, partitioning, mutual information, multi-learner systems, knowledge reuse, ensemble, consensus functions, clustering, cluster analysis}
+}
+@InProceedings{10.1007/978-3-032-09368-4_12,
+author="De Almeida Bandeira Macedo, Lucas
+and Vieira Costa, Joao Paulo
+and Felix De Almeida, Joao Pedro
+and Garcia Freitas, Pedro
+and Weigang, Li",
+editor="Jin, Lianwen
+and Zanibbi, Richard
+and Eglin, Veronique",
+title="Visual Document Matching for Zero-Shot Document Classification",
+booktitle="Document Analysis and Recognition -- ICDAR 2025 Workshops",
+year="2026",
+publisher="Springer Nature Switzerland",
+address="Cham",
+pages="192--208",
+abstract="Accurate document identification is crucial for ensuring compliance and maintaining consistency across various applications. Consequently, document classification has been extensively studied. However, the dynamic nature of documents often renders simple classification insufficient, necessitating frequent model retraining. To mitigate this constant maintenance, comparing incoming documents against known references is a more suitable approach. To address the zero-shot classification problem, we introduce Visual Document Matching (VDM). VDM focuses on verifying whether two documents share an identical visual layout structure, a particularly effective approach in scenarios where training classes do not align with those encountered during inference. Despite its significant potential, the Zero-Shot Learning (ZSL) approach remains largely underexplored in document layout understanding. To support our study, we introduce Layout-Aware Complex Document Information Processing (LA-CDIP), a dataset comprising 4,993 documents across 144 classes. We reorganized this dataset from the RVL-CDIP database to emphasize visual structure over semantic information. Our approach is benchmarked using a siamese network within a contrastive learning framework across multiple backbone architectures, including ResNet, EfficientNet, and Vision Transformer (ViT). In zero-shot scenarios, our method achieves an Equal Error Rate (EER) below 5{\%} in 1-vs-1 verification with cross-validation. Furthermore, our VDM approach outperforms lighter Large Language Models (LLMs) and rivals GPT-4o. These findings highlight the superiority of specialized VDM techniques over general-purpose multimodal models, demonstrating high accuracy with significantly fewer parameters, making our approach more practical for real-world applications.",
+isbn="978-3-032-09368-4"
+}
+
+@INPROCEEDINGS{5206594,
+  author={Lampert, Christoph H. and Nickisch, Hannes and Harmeling, Stefan},
+  booktitle={2009 IEEE Conference on Computer Vision and Pattern Recognition}, 
+  title={Learning to detect unseen object classes by between-class attribute transfer}, 
+  year={2009},
+  volume={},
+  number={},
+  pages={951-958},
+  keywords={Object detection;Humans;Marine animals;Testing;Learning systems;Face detection;Detectors;Training data;Cybernetics;Computer vision},
+  doi={10.1109/CVPR.2009.5206594}}
+
+@inproceedings{10.5555/2999792.2999849,
+author = {Frome, Andrea and Corrado, Greg S. and Shlens, Jonathon and Bengio, Samy and Dean, Jeffrey and Ranzato, Marc'Aurelio and Mikolov, Tomas},
+title = {DeViSE: a deep visual-semantic embedding model},
+year = {2013},
+publisher = {Curran Associates Inc.},
+address = {Red Hook, NY, USA},
+abstract = {Modern visual recognition systems are often limited in their ability to scale to large numbers of object categories. This limitation is in part due to the increasing difficulty of acquiring sufficient training data in the form of labeled images as the number of object categories grows. One remedy is to leverage data from other sources - such as text data - both to train visual models and to constrain their predictions. In this paper we present a new deep visual-semantic embedding model trained to identify visual objects using both labeled image data as well as semantic information gleaned from unannotated text. We demonstrate that this model matches state-of-the-art performance on the 1000-class ImageNet object recognition challenge while making more semantically reasonable errors, and also show that the semantic information can be exploited to make predictions about tens of thousands of image labels not observed during training. Semantic knowledge improves such zero-shot predictions achieving hit rates of up to 18\% across thousands of novel labels never seen by the visual model.},
+booktitle = {Proceedings of the 27th International Conference on Neural Information Processing Systems - Volume 2},
+pages = {2121–2129},
+numpages = {9},
+location = {Lake Tahoe, Nevada},
+series = {NIPS'13}
+}
+@article{10.1023/A:1010933404324,
+author = {Breiman, Leo},
+title = {Random Forests},
+year = {2001},
+issue_date = {October 1 2001},
+publisher = {Kluwer Academic Publishers},
+address = {USA},
+volume = {45},
+number = {1},
+issn = {0885-6125},
+url = {https://doi.org/10.1023/A:1010933404324},
+doi = {10.1023/A:1010933404324},
+abstract = {Random forests are a combination of tree predictors such that each tree depends on the values of a random vector sampled independently and with the same distribution for all trees in the forest. The generalization error for forests converges a.s. to a limit as the number of trees in the forest becomes large. The generalization error of a forest of tree classifiers depends on the strength of the individual trees in the forest and the correlation between them. Using a random selection of features to split each node yields error rates that compare favorably to Adaboost (Y. Freund \& R. Schapire, Machine Learning: Proceedings of the Thirteenth International conference, ***, 148–156), but are more robust with respect to noise. Internal estimates monitor error, strength, and correlation and these are used to show the response to increasing the number of features used in the splitting. Internal estimates are also used to measure variable importance. These ideas are also applicable to regression.},
+journal = {Mach. Learn.},
+month = oct,
+pages = {5–32},
+numpages = {28},
+keywords = {classification, ensemble, regression}
+}
+@inproceedings{10.1145/2939672.2939785,
+author = {Chen, Tianqi and Guestrin, Carlos},
+title = {XGBoost: A Scalable Tree Boosting System},
+year = {2016},
+isbn = {9781450342322},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/2939672.2939785},
+doi = {10.1145/2939672.2939785},
+abstract = {Tree boosting is a highly effective and widely used machine learning method. In this paper, we describe a scalable end-to-end tree boosting system called XGBoost, which is used widely by data scientists to achieve state-of-the-art results on many machine learning challenges. We propose a novel sparsity-aware algorithm for sparse data and weighted quantile sketch for approximate tree learning. More importantly, we provide insights on cache access patterns, data compression and sharding to build a scalable tree boosting system. By combining these insights, XGBoost scales beyond billions of examples using far fewer resources than existing systems.},
+booktitle = {Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+pages = {785–794},
+numpages = {10},
+keywords = {large-scale machine learning},
+location = {San Francisco, California, USA},
+series = {KDD '16}
+}
+
+@misc{hestness2017deeplearningscalingpredictable,
+      title={Deep Learning Scaling is Predictable, Empirically}, 
+      author={Joel Hestness and Sharan Narang and Newsha Ardalani and Gregory Diamos and Heewoo Jun and Hassan Kianinejad and Md. Mostofa Ali Patwary and Yang Yang and Yanqi Zhou},
+      year={2017},
+      eprint={1712.00409},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/1712.00409}, 
+}
