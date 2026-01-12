@@ -23,7 +23,7 @@ Traditional classification is the foundational \gls{ML} paradigm where a model l
 
 There are many known methods to achieve traditional classification in the \gls{ML} paradigm, and each comes with their own strengths and weaknesses. If the data is tabular, for example, traditional machine learning techniques such as random forest~\cite{10.1023/A:1010933404324} or xgboost~\cite{10.1145/2939672.2939785} are usually a good fit, as they make good use of pre-extracted features to learn the decision boundary. If the data is unstructured, such as raw images and natural language text, then these techniques usually fall short, as the features are not pre-extracted. In these cases, \gls{DL} come as usual \gls{SOTA} solutions~\cite{deng_imagenet_2009}. They are capable of extracting meaningful features from raw, unestructured data, and subsequently using them to make the final classification. \refFig{fig:ml_vs_dl} shows this difference, where the feature extraction is framed as a pre-processing step performed by a human (or could, alternatively, be performed algorithmcaly) in the traditional \gls{ML} model, while the whole process is automatically done, end-to-end, by a \gls{DL} model.
 
-\begin{figure}[htbp]
+\begin{figure}[t!]
 \centering
 \includegraphics[width=0.9\linewidth]{images/ml_classification.drawio.pdf}
 
@@ -47,6 +47,19 @@ where $p_{c}$ denotes the predicted probability of the input element belonging t
 
 \section{\blue{Zero Shot Learning}}
 \label{sec:zsl}
+
+
+\blue{Formally, let $\mathcal{X} = \{x_1, x_2, \ldots, x_n\}$ denote the set of document images, where each $x_i \in \mathbb{R}^{H \times W \times C}$ represents an image with height $H$, width $W$, and $C$ color channels. Let $\mathcal{Y} = \mathcal{Y}^{\text{seen}} \cup \mathcal{Y}^{\text{unseen}}$ be the complete set of document classes, where $\mathcal{Y}^{\text{seen}} = \{y_1, y_2, \ldots, y_k\}$ represents the set of classes available during training and $\mathcal{Y}^{\text{unseen}} = \{y_{k+1}, y_{k+2}, \ldots, y_{k+m}\}$ represents the unseen classes encountered during testing, with $\mathcal{Y}^{\text{seen}} \cap \mathcal{Y}^{\text{unseen}} = \emptyset$. In the traditional supervised learning setting, a model $f: \mathcal{X} \rightarrow \mathcal{Y}^{\text{seen}}$ is trained on a labeled dataset $\mathcal{D}^{\text{train}} = \{(x_i, y_i)\}_{i=1}^{N}$, where $y_i \in \mathcal{Y}^{\text{seen}}$. However, this approach fails when encountering samples from $\mathcal{Y}^{\text{unseen}}$ during inference.}
+
+\blue{The \gls{ZSL} classification problem aims to learn a function $g: \mathcal{X} \rightarrow \mathcal{Y}$ that can correctly classify documents from both seen and unseen classes. In the context of metric learning, this is achieved by learning an embedding function $\phi: \mathcal{X} \rightarrow \mathbb{R}^d$ that maps document images into a $d$-dimensional feature space $\mathcal{Z}$, such that:
+\begin{equation} \label{eq_locomotion}
+    \begin{cases}
+     d(\phi(x_i), \phi(x_j)) < \tau & \text{if } y_i = y_j, \\
+     d(\phi(x_i), \phi(x_j)) \geq \tau &  \text{otherwise}
+    \end{cases}
+\end{equation}
+where $d: \mathcal{Z} \times \mathcal{Z} \rightarrow \mathbb{R}^+$ is a distance metric (e.g., Euclidean distance) and $\tau$ is a decision threshold. The embedding function $\phi$ is optimized during training using only samples from $\mathcal{Y}^{\text{seen}}$, but must generalize to samples from $\mathcal{Y}^{\text{unseen}}$. The success of \gls{ZSL} depends on the model's ability to learn discriminative visual features from $\mathcal{Y}^{\text{seen}}$ that transfer effectively to $\mathcal{Y}^{\text{unseen}}$, capturing the structural properties that characterize document classes.}
+
 
 % tive que reestruturar essa seção após sua revisão pois a ideia de zsl usando embeddings não é a única forma de atingir zsl. transferi parte do texto para a seção de metric learning
 
