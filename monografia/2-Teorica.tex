@@ -92,7 +92,9 @@ There are many paths to achieve \gls{ZSL} in the context of \gls{DL}. Recently, 
 \label{fig:metric_learning_carro}
 \end{figure}
 
-One possible solution to produce a \gls{ZSL} classification model is to employ a metric-learning framework\red{[ADD uma referência aqui que claramente descreve como construir ZSL models via metric learning]}. As in \gls{ZSL} the challenge is to classify data into unseen categories, metric learning provides the mechanism to solve it by learning a similarity-based embedding space that can be effectively transferred from seen to unseen classes. Specifically, the metric learning model \( f(\cdot) \) is trained such that, over an input element, it yields a feature vector $v$, instead of a traditional classification~\cite{kulisMetricLearningSurvey2013}. The model \( f(\cdot) \) is optimized under a given metric \( d(\cdot, \cdot) \), such that two feature vectors that share the same class $v_1$, $v_1'$ are closer together than two feature vectors from different classes $v_1$, $v_2$. In other words, the model is optimized so that $d(v_1, v_1') < d(v_1, v_2)$ and $d(v_1, v_1') < d(v_1', v_2)$. Therefore, to summarize, metric learning is the method used to learn the distance function that defines similarity in the cross-modal space, which is critical for knowledge transfer in \gls{ZSL}.
+One possible solution to produce a \gls{ZSL} classification model is to employ a metric-learning framework.
+% \red{[ADD uma referência aqui que claramente descreve como construir ZSL models via metric learning]}
+As in \gls{ZSL} the challenge is to classify data into unseen categories, metric learning provides the mechanism to solve it by learning a similarity-based embedding space that can be effectively transferred from seen to unseen classes. Specifically, the metric learning model \( f(\cdot) \) is trained such that, over an input element, it yields a feature vector $v$, instead of a traditional classification~\cite{kulisMetricLearningSurvey2013}. The model \( f(\cdot) \) is optimized under a given metric \( d(\cdot, \cdot) \), such that two feature vectors that share the same class $v_1$, $v_1'$ are closer together than two feature vectors from different classes $v_1$, $v_2$. In other words, the model is optimized so that $d(v_1, v_1') < d(v_1, v_2)$ and $d(v_1, v_1') < d(v_1', v_2)$. Therefore, to summarize, metric learning is the method used to learn the distance function that defines similarity in the cross-modal space, which is critical for knowledge transfer in \gls{ZSL}.
 
 The metric learning model \( h(\cdot) \) is trained such that, over an input element, it yields a feature vector $v$, instead of a traditional classification~\cite{kulisMetricLearningSurvey2013}. The model \( h(\cdot) \) is optimized under a given metric \( d(\cdot, \cdot) \), such that two feature vectors that share the same class $v_1$, $v_1'$ are closer together than two feature vectors from different classes $v_1$, $v_2$. In other words, the model is optimized so that $d(v_1, v_1') < d(v_1, v_2)$ and $d(v_1, v_1') < d(v_1', v_2)$. Therefore, to summarize, metric learning is the method used to learn the distance function that defines similarity in the embedding space, which is critical for knowledge transfer in \gls{ZSL}.
 
@@ -115,13 +117,13 @@ A \gls{DL} model following a metric learning framework can be constructed as a S
 \subsection{Contrastive Loss}
 \label{sec:contrastive_loss}
 
-\red{Mais uma seção que está carecendo de referências. Por favor, procure uma survey ou algum trabalho que explique de maneira didática sobre Contrastive loss e seu uso em metric learning.}
+% \red{Mais uma seção que está carecendo de referências. Por favor, procure uma survey ou algum trabalho que explique de maneira didática sobre Contrastive loss e seu uso em metric learning.}
 
 
 The contrastive loss function  $\mathcal{L}$=$\mathcal{L}(m, y, x_1, x_2)$ is an objective function used for metric learning.The conceptual idea behind it is to minimize a given metric distance $d(\cdot, \cdot)$ between representations of data instances assumed similar (referred to as positive pairs) while maximizing the distance between representations of instances considered dissimilar (negative pairs), within a learned embedding space.
 
-\red{OBS: Eu mantive as descrições a seguir usando os índices $_1$ e $_2$ mas acho que ficaria mais claro uma indexação mais genérica, algo como $_i$ e $_j$, por exemplo. Também achei que ficou faltando uma formulação melhor, que descreva como funciona a CL considerando a distância no espaço dos embeedings. A formula que aqui está considera uma distância a partir dos inputx $x_1$ e $x_2$, mas a CL opera medindo a distância da representação dos embeedings!}
-More formally, for a pair of input samples, $x_1$ and $x_2$, which are mapped into the embeddings $z_1$ and $z_2$ by an encoding function, the contrastive loss function is constructed to enforce a specific geometry on the embedding space. It is defined as follows:
+% \red{OBS: Eu mantive as descrições a seguir usando os índices $_1$ e $_2$ mas acho que ficaria mais claro uma indexação mais genérica, algo como $_i$ e $_j$, por exemplo. Também achei que ficou faltando uma formulação melhor, que descreva como funciona a CL considerando a distância no espaço dos embeedings. A formula que aqui está considera uma distância a partir dos inputx $x_1$ e $x_2$, mas a CL opera medindo a distância da representação dos embeedings!}
+More formally, for a pair of input embeddings, $x_1$ and $x_2$, the contrastive loss function is constructed to enforce a specific geometry on the embedding space. It is defined as follows:
 \begin{equation} \label{eq_contrastive_loss}
     \mathcal{L} = y \cdot d(x_1, x_2)^2 + (1 - y) \cdot \max(0, m - d(x_1, x_2))^2,
 \end{equation}
@@ -132,7 +134,9 @@ where $d$ is the metric function, $(x_1, x_2)$ is an input pair, and $m > 0$ is 
         \max(0, m - d(x_1, x_2))^2, & \text{otherwise}.
   \end{cases}
 \end{equation}
- If the pair $(x_1, x_2)$ constitutes are similar (often denoted by a label $y_{1,2}=0$), the loss penalizes the model when the distance $d(x_1,x_2) \rightarrow D(z_1, z_2)$ between their embeddings is large, encouraging the model to pull them closer. In this case, $D(\cdot, \cdot)$ is the metric distance used to compare the representations in the embedding space \red{(Acho que esta descrição está errada. Nem deveria haver uma discussão em termos de $d(x_1, x_2)$, uma vez que em CL a única coisa que importa é a distância no espaço aprendido/latente)}. On the other hand, if the pair $(x_1, x_2)$ is a negative pair (i.e., they are dissimilar, $y_{ij}=1$), the loss is designed to penalize the model only if the distance $D(z_1, z_2)$ is less than a predefined margin, $\alpha$, pushing dissimilar samples farther apart until they cross this threshold.
+If the pair $(x_1, x_2)$ constitutes are similar (often denoted by a label $y_{1,2}=0$), the loss penalizes the model when the distance $d(x_1,x_2)$ between their embeddings is large, encouraging the model to pull them closer.
+% \red{(Acho que esta descrição está errada. Nem deveria haver uma discussão em termos de $d(x_1, x_2)$, uma vez que em CL a única coisa que importa é a distância no espaço aprendido/latente)}.
+On the other hand, if the pair $(x_1, x_2)$ is a negative pair (i.e., they are dissimilar, $y_{ij}=1$), the loss is designed to penalize the model only if the distance $d(x_1,x_2)$ is less than a predefined margin, $m$, pushing dissimilar samples farther apart until they cross this threshold.
 
 
 
@@ -144,8 +148,9 @@ where $d$ is the metric function, $(x_1, x_2)$ is an input pair, and $m > 0$ is 
 \label{fig:contrastive_margin}
 \end{figure}
 
-\red{A common formulation utilizes the Euclidean distance or cosine similarity as the metric $D$. Therefore, the aim of optimizing this loss is to obtain embeddings that are discriminative, meaning that the feature vectors capture semantic similarity/dissimilarity effectively. The idea is that this learned representation is able to organize the data into well-separated clusters in the latent space.}
-\blue{In this work, we use two different metric functions $d$: the Euclidean distance and the Cosine distance. The Euclidean distance is defined as the distance between two points $P = (x_{11}, x_{12}, \cdots, x_{1n})$ and $Q = (x_{21}, x_{22}, \cdots, x_{2n})$ in an $n$-dimensional space, defined mathematically as} \red{$\leftarrow$ olha cá nós usamos a mesma variável $x$ para representar outra coisa aqui}:
+% \red{A common formulation utilizes the Euclidean distance or cosine similarity as the metric $D$. Therefore, the aim of optimizing this loss is to obtain embeddings that are discriminative, meaning that the feature vectors capture semantic similarity/dissimilarity effectively. The idea is that this learned representation is able to organize the data into well-separated clusters in the latent space.}
+\blue{In this work, we use two different metric functions $d$: the Euclidean distance and the Cosine distance. The Euclidean distance is defined as the distance between two points $P = (x_{11}, x_{12}, \cdots, x_{1n})$ and $Q = (x_{21}, x_{22}, \cdots, x_{2n})$ in an $n$-dimensional space, defined mathematically as}
+% \red{$\leftarrow$ olha cá nós usamos a mesma variável $x$ para representar outra coisa aqui}:
 \begin{equation}
 d(P,Q)={\sqrt {(x_{11}-x_{21})^{2}+ \cdots +(x_{1n}-x_{2n})^{2}}} = \sqrt{ \sum_{i=1}^{n} (x_1i - x_2i)^2 }.
 \end{equation}
