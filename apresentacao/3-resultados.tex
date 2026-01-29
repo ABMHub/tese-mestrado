@@ -8,11 +8,8 @@
 \column{0.5\textwidth}
 \textbf{Composição:}
 \begin{itemize}
-    \item 4.993 documentos
-    \item 144 classes diferentes
-    \item Min: 2 documentos/classe
-    \item Max: 497 documentos/classe
-    \item Mediana: 13 documentos/classe
+    \item 17,295 documentos
+    \item 655 classes diferentes
 \end{itemize}
 
 \textbf{Splits:}
@@ -23,9 +20,32 @@
 \end{itemize}
 
 \column{0.5\textwidth}
-\includegraphics[width=\textwidth]{images/hist2.eps}
+\includegraphics[width=\textwidth]{images/histogram_dataset_loop4.eps}
 \end{columns}
 \end{frame}
+
+\begin{frame}{LA-CDIP Dataset - Estatísticas}
+\begin{itemize}
+    \item \textbf{ARI}: Adjusted Rand Index
+    \item \textbf{NMI}: Normalized Mutual Information
+    \item Similaridade de clusters
+\end{itemize}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{ccccc}
+    \toprule
+    Iteration & Number of Documents & Number of Classes & ARI & NMI \\
+    \midrule
+    1 & 10,659 & 512 & 0.131 & 0.665 \\
+    2 & 12,246 & 560 & 0.141 & 0.650 \\
+    3 & 17,295 & 665 & 0.440 & 0.784 \\
+    \bottomrule
+\end{tabular}
+\label{tab:dataset_iterations}
+\end{table}
+\end{frame}
+
 
 \begin{frame}{Métricas de Avaliação}
 \begin{block}{Equal Error Rate (EER)}
@@ -55,297 +75,155 @@ Para cada documento: 1 par similar + 1 par dissimilar
 \end{center}
 \end{frame}
 
-\begin{frame}{Resultados - Visão Geral}
+\begin{frame}{Resultados - Busca de hiperparâmetros}
 \begin{table}
 \tiny
 \centering
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{lclcccc}
+\begin{tabular}{llcccccc|ccccccc}
 \toprule
-\textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
+& & \multicolumn{6}{c}{Euclidean} & \multicolumn{6}{c}{Cosine} \\
+\cmidrule(lr){3-8} \cmidrule(lr){9-14}
+Model & Ed. & 16 & 32 & 64 & 128 & 256 & 512 & 16 & 32 & 64 & 128 & 256 & 512 \\
 \midrule
-AlexNet & & 57M & 8.92 & 5.45 & 17.33 & 6.31 \\ \midrule
-\multirow{4}{*}{VGG} & 11 & 129M & 7.47 & 5.01 & 14.24 & 3.95 \\
- & 13 & 129M & 7.03 & 4.79 & 9.30 & 3.95 \\
- & 16 & 134M & 8.29 & 5.23 & 14.74 & 4.82 \\
- & 19 & 139M & 7.30 & 4.57 & 17.08 & 3.90 \\ \midrule
-\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \underline{\textbf{1.54}} & 4.98 & 1.51 \\
- & 34 & 21M & 4.32 & 2.10 & 4.13 & 1.53 \\
- & 50 & 23M & 6.90 & 3.39 & 10.34 & 2.21 \\
- & 101 & 42M & 8.20 & 2.72 & 11.31 & 1.98 \\
- & 152 & 58M & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
-\multirow{2}{*}{MobileNetV3} & Small & 1M & 7.98 & 5.06 & 12.74 & 5.26 \\
- & Large & 4M & 8.16 & 4.27 & 8.45 & 4.43 \\ \midrule
-\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \underline{\textbf{0.95}} \\
- & 1 & 6M & \underline{\textbf{3.93}} & 3.54 & 8.88 & 2.70 \\
- & 2 & 7M & 5.73 & 2.61 & 7.29 & 2.14 \\
- & 3 & 10M & 5.65 & 3.64 & 7.37 & 2.34 \\ \midrule
-\multirow{2}{*}{ViT} & Base & 87M & 12.43 & 7.97 & 19.72 & 5.19 \\
- & Large & 305M & 13.16 & 7.57 & 19.88 & 5.26 \\ \midrule
-Llama & 3.2 & 11B & -- & -- & 13.95 & 21.90 \\
-InternVL & 2.5 & 8B & -- & -- & 8.58 & 10.40 \\
-Qwen-VL & 2.5 & 7B & -- & -- & 6.61 & 4.20 \\
-GPT-4o mini & 2024-07-18 & * & -- & -- & 4.70 & 4.07 \\
-GPT-4o & 2024-11-20 & * & -- & -- & \underline{\textbf{2.75}} & 1.33
+AlexNet                 &   & 24.71 & 20.45 & 34.81 & 33.61 & 31.07 & 22.31 & 21.21 & 20.21 & 21.62 & 18.44 & 22.14 & \underline{\textbf{15.26}} \\
+\midrule
+\multirow{4}{*}{VGG}    & 11    & 19.35 & 32.73 & 9.03 & 31.68 & 30.82 & 34.59 & 22.80 & 29.38 & 20.23 & 22.02 & 29.31 & 26.39 \\
+                        & 13    & 22.38 & 8.83 & 24.05 & 14.82 & 33.05 & 11.69 & 18.22 & 23.61 & 13.85 & 19.59 & 24.22 & 30.01 \\
+                        & 16    & 7.63 & 4.82 & 30.80 & 12.57 & 23.39 & 8.90 & 12.01 & 27.76 & 22.65 & 30.23 & 25.68 & 32.63 \\
+                        & 19    & 13.26 & 1.81 & 29.79 & 18.08 & 27.67 & 11.86 & 23.48 & 23.17 & 19.69 & 21.18 & 1.66 & \underline{\textbf{1.57}} \\
+\midrule
+\multirow{5}{*}{ResNet} & 18    & 3.52 & 7.07 & 9.00 & 7.05 & 3.40 & 1.66 & 19.35 & 11.69 & 2.94 & 2.35 & 1.64 & 2.64 \\
+                        & 34    & 9.10 & 10.30 & 7.36 & 8.07 & 17.71 & 3.30 & 3.23 & 4.82 & 1.54 & 5.48 & \underline{\textbf{0.49}} & 0.61 \\
+                        & 50    & 7.07 & 26.47 & 11.69 & 4.01 & 23.24 & 14.75 & 15.95 & 17.25 & 4.31 & 6.04 & 10.37 & 10.10 \\
+                        & 101   & 21.80 & 19.06 & 20.72 & 21.23 & 31.99 & 19.06 & 13.04 & 6.73 & 3.84 & 2.42 & 7.75 & 24.93 \\
+                        & 152   & 7.14 & 4.77 & 14.24 & 13.72 & 5.70 & 16.85 & 4.26 & 8.98 & 2.62 & 15.63 & 13.70 & 9.34 \\
+\midrule
+\multirow{2}{*}{MobileNet} & S. & 7.44 & 13.60 & 48.29 & 16.24 & 29.87 & 39.97 & 20.38 & 6.36 & 5.53 & 14.04 & 5.14 & 5.60 \\
+                           & L. & 22.82 & 43.79 & 38.01 & 46.16 & 44.32 & 31.60 & 17.34 & 16.44 & 17.10 & 10.57 & \underline{\textbf{5.09}} & 12.84 \\
+\midrule
+\multirow{4}{*}{EfficientNet} & 0  & 7.61 & 1.00 & 5.68 & 1.88 & 14.46 & \underline{\textbf{0.73}} & 2.67 & 5.53 & 3.96 & 8.73 & 2.62 & 2.81 \\
+                              & 1  & 4.99 & 7.44 & 5.31 & 3.33 & 6.73 & 5.09 & 2.54 & 4.84 & 3.86 & 5.75 & 1.37 & 2.40 \\
+                              & 2  & 3.42 & 4.11 & 4.26 & 3.99 & 2.15 & 13.50 & 4.87 & 3.11 & 2.59 & 12.77 & 4.26 & 6.65 \\
+                              & 3  & 19.50 & 5.28 & 4.26 & 8.71 & 11.15 & 8.00 & 10.10 & 4.35 & 3.99 & 12.87 & 10.59 & 6.09 \\
+\midrule
+\multirow{2}{*}{ViT}    & B.  & 29.43 & 33.19 & 17.95 & 28.01 & 25.15 & 24.66 & 30.26 & 37.77 & 38.60 & 26.83 & 18.62 & 32.27 \\
+                        & L. & 19.32 & 27.81 & 28.69 & \underline{\textbf{16.81}} & 22.60 & 21.72 & 25.76 & 18.15 & 40.17 & 38.43 & 22.38 & 30.53 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Resultados - Busca de hiperparâmetros}
+\begin{table}
+    \centering
+\begin{tabular}{ccc|cc|cc}
+& \multicolumn{2}{c}{Euclidean} & \multicolumn{2}{c}{Cosine} & \multicolumn{2}{c}{Both} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+Embedding Size & Mean & Std & Mean & Std & Mean & Std \\
+\midrule
+16  & 13.92 & 8.39 & 14.86 & 8.69 & \underline{\textbf{14.39}} & 8.43 \\
+32  & 15.14 & 12.81 & 15.01 & 10.33 & 15.07 & 11.47 \\
+64  & 19.39 & 13.77 & 12.81 & 11.99 & 15.92 & 13.10 \\
+128 & 16.11 & 12.14 & 15.19 & 9.96 & 15.65 & 10.95 \\
+256 & 21.36 & 11.91 & \underline{\textbf{11.50}} & 9.74 & 16.43 & 11.83 \\
+512 & 16.13 & 11.37 & 14.04 & 11.96 & 15.08 & 11.55 \\
+\midrule
+All & 16.99 & 11.83 & \underline{\textbf{13.89}} & 10.37 & 15.42 & 11.20 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{frame}
+
+
+\begin{frame}{Resultados - Busca de hiperparâmetros}
+    \centering
+\begin{table}
+\centering
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{ccc|cc|cc}
+        & \multicolumn{2}{c}{Euclidean} & \multicolumn{2}{c}{Cosine} & \multicolumn{2}{c}{Both} \\
+        \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+        Architecture & Mean & Std & Mean & Std & Mean & Std \\
+        \midrule
+        AlexNet         & 27.83 & 6.12 & 19.81 & 2.58 & 23.82 & 6.13 \\
+        VGG             & 19.32 & 10.30 & 21.72 & 7.96 & 20.52 & 9.19 \\
+        ResNet          & 12.30 & 8.01 & 8.01 & 6.26 & 10.08 & 7.42 \\
+        MobileNetV3     & 31.84 & 13.93 & 11.37 & 5.69 & 21.61 & 14.75 \\
+        EfficientNet    & 6.36 & 4.50 & \underline{\textbf{5.39}} & 3.30 & \underline{\textbf{5.87}} & 3.93 \\
+        ViT             & 24.61 & 5.06 & 29.98 & 7.81 & 27.30 & 6.99 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Resultados - Busca de hiperparâmetros}
+    \centering
+\begin{table}
+\centering
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{ccc|cc|cc|cc|cc|cc}
+& \multicolumn{2}{c}{16} & \multicolumn{2}{c}{32} & \multicolumn{2}{c}{64} & \multicolumn{2}{c}{128} & \multicolumn{2}{c}{256} & \multicolumn{2}{c}{512} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11} \cmidrule(lr){12-13}
+Architecture & Mean & Std & Mean & Std & Mean & Std  & Mean & Std & Mean & Std & Mean & Std\\
+\midrule
+AlexNet         & 22.96 & 2.47 & 20.33 & 0.17  & 28.22 & 9.32  & 26.03 & 10.72 & 26.60 & 6.31  & 18.79 & 4.98 \\
+VGG             & 17.39 & 5.82 & 19.01 & 12.02 & 21.26 & 7.38  & 21.27 & 6.76  & 24.47 & 9.79  & 19.71 & 12.60 \\
+ResNet          & 10.45 & 6.73 & 11.71 & 7.10  & 7.83  & 6.17  & 8.60  & 6.26  & 11.60 & 10.19 & 10.33 & 8.37 \\
+MobileNetV3     & 16.99 & 6.75 & 20.05 & 16.39 & 27.23 & 19.44 & 21.75 & 16.44 & 21.10 & 19.39 & 22.50 & 15.99 \\
+EfficientNet    & 6.96  & 5.68 & 4.46  & 1.88  & \underline{\textbf{4.24}}  & 0.94  & 7.25  & 4.20  & 6.67  & 4.88  & 5.66  & 3.99 \\
+ViT             & 26.19 & 4.98 & 29.23 & 8.43  & 31.35 & 10.28 & 27.52 & 8.84  & 22.19 & 2.69  & 27.29 & 4.94 \\
+\bottomrule
 \end{tabular}
 \end{table}
 \end{frame}
 
 \begin{frame}{Resultados - Visão Geral}
+    \centering
 \begin{table}
-\tiny
 \centering
 \setlength{\tabcolsep}{3pt}
-\begin{NiceTabular}{lclcccc}
-\toprule
-\Block[tikz={fill=red!20}]{*-1}{}{\textbf{Architecture}} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
-\midrule
-\Block[tikz={fill=red!20}]{}{AlexNet} & & 57M & 8.92 & 5.45 & 17.33 & 6.31 \\ \midrule
-\Block[tikz={fill=red!20}]{4-1}{VGG} & 11 & 129M & 7.47 & 5.01 & 14.24 & 3.95 \\
- & 13 & 129M & 7.03 & 4.79 & 9.30 & 3.95 \\
- & 16 & 134M & 8.29 & 5.23 & 14.74 & 4.82 \\
- & 19 & 139M & 7.30 & 4.57 & 17.08 & 3.90 \\ \midrule
-\Block[tikz={fill=red!20}]{5-1}{ResNet} & 18 & 11M & 5.03 & \underline{\textbf{1.54}} & 4.98 & 1.51 \\
- & 34 & 21M & 4.32 & 2.10 & 4.13 & 1.53 \\
- & 50 & 23M & 6.90 & 3.39 & 10.34 & 2.21 \\
- & 101 & 42M & 8.20 & 2.72 & 11.31 & 1.98 \\
- & 152 & 58M & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
-\Block[tikz={fill=red!20}]{2-1}{MobileNetV3} & Small & 1M & 7.98 & 5.06 & 12.74 & 5.26 \\
- & Large & 4M & 8.16 & 4.27 & 8.45 & 4.43 \\ \midrule
-\Block[tikz={fill=red!20}]{4-1}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \underline{\textbf{0.95}} \\
- & 1 & 6M & \underline{\textbf{3.93}} & 3.54 & 8.88 & 2.70 \\
- & 2 & 7M & 5.73 & 2.61 & 7.29 & 2.14 \\
- & 3 & 10M & 5.65 & 3.64 & 7.37 & 2.34 \\ \midrule
-\Block[tikz={fill=red!20}]{2-1}{ViT} & Base & 87M & 12.43 & 7.97 & 19.72 & 5.19 \\
- & Large & 305M & 13.16 & 7.57 & 19.88 & 5.26 \\ \midrule
-\Block[tikz={fill=red!20}]{}{Llama} & 3.2 & 11B & -- & -- & 13.95 & 21.90 \\
-\Block[tikz={fill=red!20}]{}{InternVL} & 2.5 & 8B & -- & -- & 8.58 & 10.40 \\
-\Block[tikz={fill=red!20}]{}{Qwen-VL} & 2.5 & 7B & -- & -- & 6.61 & 4.20 \\
-\Block[tikz={fill=red!20}]{}{GPT-4o mini} & 2024-07-18 & * & -- & -- & 4.70 & 4.07 \\
-\Block[tikz={fill=red!20}]{}{GPT-4o} & 2024-11-20 & * & -- & -- & \underline{\textbf{2.75}} & 1.33
-\end{NiceTabular}
+    \begin{tabular}{lccccc}
+        \toprule
+        & & \multicolumn{2}{c}{ZSL} & \multicolumn{2}{c}{GZSL}\\ %& \multicolumn{2}{c}{Test ZSL} & \multicolumn{2}{c}{Test GZSL} \\
+        \cmidrule(lr){3-4} \cmidrule(lr){5-6}% \cmidrule(lr){7-8} \cmidrule(lr){9-10}
+        Architecture           & Params & Mean   & Std   & Mean   & Std   \\%& Mean   & Std   & Mean  & Std  \\
+        \midrule
+        AlexNet                &  57M   & 10.05 & 8.80  & 13.09 & 1.43  \\%& 18.26 & 5.35  & 5.68  & 0.13 \\
+        VGG-19                 &  139M  & 7.79  & 5.02  & 12.30 & 2.04  \\%& 29.07 & 3.11  & 4.55  & 0.85 \\0.047258
+        ResNet-34              &  21M   & 4.72  & 4.11  & 2.55  & 2.29  \\%& 2.51  & 1.31  & 4.76  & 0.53 \\
+        MobileNetV3-Large      &  4M    & 9.32  & 4.16  & 10.77 & 1.54  \\%& 11.47 & 6.19  & 5.13  & 0.89 \\
+        EfficientNet-b0        &  4M    & 6.92  & 4.07  & 6.51  & 2.28  \\%& 3.93  & 1.82  & 3.66  & 0.67 \\
+        ViT-Large              &  305M  & 15.93 & 5.93  & 13.50 & 1.32  \\%& 20.77 & 1.99  & 7.50  & 0.56 \\
+        \bottomrule
+    \end{tabular}
 \end{table}
 \end{frame}
 
-\begin{frame}{Resultados - Visão Geral}
-\begin{table}
-\tiny
-\centering
-\setlength{\tabcolsep}{3pt}
-\begin{NiceTabular}{lclcccc}
-\toprule
-\textbf{Architecture} & \Block[tikz={fill=red!20}]{*-1}{}{\textbf{Edition}} & \textbf{Params} & \textbf{ZSL} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
-\midrule
-AlexNet & \Block[tikz={fill=red!20}]{}{} & 57M & 8.92 & 5.45 & 17.33 & 6.31 \\ \midrule
-\multirow{4}{*}{VGG} & \Block[tikz={fill=red!20}]{}{11} & 129M & 7.47 & 5.01 & 14.24 & 3.95 \\
- & \Block[tikz={fill=red!20}]{}{13} & 129M & 7.03 & 4.79 & 9.30 & 3.95 \\
- & \Block[tikz={fill=red!20}]{}{16} & 134M & 8.29 & 5.23 & 14.74 & 4.82 \\
- & \Block[tikz={fill=red!20}]{}{19} & 139M & 7.30 & 4.57 & 17.08 & 3.90 \\ \midrule
-\multirow{5}{*}{ResNet} & \Block[tikz={fill=red!20}]{}{18} & 11M & 5.03 & \underline{\textbf{1.54}} & 4.98 & 1.51 \\
- & \Block[tikz={fill=red!20}]{}{34} & 21M & 4.32 & 2.10 & 4.13 & 1.53 \\
- & \Block[tikz={fill=red!20}]{}{50} & 23M & 6.90 & 3.39 & 10.34 & 2.21 \\
- & \Block[tikz={fill=red!20}]{}{101} & 42M & 8.20 & 2.72 & 11.31 & 1.98 \\
- & \Block[tikz={fill=red!20}]{}{152} & 58M & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
-\multirow{2}{*}{MobileNetV3} & \Block[tikz={fill=red!20}]{}{Small} & 1M & 7.98 & 5.06 & 12.74 & 5.26 \\
- & \Block[tikz={fill=red!20}]{}{Large} & 4M & 8.16 & 4.27 & 8.45 & 4.43 \\ \midrule
-\multirow{4}{*}{EfficientNet} & \Block[tikz={fill=red!20}]{}{0} & 4M & 4.41 & 2.27 & 6.02 & \underline{\textbf{0.95}} \\
- & \Block[tikz={fill=red!20}]{}{1} & 6M & \underline{\textbf{3.93}} & 3.54 & 8.88 & 2.70 \\
- & \Block[tikz={fill=red!20}]{}{2} & 7M & 5.73 & 2.61 & 7.29 & 2.14 \\
- & \Block[tikz={fill=red!20}]{}{3} & 10M & 5.65 & 3.64 & 7.37 & 2.34 \\ \midrule
-\multirow{2}{*}{ViT} & \Block[tikz={fill=red!20}]{}{Base} & 87M & 12.43 & 7.97 & 19.72 & 5.19 \\
- & \Block[tikz={fill=red!20}]{}{Large} & 305M & 13.16 & 7.57 & 19.88 & 5.26 \\ \midrule
-Llama & \Block[tikz={fill=red!20}]{}{3.2} & 11B & -- & -- & 13.95 & 21.90 \\
-InternVL & \Block[tikz={fill=red!20}]{}{2.5} & 8B & -- & -- & 8.58 & 10.40 \\
-Qwen-VL & \Block[tikz={fill=red!20}]{}{2.5} & 7B & -- & -- & 6.61 & 4.20 \\
-GPT-4o mini & \Block[tikz={fill=red!20}]{}{2024-07-18} & * & -- & -- & 4.70 & 4.07 \\
-GPT-4o & \Block[tikz={fill=red!20}]{}{2024-11-20} & * & -- & -- & \underline{\textbf{2.75}} & 1.33
-\end{NiceTabular}
-\end{table}
-\end{frame}
-
-\begin{frame}{Resultados - Visão Geral}
-\begin{table}
-\tiny
-\centering
-\setlength{\tabcolsep}{3pt}
-\begin{NiceTabular}{lclcccc}
-\toprule
-\textbf{Architecture} & \textbf{Edition} & \Block[tikz={fill=red!20}]{*-1}{}{\textbf{Params}} & \textbf{ZSL} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
-\midrule
-AlexNet & & \Block[tikz={fill=red!20}]{}{57M} & 8.92 & 5.45 & 17.33 & 6.31 \\ \midrule
-\multirow{4}{*}{VGG} & 11 & \Block[tikz={fill=red!20}]{}{129M} & 7.47 & 5.01 & 14.24 & 3.95 \\
- & 13 & \Block[tikz={fill=red!20}]{}{129M} & 7.03 & 4.79 & 9.30 & 3.95 \\
- & 16 & \Block[tikz={fill=red!20}]{}{134M} & 8.29 & 5.23 & 14.74 & 4.82 \\
- & 19 & \Block[tikz={fill=red!20}]{}{139M} & 7.30 & 4.57 & 17.08 & 3.90 \\ \midrule
-\multirow{5}{*}{ResNet} & 18 & \Block[tikz={fill=red!20}]{}{11M} & 5.03 & \underline{\textbf{1.54}} & 4.98 & 1.51 \\
- & 34 & \Block[tikz={fill=red!20}]{}{21M} & 4.32 & 2.10 & 4.13 & 1.53 \\
- & 50 & \Block[tikz={fill=red!20}]{}{23M} & 6.90 & 3.39 & 10.34 & 2.21 \\
- & 101 & \Block[tikz={fill=red!20}]{}{42M} & 8.20 & 2.72 & 11.31 & 1.98 \\
- & 152 & \Block[tikz={fill=red!20}]{}{58M} & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
-\multirow{2}{*}{MobileNetV3} & Small & \Block[tikz={fill=red!20}]{}{1M} & 7.98 & 5.06 & 12.74 & 5.26 \\
- & Large & \Block[tikz={fill=red!20}]{}{4M} & 8.16 & 4.27 & 8.45 & 4.43 \\ \midrule
-\multirow{4}{*}{EfficientNet} & 0 & \Block[tikz={fill=red!20}]{}{4M} & 4.41 & 2.27 & 6.02 & \underline{\textbf{0.95}} \\
- & 1 & \Block[tikz={fill=red!20}]{}{6M} & \underline{\textbf{3.93}} & 3.54 & 8.88 & 2.70 \\
- & 2 & \Block[tikz={fill=red!20}]{}{7M} & 5.73 & 2.61 & 7.29 & 2.14 \\
- & 3 & \Block[tikz={fill=red!20}]{}{10M} & 5.65 & 3.64 & 7.37 & 2.34 \\ \midrule
-\multirow{2}{*}{ViT} & Base & \Block[tikz={fill=red!20}]{}{87M} & 12.43 & 7.97 & 19.72 & 5.19 \\
- & Large & \Block[tikz={fill=red!20}]{}{305M} & 13.16 & 7.57 & 19.88 & 5.26 \\ \midrule
-Llama & 3.2 & \Block[tikz={fill=red!20}]{}{11B} & -- & -- & 13.95 & 21.90 \\
-InternVL & 2.5 & \Block[tikz={fill=red!20}]{}{8B} & -- & -- & 8.58 & 10.40 \\
-Qwen-VL & 2.5 & \Block[tikz={fill=red!20}]{}{7B} & -- & -- & 6.61 & 4.20 \\
-GPT-4o mini & 2024-07-18 & \Block[tikz={fill=red!20}]{}{*} & -- & -- & 4.70 & 4.07 \\
-GPT-4o & 2024-11-20 & \Block[tikz={fill=red!20}]{}{*} & -- & -- & \underline{\textbf{2.75}} & 1.33
-\end{NiceTabular}
-\end{table}
-\end{frame}
-
-\begin{frame}{Resultados - Visão Geral}
-\begin{table}
-\tiny
-\centering
-\setlength{\tabcolsep}{3pt}
-\begin{NiceTabular}{lclcccc}
-\toprule
-\textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \Block[tikz={fill=red!20}]{}{\textbf{ZSL}} & \Block[tikz={fill=red!20}]{}{\textbf{GZSL}} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
-\midrule
-AlexNet & & 57M & \Block[tikz={fill=red!20}]{}{8.92} & \Block[tikz={fill=red!20}]{}{5.45} & 17.33 & 6.31 \\ \midrule
-\multirow{4}{*}{VGG} & 11 & 129M & \Block[tikz={fill=red!20}]{}{7.47} & \Block[tikz={fill=red!20}]{}{5.01} & 14.24 & 3.95 \\
- & 13 & 129M & \Block[tikz={fill=red!20}]{}{7.03} & \Block[tikz={fill=red!20}]{}{4.79} & 9.30 & 3.95 \\
- & 16 & 134M & \Block[tikz={fill=red!20}]{}{8.29} & \Block[tikz={fill=red!20}]{}{5.23} & 14.74 & 4.82 \\
- & 19 & 139M & \Block[tikz={fill=red!20}]{}{7.30} & \Block[tikz={fill=red!20}]{}{4.57} & 17.08 & 3.90 \\ \midrule
-\multirow{5}{*}{ResNet} & 18 & 11M & \Block[tikz={fill=red!20}]{}{5.03} & \Block[tikz={fill=red!20}]{}{\underline{\textbf{1.54}}} & 4.98 & 1.51 \\
- & 34 & 21M & \Block[tikz={fill=red!20}]{}{4.32} & \Block[tikz={fill=red!20}]{}{2.10} & 4.13 & 1.53 \\
- & 50 & 23M & \Block[tikz={fill=red!20}]{}{6.90} & \Block[tikz={fill=red!20}]{}{3.39} & 10.34 & 2.21 \\
- & 101 & 42M & \Block[tikz={fill=red!20}]{}{8.20} & \Block[tikz={fill=red!20}]{}{2.72} & 11.31 & 1.98 \\
- & 152 & 58M & \Block[tikz={fill=red!20}]{}{9.44} & \Block[tikz={fill=red!20}]{}{3.38} & 12.70 & 2.39 \\ \midrule
-\multirow{2}{*}{MobileNetV3} & Small & 1M & \Block[tikz={fill=red!20}]{}{7.98} & \Block[tikz={fill=red!20}]{}{5.06} & 12.74 & 5.26 \\
- & Large & 4M & \Block[tikz={fill=red!20}]{}{8.16} & \Block[tikz={fill=red!20}]{}{4.27} & 8.45 & 4.43 \\ \midrule
-\multirow{4}{*}{EfficientNet} & 0 & 4M & \Block[tikz={fill=red!20}]{}{4.41} & \Block[tikz={fill=red!20}]{}{2.27} & 6.02 & \underline{\textbf{0.95}} \\
- & 1 & 6M & \Block[tikz={fill=red!20}]{}{\underline{\textbf{3.93}}} & \Block[tikz={fill=red!20}]{}{3.54} & 8.88 & 2.70 \\
- & 2 & 7M & \Block[tikz={fill=red!20}]{}{5.73} & \Block[tikz={fill=red!20}]{}{2.61} & 7.29 & 2.14 \\
- & 3 & 10M & \Block[tikz={fill=red!20}]{}{5.65} & \Block[tikz={fill=red!20}]{}{3.64} & 7.37 & 2.34 \\ \midrule
-\multirow{2}{*}{ViT} & Base & 87M & \Block[tikz={fill=red!20}]{}{12.43} & \Block[tikz={fill=red!20}]{}{7.97} & 19.72 & 5.19 \\
- & Large & 305M & \Block[tikz={fill=red!20}]{}{13.16} & \Block[tikz={fill=red!20}]{}{7.57} & 19.88 & 5.26 \\ \midrule
-Llama & 3.2 & 11B & \Block[tikz={fill=red!20}]{}{--} & \Block[tikz={fill=red!20}]{}{--} & 13.95 & 21.90 \\
-InternVL & 2.5 & 8B & \Block[tikz={fill=red!20}]{}{--} & \Block[tikz={fill=red!20}]{}{--} & 8.58 & 10.40 \\
-Qwen-VL & 2.5 & 7B & \Block[tikz={fill=red!20}]{}{--} & \Block[tikz={fill=red!20}]{}{--} & 6.61 & 4.20 \\
-GPT-4o mini & 2024-07-18 & * & \Block[tikz={fill=red!20}]{}{--} & \Block[tikz={fill=red!20}]{}{--} & 4.70 & 4.07 \\
-GPT-4o & 2024-11-20 & * & \Block[tikz={fill=red!20}]{}{--} & \Block[tikz={fill=red!20}]{}{--} & \underline{\textbf{2.75}} & 1.33
-\end{NiceTabular}
-\end{table}
-\end{frame}
-
-\begin{frame}{Resultados - Visão Geral}
-\begin{table}
-\tiny
-\centering
-\setlength{\tabcolsep}{3pt}
-\begin{NiceTabular}{lclcccc}
-\toprule
-\textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{GZSL} & \Block[tikz={fill=red!20}]{}{\textbf{Test ZSL}} & \Block[tikz={fill=red!20}]{}{\textbf{Test GZSL}} \\
-\midrule
-AlexNet & & 57M & 8.92 & 5.45 & \Block[tikz={fill=red!20}]{}{17.33} & \Block[tikz={fill=red!20}]{}{6.31} \\ \midrule
-\multirow{4}{*}{VGG} & 11 & 129M & 7.47 & 5.01 & \Block[tikz={fill=red!20}]{}{14.24} & \Block[tikz={fill=red!20}]{}{3.95} \\
- & 13 & 129M & 7.03 & 4.79 & \Block[tikz={fill=red!20}]{}{9.30} & \Block[tikz={fill=red!20}]{}{3.95} \\
- & 16 & 134M & 8.29 & 5.23 & \Block[tikz={fill=red!20}]{}{14.74} & \Block[tikz={fill=red!20}]{}{4.82} \\
- & 19 & 139M & 7.30 & 4.57 & \Block[tikz={fill=red!20}]{}{17.08} & \Block[tikz={fill=red!20}]{}{3.90} \\ \midrule
-\multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \underline{\textbf{1.54}} & \Block[tikz={fill=red!20}]{}{4.98} & \Block[tikz={fill=red!20}]{}{1.51} \\
- & 34 & 21M & 4.32 & 2.10 & \Block[tikz={fill=red!20}]{}{4.13} & \Block[tikz={fill=red!20}]{}{1.53} \\
- & 50 & 23M & 6.90 & 3.39 & \Block[tikz={fill=red!20}]{}{10.34} & \Block[tikz={fill=red!20}]{}{2.21} \\
- & 101 & 42M & 8.20 & 2.72 & \Block[tikz={fill=red!20}]{}{11.31} & \Block[tikz={fill=red!20}]{}{1.98} \\
- & 152 & 58M & 9.44 & 3.38 & \Block[tikz={fill=red!20}]{}{12.70} & \Block[tikz={fill=red!20}]{}{2.39} \\ \midrule
-\multirow{2}{*}{MobileNetV3} & Small & 1M & 7.98 & 5.06 & \Block[tikz={fill=red!20}]{}{12.74} & \Block[tikz={fill=red!20}]{}{5.26} \\
- & Large & 4M & 8.16 & 4.27 & \Block[tikz={fill=red!20}]{}{8.45} & \Block[tikz={fill=red!20}]{}{4.43} \\ \midrule
-\multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & \Block[tikz={fill=red!20}]{}{6.02} & \Block[tikz={fill=red!20}]{}{\underline{\textbf{0.95}}} \\
- & 1 & 6M & \underline{\textbf{3.93}} & 3.54 & \Block[tikz={fill=red!20}]{}{8.88} & \Block[tikz={fill=red!20}]{}{2.70} \\
- & 2 & 7M & 5.73 & 2.61 & \Block[tikz={fill=red!20}]{}{7.29} & \Block[tikz={fill=red!20}]{}{2.14} \\
- & 3 & 10M & 5.65 & 3.64 & \Block[tikz={fill=red!20}]{}{7.37} & \Block[tikz={fill=red!20}]{}{2.34} \\ \midrule
-\multirow{2}{*}{ViT} & Base & 87M & 12.43 & 7.97 & \Block[tikz={fill=red!20}]{}{19.72} & \Block[tikz={fill=red!20}]{}{5.19} \\
- & Large & 305M & 13.16 & 7.57 & \Block[tikz={fill=red!20}]{}{19.88} & \Block[tikz={fill=red!20}]{}{5.26} \\ \midrule
-Llama & 3.2 & 11B & -- & -- & \Block[tikz={fill=red!20}]{}{13.95} & \Block[tikz={fill=red!20}]{}{21.90} \\
-InternVL & 2.5 & 8B & -- & -- & \Block[tikz={fill=red!20}]{}{8.58} & \Block[tikz={fill=red!20}]{}{10.40} \\
-Qwen-VL & 2.5 & 7B & -- & -- & \Block[tikz={fill=red!20}]{}{6.61} & \Block[tikz={fill=red!20}]{}{4.20} \\
-GPT-4o mini & 2024-07-18 & * & -- & -- & \Block[tikz={fill=red!20}]{}{4.70} & \Block[tikz={fill=red!20}]{}{4.07} \\
-GPT-4o & 2024-11-20 & * & -- & -- & \Block[tikz={fill=red!20}]{}{\underline{\textbf{2.75}}} & \Block[tikz={fill=red!20}]{}{1.33}
-\end{NiceTabular}
-\end{table}
-\end{frame}
-
-\begin{frame}{Resultados - ResNet e EfficientNet}
-\begin{table}
-\small
-\centering
-\setlength{\tabcolsep}{8pt}
-\begin{NiceTabular}{lclcccc}
-\toprule
-\textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \Block[tikz={fill=red!20}]{}{\textbf{ZSL}} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
-\midrule
-\multirow{5}{*}{ResNet} & 18 & 11M & \Block[tikz={fill=red!20}]{}{5.03} & \underline{\textbf{1.54}} & 4.98 & 1.51 \\
- & 34 & 21M & \Block[tikz={fill=red!20}]{}{4.32} & 2.10 & \underline{\textbf{4.13}} & 1.53 \\
- & 50 & 23M & \Block[tikz={fill=red!20}]{}{6.90} & 3.39 & 10.34 & 2.21 \\
- & 101 & 42M & \Block[tikz={fill=red!20}]{}{8.20} & 2.72 & 11.31 & 1.98 \\
- & 152 & 58M & \Block[tikz={fill=red!20}]{}{9.44} & 3.38 & 12.70 & 2.39 \\ \midrule
-\multirow{4}{*}{EfficientNet} & 0 & 4M & \Block[tikz={fill=red!20}]{}{4.41} & 2.27 & 6.02 & \underline{\textbf{0.95}} \\
- & 1 & 6M & \Block[tikz={fill=red!20}]{}{\underline{\textbf{3.93}}} & 3.54 & 8.88 & 2.70 \\
- & 2 & 7M & \Block[tikz={fill=red!20}]{}{5.73} & 2.61 & 7.29 & 2.14 \\
- & 3 & 10M & \Block[tikz={fill=red!20}]{}{5.65} & 3.64 & 7.37 & 2.34 \\
-\bottomrule
-\end{NiceTabular}
-\end{table}
-\end{frame}
-
-\begin{frame}{Resultados - ResNet, EfficientNet e ViT}
-\begin{table}
-\small
-\centering
-\setlength{\tabcolsep}{10pt}
-\begin{NiceTabular}{lclcccc}
-\toprule
-\textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \Block[tikz={fill=red!20}]{}{\textbf{ZSL}} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
-\midrule
-\multirow{5}{*}{ResNet} & 18 & 11M & \Block[tikz={fill=red!20}]{}{5.03} & \underline{\textbf{1.54}} & 4.98 & 1.51 \\
- & 34 & 21M & \Block[tikz={fill=red!20}]{}{4.32} & 2.10 & \underline{\textbf{4.13}} & 1.53 \\
- & 50 & 23M & \Block[tikz={fill=red!20}]{}{6.90} & 3.39 & 10.34 & 2.21 \\
- & 101 & 42M & \Block[tikz={fill=red!20}]{}{8.20} & 2.72 & 11.31 & 1.98 \\
- & 152 & 58M & \Block[tikz={fill=red!20}]{}{9.44} & 3.38 & 12.70 & 2.39 \\ \midrule
-\multirow{4}{*}{EfficientNet} & 0 & 4M & \Block[tikz={fill=red!20}]{}{4.41} & 2.27 & 6.02 & \underline{\textbf{0.95}} \\
- & 1 & 6M & \Block[tikz={fill=red!20}]{}{\underline{\textbf{3.93}}} & 3.54 & 8.88 & 2.70 \\
- & 2 & 7M & \Block[tikz={fill=red!20}]{}{5.73} & 2.61 & 7.29 & 2.14 \\
- & 3 & 10M & \Block[tikz={fill=red!20}]{}{5.65} & 3.64 & 7.37 & 2.34 \\ \midrule
-\multirow{2}{*}{ViT} & Base & 87M & \Block[tikz={fill=red!20}]{}{12.43} & 7.97 & 19.72 & 5.19 \\
- & Large & 305M & \Block[tikz={fill=red!20}]{}{13.16} & 7.57 & 19.88 & 5.26 \\
-\bottomrule
-\end{NiceTabular}
-\end{table}
-\end{frame}
 
 \begin{frame}{Resultados - Visualização TSNE}
 \begin{tikzpicture}[remember picture,overlay]
     % Tabela de fundo (mais opaca)
     \node[anchor=center, opacity=0.3] at (current page.center) {
         \begin{minipage}{\textwidth}
-        \begin{table}
-        \small
-        \centering
-        \setlength{\tabcolsep}{10pt}
-        \begin{tabular}{lclcccc}
+\begin{table}
+\centering
+\setlength{\tabcolsep}{3pt}
+    \begin{tabular}{lccccc}
         \toprule
-        \textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{ZSL} & \textbf{GZSL} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
+        & & \multicolumn{2}{c}{ZSL} & \multicolumn{2}{c}{GZSL}\\ %& \multicolumn{2}{c}{Test ZSL} & \multicolumn{2}{c}{Test GZSL} \\
+        \cmidrule(lr){3-4} \cmidrule(lr){5-6}% \cmidrule(lr){7-8} \cmidrule(lr){9-10}
+        Architecture           & Params & Mean   & Std   & Mean   & Std   \\%& Mean   & Std   & Mean  & Std  \\
         \midrule
-        \multirow{5}{*}{ResNet} & 18 & 11M & 5.03 & \underline{\textbf{1.54}} & 4.98 & 1.51 \\
-         & 34 & 21M & 4.32 & 2.10 & \underline{\textbf{4.13}} & 1.53 \\
-         & 50 & 23M & 6.90 & 3.39 & 10.34 & 2.21 \\
-         & 101 & 42M & 8.20 & 2.72 & 11.31 & 1.98 \\
-         & 152 & 58M & 9.44 & 3.38 & 12.70 & 2.39 \\ \midrule
-        \multirow{4}{*}{EfficientNet} & 0 & 4M & 4.41 & 2.27 & 6.02 & \underline{\textbf{0.95}} \\
-         & 1 & 6M & \underline{\textbf{3.93}} & 3.54 & 8.88 & 2.70 \\
-         & 2 & 7M & 5.73 & 2.61 & 7.29 & 2.14 \\
-         & 3 & 10M & 5.65 & 3.64 & 7.37 & 2.34 \\ \midrule
-        \multirow{2}{*}{ViT} & Base & 87M & 12.43 & 7.97 & 19.72 & 5.19 \\
-         & Large & 305M & 13.16 & 7.57 & 19.88 & 5.26 \\
+        AlexNet                &  57M   & 10.05 & 8.80  & 13.09 & 1.43  \\%& 18.26 & 5.35  & 5.68  & 0.13 \\
+        VGG-19                 &  139M  & 7.79  & 5.02  & 12.30 & 2.04  \\%& 29.07 & 3.11  & 4.55  & 0.85 \\0.047258
+        ResNet-34              &  21M   & 4.72  & 4.11  & 2.55  & 2.29  \\%& 2.51  & 1.31  & 4.76  & 0.53 \\
+        MobileNetV3-Large      &  4M    & 9.32  & 4.16  & 10.77 & 1.54  \\%& 11.47 & 6.19  & 5.13  & 0.89 \\
+        EfficientNet-b0        &  4M    & 6.92  & 4.07  & 6.51  & 2.28  \\%& 3.93  & 1.82  & 3.66  & 0.67 \\
+        ViT-Large              &  305M  & 15.93 & 5.93  & 13.50 & 1.32  \\%& 20.77 & 1.99  & 7.50  & 0.56 \\
         \bottomrule
-        \end{tabular}
-        \end{table}
+    \end{tabular}
+\end{table}
         \end{minipage}
     };
     
@@ -354,83 +232,12 @@ GPT-4o & 2024-11-20 & * & -- & -- & \Block[tikz={fill=red!20}]{}{\underline{\tex
         \begin{minipage}{0.55\textwidth}
         \centering
         \begin{tabular}{cc}
-            \includegraphics[width=0.45\textwidth]{images/ResNet.csv_18_0.pdf} &
-            \includegraphics[width=0.45\textwidth]{images/EfficientNet.csv_0_0.pdf} \\
-            \includegraphics[width=0.45\textwidth]{images/ViT.csv_b_0.pdf} &
-            \includegraphics[width=0.45\textwidth]{images/ViT.csv_l_0.pdf}
+            \includegraphics[width=0.45\textwidth]{images/tsne-resnet.pdf} &
+            \includegraphics[width=0.45\textwidth]{images/tsne-efficientnet.pdf} \\
+            \includegraphics[width=0.45\textwidth]{images/tsne-vgg.pdf} &
+            \includegraphics[width=0.45\textwidth]{images/tsne-vit.pdf}
         \end{tabular}
         \end{minipage}
     };
 \end{tikzpicture}
-\end{frame}
-
-\begin{frame}{Resultados - Large Language Models}
-\begin{table}
-\large
-\centering
-\setlength{\tabcolsep}{15pt}
-\begin{tabular}{lclcc}
-\toprule
-\textbf{Model} & \textbf{Version} & \textbf{Params} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
-\midrule
-Llama & 3.2 & 11B & 13.95 & 21.90 \\
-InternVL & 2.5 & 8B & 8.58 & 10.40 \\
-Qwen-VL & 2.5 & 7B & 6.61 & 4.20 \\
-GPT-4o mini & 2024-07-18 & * & 4.70 & 4.07 \\
-GPT-4o & 2024-11-20 & * & \underline{\textbf{2.75}} & \underline{\textbf{1.33}} \\
-\bottomrule
-\end{tabular}
-\end{table}
-\vspace{0.5cm}
-\begin{center}
-\footnotesize * Parameter count not publicly disclosed
-\end{center}
-\end{frame}
-
-\begin{frame}{Resultados - Melhores Modelos Visuais vs LLMs}
-\begin{table}
-\small
-\centering
-\setlength{\tabcolsep}{12pt}
-\begin{tabular}{lclcc}
-\toprule
-\textbf{Architecture} & \textbf{Edition} & \textbf{Params} & \textbf{Test ZSL} & \textbf{Test GZSL} \\
-\midrule
-\multirow{5}{*}{ResNet} & 18 & 11M & 4.98 & 1.51 \\
- & 34 & 21M & 4.13 & 1.53 \\
- & 50 & 23M & 10.34 & 2.21 \\
- & 101 & 42M & 11.31 & 1.98 \\
- & 152 & 58M & 12.70 & 2.39 \\ \midrule
-\multirow{4}{*}{EfficientNet} & 0 & 4M & 6.02 & \underline{\textbf{0.95}} \\
- & 1 & 6M & 8.88 & 2.70 \\
- & 2 & 7M & 7.29 & 2.14 \\
- & 3 & 10M & 7.37 & 2.34 \\ \midrule
-Llama & 3.2 & 11B & 13.95 & 21.90 \\
-InternVL & 2.5 & 8B & 8.58 & 10.40 \\
-Qwen-VL & 2.5 & 7B & 6.61 & 4.20 \\
-GPT-4o mini & 2024-07-18 & * & 4.70 & 4.07 \\
-GPT-4o & 2024-11-20 & * & \underline{\textbf{2.75}} & 1.33 \\
-\bottomrule
-\end{tabular}
-\end{table}
-\end{frame}
-
-\begin{frame}{Comparação: Visual Models vs LLMs}
-\begin{center}
-\includegraphics[width=0.65\textwidth]{images/performance_vs_parameters.png}
-\end{center}
-\end{frame}
-
-\begin{frame}{Comparação: Visual Models vs LLMs}
-\begin{center}
-\hspace{2cm}\includegraphics[height=0.75\textheight]{images-apresentacao/verification_v2.pdf} \\
-\textbf{Verificação - Classificação Binária}
-\end{center}
-\end{frame}
-
-\begin{frame}{Comparação: Visual Models vs LLMs}
-\begin{center}
-\includegraphics[height=0.75\textheight]{images-apresentacao/Identificação_v2.pdf} \\
-\textbf{Identificação - Classificação Multiclasse}
-\end{center}
 \end{frame}
