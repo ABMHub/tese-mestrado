@@ -17,3 +17,32 @@ Orientador: Prof. Dr. Pedro Garcia Freitas\\
 Coorientador: Prof. Dr. Bruno Luiggi Macchiavello Espinoza
 \end{center}
 \end{frame}
+
+
+\begin{frame}{Métricas de Avaliação}
+\begin{block}{Equal Error Rate (EER)}
+\begin{itemize}
+    \item Ponto onde FAR = FRR
+    \item FAR: False Acceptance Rate
+    \item FRR: False Rejection Rate
+\end{itemize}
+\end{block}
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{equation*}
+FAR(\tau) = \frac{\text{False Acceptances}}{\text{Total Negatives}}
+\end{equation*}
+
+\column{0.5\textwidth}
+\begin{equation*}
+FRR(\tau) = \frac{\text{False Rejections}}{\text{Total Positives}}
+\end{equation*}
+\end{columns}
+
+\vspace{0.3cm}
+\begin{center}
+\textbf{Protocolo de Teste:}\\
+Para cada documento: 1 par similar + 1 par dissimilar
+\end{center}
+\end{frame}
