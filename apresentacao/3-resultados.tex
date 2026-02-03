@@ -50,7 +50,7 @@
 \end{frame}
 
 
-\begin{frame}{Resultados - Busca de hiperparâmetros}
+\begin{frame}{Resultados - Busca de hiperparâmetros (Taxa de Erro)}
 \begin{table}
 \tiny
 \centering
@@ -89,7 +89,7 @@ AlexNet                 &   & 24.71 & 20.45 & 34.81 & 33.61 & 31.07 & 22.31 & 21
 \end{table}
 \end{frame}
 
-\begin{frame}{Resultados - Busca de hiperparâmetros}
+\begin{frame}{Resultados - Busca de hiperparâmetros (Taxa de Erro)}
     \begin{itemize}
         \item Tamanho de vetor $\times$ métrica
         \item Desconsiderando arquitetura
@@ -115,7 +115,7 @@ All & 16.99 & 11.83 & \textbf{13.89} & 10.37 & 15.42 & 11.20 \\
 \end{frame}
 
 
-\begin{frame}{Resultados - Busca de hiperparâmetros}
+\begin{frame}{Resultados - Busca de hiperparâmetros (Taxa de Erro)}
         \begin{itemize}
         \item Arquitetura $\times$ métrica
         \item Desconsiderando tamanho de vetor
@@ -139,7 +139,7 @@ All & 16.99 & 11.83 & \textbf{13.89} & 10.37 & 15.42 & 11.20 \\
 \end{table}
 \end{frame}
 
-\begin{frame}{Resultados - Busca de hiperparâmetros}
+\begin{frame}{Resultados - Busca de hiperparâmetros (Taxa de Erro)}
     \begin{itemize}
         \item Arquitetura $\times$ tamanho de vetor
         \item Desconsiderando métrica
@@ -163,7 +163,7 @@ ViT             & 26.19 & 4.98 & 29.23 & 8.43  & 31.35 & 10.28 & 27.52 & 8.84  &
 \end{table}
 \end{frame}
 
-\begin{frame}{Resultados - Visão Geral}
+\begin{frame}{Resultados - Visão Geral (Taxa de Erro)}
 \begin{itemize}
     \item Validação Cruzada
 \end{itemize}
@@ -178,53 +178,11 @@ ViT             & 26.19 & 4.98 & 29.23 & 8.43  & 31.35 & 10.28 & 27.52 & 8.84  &
         \midrule
         AlexNet                &  57M   & 10.05 & 8.80  & 13.09 & 1.43  \\%& 18.26 & 5.35  & 5.68  & 0.13 \\
         VGG-19                 &  139M  & 7.79  & 5.02  & 12.30 & 2.04  \\%& 29.07 & 3.11  & 4.55  & 0.85 \\0.047258
-        ResNet-34              &  21M   & 4.72  & 4.11  & 2.55  & 2.29  \\%& 2.51  & 1.31  & 4.76  & 0.53 \\
+        ResNet-34              &  21M   & \colorbox{pink}{\textbf{4.72}}  & 4.11  & \colorbox{pink}{\textbf{2.55}}  & 2.29  \\%& 2.51  & 1.31  & 4.76  & 0.53 \\
         MobileNetV3-Large      &  4M    & 9.32  & 4.16  & 10.77 & 1.54  \\%& 11.47 & 6.19  & 5.13  & 0.89 \\
         EfficientNet-b0        &  4M    & 6.92  & 4.07  & 6.51  & 2.28  \\%& 3.93  & 1.82  & 3.66  & 0.67 \\
         ViT-Large              &  305M  & 15.93 & 5.93  & 13.50 & 1.32  \\%& 20.77 & 1.99  & 7.50  & 0.56 \\
         \bottomrule
     \end{tabular}
 \end{table}
-\end{frame}
-
-
-\begin{frame}{Resultados - Visualização TSNE}
-\begin{tikzpicture}[remember picture,overlay]
-    % Tabela de fundo (mais opaca)
-    \node[anchor=center, opacity=0.3] at (current page.center) {
-        \begin{minipage}{\textwidth}
-\begin{table}
-\centering
-\setlength{\tabcolsep}{3pt}
-    \begin{tabular}{lccccc}
-        \toprule
-        & & \multicolumn{2}{c}{ZSL} & \multicolumn{2}{c}{GZSL}\\ %& \multicolumn{2}{c}{Test ZSL} & \multicolumn{2}{c}{Test GZSL} \\
-        \cmidrule(lr){3-4} \cmidrule(lr){5-6}% \cmidrule(lr){7-8} \cmidrule(lr){9-10}
-        Architecture           & Params & Mean   & Std   & Mean   & Std   \\%& Mean   & Std   & Mean  & Std  \\
-        \midrule
-        AlexNet                &  57M   & 10.05 & 8.80  & 13.09 & 1.43  \\%& 18.26 & 5.35  & 5.68  & 0.13 \\
-        VGG-19                 &  139M  & 7.79  & 5.02  & 12.30 & 2.04  \\%& 29.07 & 3.11  & 4.55  & 0.85 \\0.047258
-        ResNet-34              &  21M   & 4.72  & 4.11  & 2.55  & 2.29  \\%& 2.51  & 1.31  & 4.76  & 0.53 \\
-        MobileNetV3-Large      &  4M    & 9.32  & 4.16  & 10.77 & 1.54  \\%& 11.47 & 6.19  & 5.13  & 0.89 \\
-        EfficientNet-b0        &  4M    & 6.92  & 4.07  & 6.51  & 2.28  \\%& 3.93  & 1.82  & 3.66  & 0.67 \\
-        ViT-Large              &  305M  & 15.93 & 5.93  & 13.50 & 1.32  \\%& 20.77 & 1.99  & 7.50  & 0.56 \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-        \end{minipage}
-    };
-    
-    % Pop-up com as figuras TSNE
-    \node[anchor=center, fill=white, draw=black, line width=2pt, rounded corners=10pt, inner sep=5pt] at (current page.center) {
-        \begin{minipage}{0.55\textwidth}
-        \centering
-        \begin{tabular}{cc}
-            \includegraphics[width=0.45\textwidth]{images/tsne-resnet.pdf} &
-            \includegraphics[width=0.45\textwidth]{images/tsne-efficientnet.pdf} \\
-            \includegraphics[width=0.45\textwidth]{images/tsne-vgg.pdf} &
-            \includegraphics[width=0.45\textwidth]{images/tsne-vit.pdf}
-        \end{tabular}
-        \end{minipage}
-    };
-\end{tikzpicture}
 \end{frame}
