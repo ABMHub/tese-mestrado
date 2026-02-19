@@ -2,6 +2,8 @@
 
 monografia.pdf
 images/histogram_dataset_loop4-eps-converted-to.pdf
+*.ipynb
+*.csv
 
 
 # LaTeX build files
