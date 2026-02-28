@@ -175,7 +175,7 @@ The chosen linkage criterion significantly impacts the resulting cluster structu
 d(C_i, C_j) = \frac{|C_i| \cdot |C_j|}{|C_i| + |C_j|} \|\mu_i - \mu_j\|^2,
 \end{equation}
 
-where $|C_i|$ and $|C_j|$ are the number of elements in clusters $C_i$ and $C_j$, respectively, and $\mu_i$ and $\mu_j$ are their respective centroids. This algorithm supports some stopping conditions, for example, stopping the iterations when a specified number of classes is achieved. A suitable criterion for this work is to stop merging clusters when their distance is greater than $m$, where $m$ is the margin hyperparameter used in the contrastive loss of the metric learning model, as this model will be optimized treat $m$ as a frontier to what is similar and what is different.
+where $|C_i|$ and $|C_j|$ are the number of elements in clusters $C_i$ and $C_j$, respectively, and $\mu_i$ and $\mu_j$ are their respective centroids. This algorithm supports some stopping conditions, for example, stopping the iterations when a specified number of classes is achieved. A suitable criterion for this work is to stop merging clusters when their distance is greater than $m$, where $m$ is the margin hyperparameter used in the contrastive loss of the metric learning model, as this model will be optimized to treat $m$ as a frontier to what is similar and what is different.
 
 \section{\blue{Vision Models}}
 \label{sec:vision_models}
