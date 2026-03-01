@@ -5,12 +5,12 @@
 
 \blue{Therefore, the proposed dataset, \gls{LA-CDIP}, comes as a reorganization of the \gls{RVL-CDIP} dataset, focusing on increased granularization, in the sense that no two document layouts are seen in the same class.} Visual cues such as a company logo, the layout of a table, the position of certain text, etc., all contribute to differentiating between distinct document patterns, and different patterns imply different classes. While the \gls{RVL-CDIP} dataset was used as source content, it was re-labeled to align with the problem of differentiating documents, with a particular focus on their visual structure (layout). \refFig{img:dataset} illustrates the impacts of the new labels. All eight documents in the figure used to belong to the same class, but now belong to two different classes under the new organization.
 
-\begin{figure}[htbp]
+\begin{figure}[t!]
   \centering
-\includegraphics[width=.455\textwidth]{images/class_comparison1.png} \hspace{.04\textwidth}
-    \includegraphics[width=.455\textwidth]{images/class_comparison2.png}
+    \includegraphics[width=.49\textwidth]{images/class_comparison1.png} \hspace{.001\textwidth}
+    \includegraphics[width=.49\textwidth]{images/class_comparison2.png}
 
-\caption{Examples of two distinct classes under the proposed \gls{LA-CDIP} dataset. Those classes originally belonged to the same class under RVL-CDIP organization.\label{img:dataset}}
+    \caption{Examples of two distinct classes under the proposed \gls{LA-CDIP} dataset. Those classes originally belonged to the same class under RVL-CDIP organization.\label{img:dataset}}
 \end{figure}   
 
 The dataset labeling follows two stages: preliminary clustering, followed by a manual reorganization. The clustering is initially constructed using a private metric learning model trained on a private document dataset. Both the model and the dataset follow the same methodology as this dissertation. 
@@ -22,7 +22,7 @@ Subsequently, the model is used to generate feature vectors across the entire \g
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=.75\textwidth]{images/active_learning.drawio.pdf}
+\includegraphics[width=.6\textwidth]{images/active_learning.drawio.pdf}
 \caption{The proposed data labeling loop. At each loop, the labeled dataset is increased, which is used to train a better model, which results in more consistent predicted labels, reducing the time the human annotator spends per document.}
 \label{fig:not_active_learning}
 \end{figure}  
@@ -40,10 +40,10 @@ The efficiency of this labeling loop can be seen by the increasing quality of th
 The proposed dataset is composed of \blue{17,295} documents, divided into \blue{665} different classes. Each class has at least two documents, and the largest class has \blue{1913} documents, presenting an extra challenge in dealing with an unbalanced dataset. \refFig{fig:histplot} shows the class distribution.
 
 \begin{figure}[t!]
-\centering
-\includegraphics[width=.6\textwidth]{images/histogram_dataset_loop4.eps}
-\caption{Histogram showing the top 20 classes by their frequency. The other 645 classes are grouped in the ``others'' column.}
-\label{fig:histplot}
+    \centering
+    \includegraphics[width=.6\textwidth]{images/histogram_dataset_loop4.eps}
+    \caption{Top 20 classes by frequency; remaining 645 aggregated as ``others''.}
+    \label{fig:histplot}
 \end{figure}  
 
 To maintain train-test data consistency, the data is split following the \gls{ZSL} and \gls{GZSL} protocols proposed by Xian et al.~\cite{xian_zero-shot_2019} (see Section \ref{sec:zsl}). In both scenarios, the data is split into train and test sets, and the training data is further divided using 5-fold cross-validation~\cite{wong_reliable_2019}. The data for the test scenario and for each split are chosen randomly and remain the same for every experiment. The test scenario is treated as a sixth split for the cross-validation, so it follows the same rules as the other five splits. For the \gls{ZSL} scenario, one-sixth of the classes are randomly chosen for each split, with no overlap. Naturally, this scenario creates splits with variable sizes, as the classes themselves have variable sizes. For the \gls{GZSL} scenario, half of the classes in the entire dataset are chosen as classes that do not overlap between splits, while the other half are distributed across the splits. When constructing a split, the non-overlapping classes are chosen first, and then the remaining slots are filled with the overlapping classes, achieving splits of constant size for this scenario.
@@ -54,18 +54,7 @@ This dataset can be normally used for traditional visual classification problems
 \section{Evaluation Criteria}
 \label{sec:evaluation}
 
-Since a metric learning model yields a distance between two data points (in this case, two documents), a threshold needs to be defined to declare whether the two data points belong to the same class or not, to calculate how accurate the model is. For this, \acrfull{EER} is used as the metric for the experiments~\cite{agrawal_hybrid_2014}. \gls{EER} is the point at which the \gls{FAR} and \gls{FRR} are equal. The \gls{EER} is calculated by setting the \gls{FAR} equal to the \gls{FRR} and finding the corresponding threshold~\cite{hofbauer_calculating_2016}. In other words, the \gls{EER} is the error rate value when the threshold $\tau_{EER}$ yields
-\begin{equation}
-    FAR(\tau_{EER}) = FRR(\tau_{EER}),
-\end{equation}
-where
-\begin{equation} \label{far}
-    FAR(\tau) = \frac{\text{Number of false acceptances at threshold~} \tau}{\text{Total number of negative samples}}
-\end{equation}
-is the probability that a negative sample is incorrectly classified as positive. On the other hand,
-\begin{equation} \label{frr}
-    FRR(\tau) = \frac{\text{Number of false rejections at threshold~} \tau}{\text{Total number of positive samples}}
-\end{equation}
-is the probability that a positive sample (e.g., a genuine user) is incorrectly classified as negative.
+Since a metric learning model yields a distance between two data points (in this case, two documents), a threshold needs to be defined to declare whether the two data points belong to the same class or not, to calculate how accurate the model is. For this, \acrfull{EER} is used as the metric for the experiments~\cite{agrawal_hybrid_2014}. \gls{EER} is the point at which the \gls{FAR} and \gls{FRR} are equal. The \gls{EER} is calculated by setting the \gls{FAR} equal to the \gls{FRR} and finding the corresponding threshold~\cite{hofbauer_calculating_2016}.
+\gls{EER} occurs when $FAR(\tau_{EER}) = FRR(\tau_{EER})$. These rates are defined as:\begin{equation} \label{far}FAR(\tau) = \frac{\text{False Acceptances}}{\text{Negative Samples}} \quad \text{and} \quad FRR(\tau) = \frac{\text{False Rejections}}{\text{Positive Samples}}\end{equation}representing the respective probabilities of false positive and false negative classifications at threshold $\tau$.
 
 Ten models are trained for each chosen backbone (see Section \ref{sec:method_modeling}): 5-fold cross-validation for each of the two scenarios, \gls{ZSL} and \gls{GZSL}. As shown in Section \ref{sec:method_dataset}, each split follows a fixed validation protocol to ensure consistency. The trained models from each split are also evaluated on the independent test set to compare them with \glspl{LLM}. The mean \gls{EER} is reported for every cross-validation scenario, as well as the mean \gls{EER} on the independent test set.
