@@ -93,29 +93,29 @@ Before making a proper benchmark, a hyperparameter search is necessary. Most hyp
 The experiments in \refTab{tab:tuning_raw} use the first fold of the cross-validation as the train and validation splits, and the reported values are from the independent test split. This table is used to find the best possible parameter configuration for each architecture, and the remaining experiments in this work are done with the best hyperparameters found. To better analyze these results, this table is split into three other different tables.
 
 \begin{table}[ht]
-\centering
-\caption{Average performance in \gls{EER} over each possible output dimension, considering the Euclidean distance, the Cosine distance, and considering both distances. The last row considers every embedding size, to measure the best average distance metric.}
-\label{tab:outdim_agg}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{ccc|cc|cc}
-& \multicolumn{2}{c}{Euclidean} & \multicolumn{2}{c}{Cosine} & \multicolumn{2}{c}{Both} \\
-\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
-Embedding Size & Mean & Std & Mean & Std & Mean & Std \\
-\midrule
-16  & 13.92 & 8.39 & 14.86 & 8.69 & 14.39 & 8.43 \\
-32  & 15.14 & 12.81 & 15.01 & 10.33 & 15.07 & 11.47 \\
-64  & 19.39 & 13.77 & 12.81 & 11.99 & 15.92 & 13.10 \\
-128 & 16.11 & 12.14 & 15.19 & 9.96 & 15.65 & 10.95 \\
-256 & 21.36 & 11.91 & \underline{\textbf{11.50}} & 9.74 & 16.43 & 11.83 \\
-512 & 16.13 & 11.37 & 14.04 & 11.96 & 15.08 & 11.55 \\
-\midrule
-All & 16.99 & 11.83 & 13.89 & 10.37 & 15.42 & 11.20 \\
-\bottomrule
-\end{tabular}
+    \centering
+    \caption{Average performance in \gls{EER} over each possible output dimension, considering the Euclidean distance, the Cosine distance, and considering both distances. The last row considers every embedding size, to measure the best average distance metric.}
+    \label{tab:outdim_agg}
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{ccc|cc|cc}
+    & \multicolumn{2}{c}{Euclidean} & \multicolumn{2}{c}{Cosine} & \multicolumn{2}{c}{Both} \\
+    \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+    Embedding Size & Mean & Std & Mean & Std & Mean & Std \\
+    \midrule
+    16  & 13.92 & 8.39 & 14.86 & 8.69 & 14.39 & 8.43 \\
+    32  & 15.14 & 12.81 & 15.01 & 10.33 & 15.07 & 11.47 \\
+    64  & 19.39 & 13.77 & 12.81 & 11.99 & 15.92 & 13.10 \\
+    128 & 16.11 & 12.14 & 15.19 & 9.96 & 15.65 & 10.95 \\
+    256 & 21.36 & 11.91 & \underline{\textbf{11.50}} & 9.74 & 16.43 & 11.83 \\
+    512 & 16.13 & 11.37 & 14.04 & 11.96 & 15.08 & 11.55 \\
+    \midrule
+    All & 16.99 & 11.83 & 13.89 & 10.37 & 15.42 & 11.20 \\
+    \bottomrule
+    \end{tabular}
 \end{table}
 
 % revise esse aqui
-\refTab{tab:outdim_agg} shows the average \gls{EER} for each combination of metric distance and embedding size. We can see that the best overall combination is an embedding of size 256, and using the cosine distance. We can see in the last row, where the results are averaged across every embedding size, that the cosine distance is indeed the best overall metric distance, with an absolute difference of 3.10\% \gls{EER} from the Euclidean distance. This is evidence that most architectures used in these experiments work better with the cosine distance for this problem. The last two columns on this table bring the average \gls{EER} for each embedding size, averaging the distance metrics. In these columns, we can see that the smaller embedding size used, 16, is actually the best overall, with the lowest standard deviation. A smaller embedding size implies a smaller feature space, therefore, it is possible that models trained with an embedding size of 16 are less prone to overfitting, achieving stable but moderate results. Higher embedding sizes, while more prone to overfitting, also hold the potential to handle more classes without entanglement. We can see this behavior in \refTab{tab:tuning_raw}: while embedding size of 16 is the best average value, it was not once the best hyperparameter for any architecture, and most best configurations use 256 or 512 embedding size.
+\refTab{tab:outdim_agg} shows the average \gls{EER} for each combination of metric distance and embedding size. We can see that the best overall combination is an embedding of size 256, and using the cosine distance. We can see in the last row, where the results are averaged across every embedding size, that the cosine distance is indeed the best overall metric distance, with an absolute difference of 3.10\% \gls{EER} from the Euclidean distance. This is evidence that most architectures used in these experiments work better with the cosine distance for this problem. The last two columns on this table bring the average \gls{EER} for each embedding size, averaging the distance metrics. In these columns, we can see that the smaller embedding size used, 16, is actually the best overall, with the lowest standard deviation. A smaller embedding size implies a smaller feature space, therefore, it is possible that models trained with an embedding size of 16 are less prone to overfitting, achieving stable but moderate results. Higher embedding sizes, while more prone to overfitting, also hold the potential to handle more classes without entanglement. We can see this behavior in \refTab{tab:tuning_raw}: while an embedding size of 16 is the best average value, it was not once the best hyperparameter for any architecture, and most best configurations use 256 or 512 embedding size.
 
 \begin{table}[ht]
     \centering
@@ -137,7 +137,7 @@ All & 16.99 & 11.83 & 13.89 & 10.37 & 15.42 & 11.20 \\
     \end{tabular}
 \end{table}
 
-\refTab{tab:architecture_agg} shows the average \gls{EER} for each combination of distance function and chosen architecture. We can see that the best combination of architecture and metric distance is EfficientNet with cosine distance. Most architectures perform better with cosine distance, with the exception of \gls{ViT} and VGG. MobileNet performed particularly bad with the Euclidean distance, with almost three times the \gls{EER} if compared against using the cosine distance. \refTab{tab:tuning_raw} shows that some experiments with this combination got near 50\% \gls{EER}, a score that would be as bad as a completely random decision. In these cases, the trained models mostly did not learn across all the 300 epochs they were trained on. Again, the last two columns shows the performance of each architecture, independently of the chosen distance metric. The best overall architecture in these experiments is the EfficientNet variants, followed by ResNet and VGG.
+\refTab{tab:architecture_agg} shows the average \gls{EER} for each combination of distance function and chosen architecture. We can see that the best combination of architecture and metric distance is EfficientNet with cosine distance. Most architectures perform better with cosine distance, with the exception of \gls{ViT} and VGG. MobileNet performed particularly badly with the Euclidean distance, with almost three times the \gls{EER} if compared against using the cosine distance. \refTab{tab:tuning_raw} shows that some experiments with this combination got near 50\% \gls{EER}, a score that would be as bad as a completely random decision. In these cases, the trained models mostly did not learn across all the 300 epochs they were trained on. Again, the last two columns show the performance of each architecture, independently of the chosen distance metric. The best architectures in these experiments are the EfficientNet variants, followed by ResNet and VGG.
 
 \begin{table}[ht]
 \centering
@@ -160,7 +160,7 @@ ViT             & 26.19 & 4.98 & 29.23 & 8.43  & 31.35 & 10.28 & 27.52 & 8.84  &
 \end{tabular}
 \end{table}
 
-Finally, the \ref{tab:architecture_dim_agg} shows the performance of each architecture, for each possible embedding size. This table shows some of the behaviors pointed out in the two previous paragraphs: embedding size of value 16 having lower overall standard deviation and EfficientNet achieving the lowest average \gls{EER}. The best combination of embedding size and architecture, in average, is EfficientNet with size 64, and is different from the best hyperparameter combination found on \refTab{tab:tuning_raw}, which is using embedding size 512. This shows, again, that while bigger embeddings may increase the potential for better models, it can also increase the variability of the results. \refFig{fig:boxplot} shows a boxplot of the \gls{EER} in relation to the embedding size, across all experiments shown in \refTab{tab:tuning_raw}. Note that the error oscillates across the size options and is neither strictly increasing nor decreasing, and the most stable parameter is still the 16 embedding size.
+Finally, \ref{tab:architecture_dim_agg} shows the performance of each architecture, for each possible embedding size. This table shows some of the behaviors pointed out in the two previous paragraphs: embedding size of value 16 having lower overall standard deviation and EfficientNet achieving the lowest average \gls{EER}. The best combination of embedding size and architecture, in average, is EfficientNet with size 64, and is different from the best hyperparameter combination found on \refTab{tab:tuning_raw}, which is using embedding size 512. This shows, again, that while bigger embeddings may increase the potential for better models, it can also increase the variability of the results. \refFig{fig:boxplot} shows a boxplot of the \gls{EER} in relation to the embedding size, across all experiments shown in \refTab{tab:tuning_raw}. Note that the error oscillates across the size options and is neither strictly increasing nor decreasing, and the most stable parameter is still the 16 embedding size.
 
 \begin{figure}
     \centering
