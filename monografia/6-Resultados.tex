@@ -23,7 +23,7 @@ The table shows an increase in cluster similarity with the growth of the dataset
 \section{VDM Experimental Setup}
 \label{sec:experimental_setup}
 
-The method was implemented in Python, primarily using the PyTorch library~\cite{paszke_pytorch_2019}. All experiments were executed using four NVIDIA GPUs: three RTX 4090 (24GB VRAM each) and one GTX 1060 (6GB VRAM). The experiments were parallelized across these GPUs, with each device training different model configurations independently. Despite the different hardware, all models used consistent batch sizes and hyperparameters to ensure fair comparison. The hyperparameters used in these experiments are shown in \refTab{tab:hyperparameters}. Note that, while most of the architectures use the same hyperparameters, MobileNetV3 and \gls{ViT} use different configurations, following suggestions from their original works.
+The method was implemented in Python, primarily using the PyTorch library~\cite{paszke_pytorch_2019}. All experiments were executed using four NVIDIA GPUs: three RTX 4090 (24GB VRAM each) and one GTX 1060 (6GB VRAM). The experiments were parallelized across these GPUs, with each device training different model configurations independently. Despite the different hardware, all models used consistent batch sizes and hyperparameters to ensure a fair comparison. The hyperparameters used in these experiments are shown in \refTab{tab:hyperparameters}. Note that, while most of the architectures use the same hyperparameters, MobileNetV3 and \gls{ViT} use different configurations, following suggestions from their original works.
 
 \begin{table}[htbp]
 \centering
