@@ -226,7 +226,7 @@ The difference between \gls{ZSL} and \gls{GZSL} is the data split. While \gls{ZS
 
 The better performance on the \gls{GZSL} split with the ResNet and EfficientNet models suggests that the generalization advantages exceed the difficulty increase. The worse performance on the AlexNet, VGG and MobileNet suggests that the difficulty increase weighed more than the advantages. \gls{ViT} is a particular case. \refFig{fig:overfit} shows the \gls{ZSL} loss value per epoch on both the train and test split on every architecture. This figure shows that the \gls{ViT} architecture is the only one to diverge on the validation loss score, while overfitting on the train loss score, explaining why the \gls{GZSL} error decreased. \refTab{tab:gzsl_summary} shows the different error rates for two different categories: the error rate on pairs that their classes were not seen during training, and the error rate on pairs where at least one of the elements was seen during training. With the exception of VGG, every architecture performed better on the seen scenario, which indicates that the increased difficulty on the \gls{GZSL} scenario is, indeed, the culprit.
 
-\begin{figure}
+\begin{figure}[t!]
     \centering
     \begin{subfigure}[a]{0.8\textwidth}
         \centering
@@ -242,7 +242,7 @@ The better performance on the \gls{GZSL} split with the ResNet and EfficientNet 
     \label{fig:overfit}
 \end{figure}
 
-\begin{table}[ht!]
+\begin{table}[t!]
     \centering
     \caption{Summary of error rates for each architectures in the \gls{GZSL} scenario, for seen or unseen pairs.}
     \label{tab:gzsl_summary}
@@ -266,7 +266,7 @@ With the trained models shown in this chapter, an industry system can leverage t
 
 Second, the model can be used in an identification system, which becomes similar to a multiclass classification problem: given a document reference for each available class, and with a predefined acceptance threshold, a query document must be assigned to the closest class with respect to the embedding distances, or detected as outside of the label space if no class is within the predefined threshold. \refFig{fig:ver_ind} illustrates the difference between the verification and identification tasks.
 
-\begin{figure*}[ht!]
+\begin{figure*}[t!]
     \begin{subfigure}[b]{0.35\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/verification.drawio.pdf}
