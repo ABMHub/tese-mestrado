@@ -32,39 +32,39 @@ More recently, the DocVQA dataset~\cite{mathew_docvqa_2021} was introduced, leve
 At the end of the day, the most suitable datasets for the \gls{ZSL}-\gls{DIC} task are the traditional classification datasets. The biggest source of documents for these datasets is the IIT-CDIP dataset~\cite{lewis_iit-cdip_2006}, introduced in 2006, which is a large-scale repository used for document classification and information retrieval. It originated from the Tobacco Documents Library, from the University of San Francisco Industry Documents Library collection, and contains millions of scanned documents. The most popular classification dataset derived from the IIT-CDIP is the RVL-CDIP dataset~\cite{harley_evaluation_2015}, introduced in 2015. This dataset is a labeled subset of the IIT-CDIP dataset and organizes 400,000 document images into 16 predefined categories such as letters, forms, and emails. This classification is driven by the document's purpose and uses, which hinders the performance of a ZSL model trained from scratch, with no external real-world knowledge.
 This observation is confirmed by Larson et al.~\cite{larson_evaluation_2023}, who highlighted this difficulty by stating that each \gls{RVL-CDIP} class comprises various subclasses, as illustrated in \refFig{fig:rvl_examples}. They further argue that this may constrain \gls{ZSL} solutions, as no single reference could specify an entire class without overlaps. Other traditional classification datasets suffer from the same problem, as they share very similar classes and labeling logic~\cite{Kumar2014}.
 
-\begin{figure}[htbp]
-\centering
-\begin{minipage}{0.32\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_1.png}
-\end{minipage}
-\hfill
-\begin{minipage}{0.32\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_3.png}
-\end{minipage}
-\hfill
-\begin{minipage}{0.32\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_5.png}
-\end{minipage}
+\begin{figure}[t!]
+    \centering
+    \begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_1.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_3.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_5.png}
+    \end{minipage}
 
-\begin{minipage}{0.32\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_2.png}
-\end{minipage}
-\hfill
-\begin{minipage}{0.32\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_4.png}
-\end{minipage}
-\hfill
-\begin{minipage}{0.32\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_6.png}
-\end{minipage}
-\caption{Six examples of the RVL-CDIP dataset. Note that, despite the visual differences, these six documents all share the same class under the RVL-CDIP organization.}
-\label{fig:rvl_examples}
+    \begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_2.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_4.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.32\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images-apresentacao/RVL_EX_6.png}
+    \end{minipage}
+    \caption{Six examples of the RVL-CDIP dataset. Note that, despite the visual differences, these six documents all share the same class under the RVL-CDIP organization.}
+    \label{fig:rvl_examples}
 \end{figure}
 
 \blue{Therefore, even with these available datasets, there is still a gap that can be explored in the \gls{ZSL}-\gls{DIC} domain. The existing datasets either lack the appropriate structure for classification tasks or present challenges in zero-shot scenarios due to overlapping class definitions and the absence of explicit class-disjoint splits. This limitation motivates the need for a new benchmark that explicitly addresses these constraints and enables more robust evaluation of zero-shot document classification approaches.}
