@@ -5,15 +5,15 @@ Traditional classification methods, such as entropy learning, lock the generalit
 
 \blue{This approach is inspired by biometric signature verification approaches~\cite{jiang_dsdtw_2022}, where a system has a repository of ground-truth signature references (signatures that they know are from a certain person), and they compare them with a query signature, to verify if they belong to the same person or not. }Therefore, \gls{VDM} works by learning to draw representations of documents in a feature space with $n$ dimensions, such that documents that share the same class are represented as clustered together, and documents that have different classes are far apart, as illustrated in \refFig{fig:vector_space_mapping}.
 
-\begin{figure*}[ht!]
-    \begin{subfigure}[b]{0.99\textwidth}
+\begin{figure*}[t!]
+    \begin{subfigure}[b]{0.9\textwidth}
         \centering
         \includegraphics[width=\textwidth, trim=15 0 30 0, clip]{images/vector_space_1.pdf}
         \caption{Similar documents with small distance $d_1$ between them.}
         \label{fig:similar_docs}
     \end{subfigure}
     \vfill
-    \begin{subfigure}[b]{0.99\textwidth}
+    \begin{subfigure}[b]{0.9\textwidth}
         \centering
         \includegraphics[width=\textwidth, trim=15 0 30 0, clip]{images/vector_space_2.pdf}
         \caption{Dissimilar documents with large distance $d_2$ between them.}
