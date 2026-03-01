@@ -1,4 +1,4 @@
-\section{\blue{Dataset Construction}}
+\section{Dataset Construction}
 \label{sec:res_dataset}
 
 The dataset construction followed a sequence of incremental steps, following the methodology presented in Section \ref{sec:method_dataset}. The proposed labeling method assumes that a model trained with the current iteration of the dataset will be able to create better (i.e., more precise) labels if compared to training with the previous iteration (should have less data), which will then speed up the human annotation process. \refTab{tab:dataset_iterations} shows this behavior. This table details every iteration of the training loop: the achieved number of documents, followed by number of classes, and the similarity between what was automatically clustered versus the resulting human annotated labels. Each iteration begins with an automatic clustering produced by a model trained on the dataset achieved by the previous iteration. The first iteration takes the dataset from a previous work~\cite{10.1007/978-3-032-09368-4_12} and creates a new, independent dataset.
@@ -18,12 +18,12 @@ The dataset construction followed a sequence of incremental steps, following the
 \end{tabular}
 \end{table}
 
-The table shows an increase in cluster similarity with the growth of the dataset. In particular, the increase from the second to the third iteration is greater than the increase from the first to the second. It is possible that the data achieved by the first iteration had the same overall quality as the data achieved by the previous work, meaning that models trained in these datasets achieved similar behavior. The labeling loop then follows with a leap of cluster quality in the third iteration, revealing evidence that the labeling method can optimize the manual process. Furthermore, the second and the third iterations both lasted the same duration, and yet, the second iteration achieved 1,587 new documents, and the third, 5,049. This is empirical evidence that the cluster similarity is inversely related to the time spent per document on the manual annotation process. The remaining experiments in this work are done with the last iteration of the dataset.
+The table shows an increase in cluster similarity with the growth of the dataset. In particular, the increase from the second to the third iteration is greater than the increase from the first to the second. It is possible that the data achieved by the first iteration had the same overall quality as the data achieved by the previous work, meaning that models trained on these datasets achieved similar behavior. The labeling loop then follows with a leap of cluster quality in the third iteration, revealing evidence that the labeling method can optimize the manual process. Furthermore, the second and the third iterations both lasted the same duration, and yet, the second iteration achieved 1,587 new documents, and the third, 5,049. This is empirical evidence that the cluster similarity is inversely related to the time spent per document on the manual annotation process. The remaining experiments in this work are done with the last iteration of the dataset.
 
 \section{VDM Experimental Setup}
 \label{sec:experimental_setup}
 
-The method was implemented in Python, primarily using the PyTorch library~\cite{paszke_pytorch_2019}. All experiments were executed using four NVIDIA GPUs: three RTX 4090 (24GB VRAM each) and one GTX 1060 (6GB VRAM). The experiments were parallelized across these GPUs, with each device training different model configurations independently. Despite the different hardware, all models used consistent batch sizes and hyperparameters to ensure fair comparison. The hyperparameters used in these experiments are shown in \refTab{tab:hyperparameters}. Note that, while most of the architectures use the same hyperparameters, MobileNetV3 and \gls{ViT} use different configurations, following suggestions from their original works.
+The method was implemented in Python, primarily using the PyTorch library~\cite{paszke_pytorch_2019}. All experiments were executed using four NVIDIA GPUs: three RTX 4090 (24GB VRAM each) and one GTX 1060 (6GB VRAM). The experiments were parallelized across these GPUs, with each device training different model configurations independently. Despite the different hardware, all models used consistent batch sizes and hyperparameters to ensure a fair comparison. The hyperparameters used in these experiments are shown in \refTab{tab:hyperparameters}. Note that, while most of the architectures use the same hyperparameters, MobileNetV3 and \gls{ViT} use different configurations, following suggestions from their original works.
 
 \begin{table}[htbp]
 \centering
@@ -40,84 +40,84 @@ ViT         & AdamW & 0.001 & Cosine Annealing      & $1 \times 10^{-5}$ & 90 \\
 \end{tabular}
 \end{table}
 
-\blue{The remaining configurations: output size, distance metric, and model edition for each architecture, are determined by a hyperparameter search in \refCap{6-Resultados}. \gls{VDM} is also used in the proposed labeling process as the \gls{DL} model that provides feature vectors for the clustering process. The models trained for clustering have fixed configurations: ResNet-18 backbone, Euclidean distance, and 64-neuron output.}
+The remaining configurations: output size, distance metric, and model edition for each architecture, are determined by a hyperparameter search in \refCap{6-Resultados}. \gls{VDM} is also used in the proposed labeling process as the \gls{DL} model that provides feature vectors for the clustering process. The models trained for clustering have fixed configurations: ResNet-18 backbone, Euclidean distance, and 64-neuron output.
 
-The VDM-trained models are exclusively visual; therefore, their input data is the $(R, G, B)$ document image matrix. First, the input image is resized into a shape compatible with each neural architecture. For most models, this shape is $(224, 224)$ in height and width. EfficientNet is the only architecture that does not follow this rule, as different model versions increase their input size while simultaneously increasing network depth and width. Then, every value in the image matrix is scaled from $0\text{--}255$ to $0\text{--}1$ and normalized using the mean and standard deviation of the current training split.
+The \gls{VDM} trained models are exclusively visual; therefore, their input data is the $(R, G, B)$ document image matrix. First, the input image is resized into a shape compatible with each neural architecture. For most models, this shape is $(224, 224)$ in height and width. EfficientNet is the only architecture that does not follow this rule, as different model versions increase their input size while simultaneously increasing network depth and width. Then, every value in the image matrix is scaled from $0\text{--}255$ to $0\text{--}1$ and normalized using the mean and standard deviation of the current training split.
 
-\blue{During training, each step processes a pair of documents that can be either similar (same class) or dissimilar (different classes). The pairing process follows a specific procedure: first, a random document is selected from the training set; then, the pair type (similar or dissimilar) is randomly determined. For similar pairs, another document from the same class is chosen. For dissimilar pairs, a different class is randomly selected first, followed by a random document from that class. This class-level randomization ensures that every class has equal probability of forming dissimilar pairs, preventing overfitting to larger classes. Each batch is composed of 16 pairs. Throughout an epoch, each document is chosen once to serve as the first element of the pair, and may be randomly chosen a more times to close pairs on the second position. While training randomizes each pair in every epoch, during testing and validation, the pairs are fixed. The chosen pair is then processed by the Siamese network, generating two feature vectors, which are evaluated by the contrastive loss function (see Section \ref{sec:contrastive_loss}).}
+During training, each step processes a pair of documents that can be either similar (same class) or dissimilar (different classes). The pairing process follows a specific procedure: first, a random document is selected from the training set; then, the pair type (similar or dissimilar) is randomly determined. For similar pairs, another document from the same class is chosen. For dissimilar pairs, a different class is randomly selected first, followed by a random document from that class. This class-level randomization ensures that every class has equal probability of forming dissimilar pairs, preventing overfitting to larger classes. Each batch is composed of 16 pairs. Throughout an epoch, each document is chosen once to serve as the first element of the pair, and may be randomly chosen more times to close pairs in the second position. While training randomizes each pair in every epoch, during testing and validation, the pairs are fixed. The chosen pair is then processed by the Siamese network, generating two feature vectors, which are evaluated by the contrastive loss function (see Section \ref{sec:contrastive_loss}).
 
 \section{Hyperparameter search}
 \label{sec:results}
 
 Before making a proper benchmark, a hyperparameter search is necessary. Most hyperparameters are already set, as they are taken from the original works (see Section \ref{sec:experimental_setup}), but hyperparameters related to the metric-learning nature have not been set. \refTab{tab:tuning_raw} shows the search for the remaining configurations: the architecture edition, the distance metric and the embedding size.
 
-\begin{table}[ht]
-\centering
-\caption{Results of the hyperparameter search for each architecture in \gls{EER}. Searching for: the architecture edition (e.g. ResNet-18 or ResNet-34), the distance metric (Euclidean or cosine), and the output embedding size.}
-\label{tab:tuning_raw}
-\setlength{\tabcolsep}{4pt}
-\footnotesize
-\begin{tabular}{llcccccc|ccccccc}
-\toprule
-& & \multicolumn{6}{c}{Euclidean} & \multicolumn{6}{c}{Cosine} \\
-\cmidrule(lr){3-8} \cmidrule(lr){9-14}
-Model & Ed. & 16 & 32 & 64 & 128 & 256 & 512 & 16 & 32 & 64 & 128 & 256 & 512 \\
-\midrule
-AlexNet                 &   & 24.71 & 20.45 & 34.81 & 33.61 & 31.07 & 22.31 & 21.21 & 20.21 & 21.62 & 18.44 & 22.14 & \underline{\textbf{15.26}} \\
-\midrule
-\multirow{4}{*}{VGG}    & 11    & 19.35 & 32.73 & 9.03 & 31.68 & 30.82 & 34.59 & 22.80 & 29.38 & 20.23 & 22.02 & 29.31 & 26.39 \\
-                        & 13    & 22.38 & 8.83 & 24.05 & 14.82 & 33.05 & 11.69 & 18.22 & 23.61 & 13.85 & 19.59 & 24.22 & 30.01 \\
-                        & 16    & 7.63 & 4.82 & 30.80 & 12.57 & 23.39 & 8.90 & 12.01 & 27.76 & 22.65 & 30.23 & 25.68 & 32.63 \\
-                        & 19    & 13.26 & 1.81 & 29.79 & 18.08 & 27.67 & 11.86 & 23.48 & 23.17 & 19.69 & 21.18 & 1.66 & \underline{\textbf{1.57}} \\
-\midrule
-\multirow{5}{*}{ResNet} & 18    & 3.52 & 7.07 & 9.00 & 7.05 & 3.40 & 1.66 & 19.35 & 11.69 & 2.94 & 2.35 & 1.64 & 2.64 \\
-                        & 34    & 9.10 & 10.30 & 7.36 & 8.07 & 17.71 & 3.30 & 3.23 & 4.82 & 1.54 & 5.48 & \underline{\textbf{0.49}} & 0.61 \\
-                        & 50    & 7.07 & 26.47 & 11.69 & 4.01 & 23.24 & 14.75 & 15.95 & 17.25 & 4.31 & 6.04 & 10.37 & 10.10 \\
-                        & 101   & 21.80 & 19.06 & 20.72 & 21.23 & 31.99 & 19.06 & 13.04 & 6.73 & 3.84 & 2.42 & 7.75 & 24.93 \\
-                        & 152   & 7.14 & 4.77 & 14.24 & 13.72 & 5.70 & 16.85 & 4.26 & 8.98 & 2.62 & 15.63 & 13.70 & 9.34 \\
-\midrule
-\multirow{2}{*}{MobileNet} & S. & 7.44 & 13.60 & 48.29 & 16.24 & 29.87 & 39.97 & 20.38 & 6.36 & 5.53 & 14.04 & 5.14 & 5.60 \\
-                           & L. & 22.82 & 43.79 & 38.01 & 46.16 & 44.32 & 31.60 & 17.34 & 16.44 & 17.10 & 10.57 & \underline{\textbf{5.09}} & 12.84 \\
-\midrule
-\multirow{4}{*}{EfficientNet} & 0  & 7.61 & 1.00 & 5.68 & 1.88 & 14.46 & \underline{\textbf{0.73}} & 2.67 & 5.53 & 3.96 & 8.73 & 2.62 & 2.81 \\
-                              & 1  & 4.99 & 7.44 & 5.31 & 3.33 & 6.73 & 5.09 & 2.54 & 4.84 & 3.86 & 5.75 & 1.37 & 2.40 \\
-                              & 2  & 3.42 & 4.11 & 4.26 & 3.99 & 2.15 & 13.50 & 4.87 & 3.11 & 2.59 & 12.77 & 4.26 & 6.65 \\
-                              & 3  & 19.50 & 5.28 & 4.26 & 8.71 & 11.15 & 8.00 & 10.10 & 4.35 & 3.99 & 12.87 & 10.59 & 6.09 \\
-\midrule
-\multirow{2}{*}{ViT}    & B.  & 29.43 & 33.19 & 17.95 & 28.01 & 25.15 & 24.66 & 30.26 & 37.77 & 38.60 & 26.83 & 18.62 & 32.27 \\
-                        & L. & 19.32 & 27.81 & 28.69 & \underline{\textbf{16.81}} & 22.60 & 21.72 & 25.76 & 18.15 & 40.17 & 38.43 & 22.38 & 30.53 \\
-\bottomrule
-\end{tabular}
+\begin{table}[t!]
+    \centering
+    \caption{Results of the hyperparameter search for each architecture in \gls{EER}. Searching for: the architecture edition (e.g. ResNet-18 or ResNet-34), the distance metric (Euclidean or cosine), and the output embedding size.}
+    \label{tab:tuning_raw}
+    \setlength{\tabcolsep}{4pt}
+    \footnotesize
+    \begin{tabular}{llcccccc|ccccccc}
+        \toprule
+        & & \multicolumn{6}{c}{Euclidean} & \multicolumn{6}{c}{Cosine} \\
+        \cmidrule(lr){3-8} \cmidrule(lr){9-14}
+        Model & Ed. & 16 & 32 & 64 & 128 & 256 & 512 & 16 & 32 & 64 & 128 & 256 & 512 \\
+        \midrule
+        AlexNet                 &   & 24.71 & 20.45 & 34.81 & 33.61 & 31.07 & 22.31 & 21.21 & 20.21 & 21.62 & 18.44 & 22.14 & \underline{\textbf{15.26}} \\
+        \midrule
+        \multirow{4}{*}{VGG}    & 11    & 19.35 & 32.73 & 9.03 & 31.68 & 30.82 & 34.59 & 22.80 & 29.38 & 20.23 & 22.02 & 29.31 & 26.39 \\
+                                & 13    & 22.38 & 8.83 & 24.05 & 14.82 & 33.05 & 11.69 & 18.22 & 23.61 & 13.85 & 19.59 & 24.22 & 30.01 \\
+                                & 16    & 7.63 & 4.82 & 30.80 & 12.57 & 23.39 & 8.90 & 12.01 & 27.76 & 22.65 & 30.23 & 25.68 & 32.63 \\
+                                & 19    & 13.26 & 1.81 & 29.79 & 18.08 & 27.67 & 11.86 & 23.48 & 23.17 & 19.69 & 21.18 & 1.66 & \underline{\textbf{1.57}} \\
+        \midrule
+        \multirow{5}{*}{ResNet} & 18    & 3.52 & 7.07 & 9.00 & 7.05 & 3.40 & 1.66 & 19.35 & 11.69 & 2.94 & 2.35 & 1.64 & 2.64 \\
+                                & 34    & 9.10 & 10.30 & 7.36 & 8.07 & 17.71 & 3.30 & 3.23 & 4.82 & 1.54 & 5.48 & \underline{\textbf{0.49}} & 0.61 \\
+                                & 50    & 7.07 & 26.47 & 11.69 & 4.01 & 23.24 & 14.75 & 15.95 & 17.25 & 4.31 & 6.04 & 10.37 & 10.10 \\
+                                & 101   & 21.80 & 19.06 & 20.72 & 21.23 & 31.99 & 19.06 & 13.04 & 6.73 & 3.84 & 2.42 & 7.75 & 24.93 \\
+                                & 152   & 7.14 & 4.77 & 14.24 & 13.72 & 5.70 & 16.85 & 4.26 & 8.98 & 2.62 & 15.63 & 13.70 & 9.34 \\
+        \midrule
+        \multirow{2}{*}{MobileNet} & S. & 7.44 & 13.60 & 48.29 & 16.24 & 29.87 & 39.97 & 20.38 & 6.36 & 5.53 & 14.04 & 5.14 & 5.60 \\
+                                & L. & 22.82 & 43.79 & 38.01 & 46.16 & 44.32 & 31.60 & 17.34 & 16.44 & 17.10 & 10.57 & \underline{\textbf{5.09}} & 12.84 \\
+        \midrule
+        \multirow{4}{*}{EfficientNet} & 0  & 7.61 & 1.00 & 5.68 & 1.88 & 14.46 & \underline{\textbf{0.73}} & 2.67 & 5.53 & 3.96 & 8.73 & 2.62 & 2.81 \\
+                                    & 1  & 4.99 & 7.44 & 5.31 & 3.33 & 6.73 & 5.09 & 2.54 & 4.84 & 3.86 & 5.75 & 1.37 & 2.40 \\
+                                    & 2  & 3.42 & 4.11 & 4.26 & 3.99 & 2.15 & 13.50 & 4.87 & 3.11 & 2.59 & 12.77 & 4.26 & 6.65 \\
+                                    & 3  & 19.50 & 5.28 & 4.26 & 8.71 & 11.15 & 8.00 & 10.10 & 4.35 & 3.99 & 12.87 & 10.59 & 6.09 \\
+        \midrule
+        \multirow{2}{*}{ViT}    & B.  & 29.43 & 33.19 & 17.95 & 28.01 & 25.15 & 24.66 & 30.26 & 37.77 & 38.60 & 26.83 & 18.62 & 32.27 \\
+                                & L. & 19.32 & 27.81 & 28.69 & \underline{\textbf{16.81}} & 22.60 & 21.72 & 25.76 & 18.15 & 40.17 & 38.43 & 22.38 & 30.53 \\
+        \bottomrule
+    \end{tabular}
 \end{table}
 
 The experiments in \refTab{tab:tuning_raw} use the first fold of the cross-validation as the train and validation splits, and the reported values are from the independent test split. This table is used to find the best possible parameter configuration for each architecture, and the remaining experiments in this work are done with the best hyperparameters found. To better analyze these results, this table is split into three other different tables.
 
-\begin{table}[ht]
-\centering
-\caption{Average performance in \gls{EER} over each possible output dimension, considering the Euclidean distance, the Cosine distance, and considering both distances. The last row considers every embedding size, to measure the best average distance metric.}
-\label{tab:outdim_agg}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{ccc|cc|cc}
-& \multicolumn{2}{c}{Euclidean} & \multicolumn{2}{c}{Cosine} & \multicolumn{2}{c}{Both} \\
-\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
-Embedding Size & Mean & Std & Mean & Std & Mean & Std \\
-\midrule
-16  & 13.92 & 8.39 & 14.86 & 8.69 & 14.39 & 8.43 \\
-32  & 15.14 & 12.81 & 15.01 & 10.33 & 15.07 & 11.47 \\
-64  & 19.39 & 13.77 & 12.81 & 11.99 & 15.92 & 13.10 \\
-128 & 16.11 & 12.14 & 15.19 & 9.96 & 15.65 & 10.95 \\
-256 & 21.36 & 11.91 & \underline{\textbf{11.50}} & 9.74 & 16.43 & 11.83 \\
-512 & 16.13 & 11.37 & 14.04 & 11.96 & 15.08 & 11.55 \\
-\midrule
-All & 16.99 & 11.83 & 13.89 & 10.37 & 15.42 & 11.20 \\
-\bottomrule
-\end{tabular}
+\begin{table}[t!]
+    \centering
+    \caption{Average performance in \gls{EER} over each possible output dimension, considering the Euclidean distance, the Cosine distance, and considering both distances. The last row considers every embedding size, to measure the best average distance metric.}
+    \label{tab:outdim_agg}
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{ccc|cc|cc}
+    & \multicolumn{2}{c}{Euclidean} & \multicolumn{2}{c}{Cosine} & \multicolumn{2}{c}{Both} \\
+    \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+    Embedding Size & Mean & Std & Mean & Std & Mean & Std \\
+    \midrule
+    16  & 13.92 & 8.39 & 14.86 & 8.69 & 14.39 & 8.43 \\
+    32  & 15.14 & 12.81 & 15.01 & 10.33 & 15.07 & 11.47 \\
+    64  & 19.39 & 13.77 & 12.81 & 11.99 & 15.92 & 13.10 \\
+    128 & 16.11 & 12.14 & 15.19 & 9.96 & 15.65 & 10.95 \\
+    256 & 21.36 & 11.91 & \underline{\textbf{11.50}} & 9.74 & 16.43 & 11.83 \\
+    512 & 16.13 & 11.37 & 14.04 & 11.96 & 15.08 & 11.55 \\
+    \midrule
+    All & 16.99 & 11.83 & 13.89 & 10.37 & 15.42 & 11.20 \\
+    \bottomrule
+    \end{tabular}
 \end{table}
 
 % revise esse aqui
-\refTab{tab:outdim_agg} shows the average \gls{EER} for each combination of metric distance and embedding size. We can see that the best overall combination is an embedding of size 256, and using the cosine distance. We can see in the last row, where the results are averaged across every embedding size, that the cosine distance is indeed the best overall metric distance, with a absolute difference of 3.10\% \gls{EER} from the Euclidean distance. This is evidence that most architectures used in these experiments work better with the cosine distance for this problem. The last two columns on this table bring the average \gls{EER} for each embedding size, averaging the distance metrics. In these columns, we can see that the smaller embedding size used, 16, is actually the best overall, with the lowest standard deviation. A smaller embedding size implies a smaller feature space, therefore, it is possible that models trained with 16 embedding size are less prone to overfitting, achieving stable but moderate results. Higher embedding sizes, while more prone to overfitting, also hold the potential to handle more classes without entanglement. We can see this behavior in \refTab{tab:tuning_raw}: while embedding size of 16 is the best average value, it was not once the best hyperparameter for any architecture, and most best configurations use 256 or 512 embedding size.
+\refTab{tab:outdim_agg} shows the average \gls{EER} for each combination of metric distance and embedding size. We can see that the best overall combination is an embedding of size 256, and using the cosine distance. We can see in the last row, where the results are averaged across every embedding size, that the cosine distance is indeed the best overall metric distance, with an absolute difference of 3.10\% \gls{EER} from the Euclidean distance. This is evidence that most architectures used in these experiments work better with the cosine distance for this problem. The last two columns on this table bring the average \gls{EER} for each embedding size, averaging the distance metrics. In these columns, we can see that the smaller embedding size used, 16, is actually the best overall, with the lowest standard deviation. A smaller embedding size implies a smaller feature space, therefore, it is possible that models trained with an embedding size of 16 are less prone to overfitting, achieving stable but moderate results. Higher embedding sizes, while more prone to overfitting, also hold the potential to handle more classes without entanglement. We can see this behavior in \refTab{tab:tuning_raw}: while an embedding size of 16 is the best average value, it was not once the best hyperparameter for any architecture, and most best configurations use 256 or 512 embedding size.
 
-\begin{table}[ht]
+\begin{table}[t!]
     \centering
     \caption{Average performance in \gls{EER} over each possible architecture, considering the Euclidean distance, the Cosine distance, and considering both distances.}
     \label{tab:architecture_agg}
@@ -137,9 +137,9 @@ All & 16.99 & 11.83 & 13.89 & 10.37 & 15.42 & 11.20 \\
     \end{tabular}
 \end{table}
 
-\refTab{tab:architecture_agg} shows the average \gls{EER} for each combination of distance function and chosen architecture. We can see that the best combination of architecture and metric distance is EfficientNet with cosine distance. Most architectures perform better with cosine distance, with the exception of \gls{ViT} and VGG. MobileNet performed particularly bad with the Euclidean distance, with almost three times the \gls{EER} if compared against using the cosine distance. \refTab{tab:tuning_raw} shows that some experiments with this combination got near 50\% \gls{EER}, a score that would be as bad as a completely random decision. In these cases, the trained models mostly did not learn across all the 300 epochs they were trained on. Again, the last two columns shows the performance of each architecture, independently of the chosen distance metric. The best overall architecture in these experiments is the EfficientNet variants, followed by ResNet and VGG.
+\refTab{tab:architecture_agg} shows the average \gls{EER} for each combination of distance function and chosen architecture. We can see that the best combination of architecture and metric distance is EfficientNet with cosine distance. Most architectures perform better with cosine distance, with the exception of \gls{ViT} and VGG. MobileNet performed particularly badly with the Euclidean distance, with almost three times the \gls{EER} if compared against using the cosine distance. \refTab{tab:tuning_raw} shows that some experiments with this combination got near 50\% \gls{EER}, a score that would be as bad as a completely random decision. In these cases, the trained models mostly did not learn across all the 300 epochs they were trained on. Again, the last two columns show the performance of each architecture, independently of the chosen distance metric. The best architectures in these experiments are the EfficientNet variants, followed by ResNet and VGG.
 
-\begin{table}[ht]
+\begin{table}[t!]
 \centering
 \caption{Average performance in \gls{EER} over each possible architecture, considering each output dimension.}
 \label{tab:architecture_dim_agg}
@@ -160,7 +160,7 @@ ViT             & 26.19 & 4.98 & 29.23 & 8.43  & 31.35 & 10.28 & 27.52 & 8.84  &
 \end{tabular}
 \end{table}
 
-Finally, the \ref{tab:architecture_dim_agg} shows the performance of each architecture, for each possible embedding size. This table shows some of the behaviors pointed out in the two previous paragraphs: embedding size of value 16 having lower overall standard deviation and EfficientNet achieving the lowest average \gls{EER}. The best combination of embedding size and architecture, in average, is EfficientNet with size 64, and is different from the best hyperparameter combination found on \refTab{tab:tuning_raw}, which is using embedding size 512. This shows, again, that while bigger embeddings may increase the potential for better models, it can also increase the variability of the results. \refFig{fig:boxplot} shows a boxplot of the \gls{EER} in relation to the embedding size, across all experiments shown in \refTab{tab:tuning_raw}. Note that the error oscillates across the size options and is neither strictly increasing nor decreasing, and the most stable parameter is still the 16 embedding size.
+Finally, \ref{tab:architecture_dim_agg} shows the performance of each architecture, for each possible embedding size. This table shows some of the behaviors pointed out in the two previous paragraphs: embedding size of value 16 having lower overall standard deviation and EfficientNet achieving the lowest average \gls{EER}. The best combination of embedding size and architecture, in average, is EfficientNet with size 64, and is different from the best hyperparameter combination found on \refTab{tab:tuning_raw}, which is using embedding size 512. This shows, again, that while bigger embeddings may increase the potential for better models, it can also increase the variability of the results. \refFig{fig:boxplot} shows a boxplot of the \gls{EER} in relation to the embedding size, across all experiments shown in \refTab{tab:tuning_raw}. Note that the error oscillates across the size options and is neither strictly increasing nor decreasing, and the most stable parameter is still the 16 embedding size.
 
 \begin{figure}
     \centering
@@ -195,9 +195,9 @@ This section's discussion revolves around Table \ref{tab:res}, where the results
     \end{tabular}
 \end{table}
 
-Immediately, we can see that the overall best models in this experiment are the ResNet-34 and EfficientNet-b0. They offer a better balance between performance and economy, being the smallest models that perform the best. Usually, the larger the model, more data it needs to perform well, and with a small dataset, smaller models usually perform at least as good as the larger models  \cite{hestness2017deeplearningscalingpredictable}. With this observation, we can observe that ResNet and EfficientNet reside in the balance between model complexity and performance. Lowering the parameter count, we find MobileNetV3-Large, which does not perform as good as the other two models, despite being at least more economic. In the hyperparameter search, MobileNetV3-Small showed even higher error rate, showing that the MobileNetV3 architecture is already too economic for this problem. In the other direction, VGG and \gls{ViT} performed worse than EfficientNet and ResNet. This is evidence that the increased architecture complexity did not suit the size of the dataset. \gls{ViT}, in particular, being a transformer architecture~\cite{vaswani_attention_2023}, performed the worst of all architectures in these experiments, as it is specially data demanding. \refFig{fig:tsne} shows the TSNE visualization of the \gls{ZSL} scenario. Every plot shows the representations of every element in a single validation split, where a dot is a vector representation of a document, and each color is a different class. We can see that, on this particular fold, the representations of the ResNet, EfficientNet and VGG models are well defined and well separated, while the representations on \gls{ViT}, the largest model, is very entangled.
+Immediately, we can see that the overall best models in this experiment are the ResNet-34 and EfficientNet-b0. They offer a better balance between performance and economy, being the smallest models that perform the best. Usually, the larger the model, the more data it needs to perform well, and with a small dataset, smaller models usually perform at least as good as the larger models  \cite{hestness2017deeplearningscalingpredictable}. With this observation, we can observe that ResNet and EfficientNet reside in the balance between model complexity and performance. Lowering the parameter count, we find MobileNetV3-Large, which does not perform as well as the other two models, despite being at least more economic. In the hyperparameter search, MobileNetV3-Small showed even higher error rate, showing that the MobileNetV3 architecture is already too economic for this problem. In the other direction, VGG and \gls{ViT} performed worse than EfficientNet and ResNet. This is evidence that the increased architecture complexity did not suit the size of the dataset. \gls{ViT}, in particular, being a transformer architecture~\cite{vaswani_attention_2023}, performed the worst of all architectures in these experiments, as it is specially data demanding. \refFig{fig:tsne} shows the TSNE visualization of the \gls{ZSL} scenario. Every plot shows the representations of every element in a single validation split, where a dot is a vector representation of a document, and each color is a different class. We can see that, on this particular fold, the representations of the ResNet, EfficientNet and VGG models are well defined and well separated, while the representations on \gls{ViT}, the largest model, are very entangled.
 
-\begin{figure}[htbp]
+\begin{figure}[t!]
     \centering
     \begin{minipage}{0.4\linewidth}
         \centering
@@ -222,18 +222,18 @@ Immediately, we can see that the overall best models in this experiment are the 
     \caption{TSNE visualization of the Test ZSL scenario. These models were trained on the same cross-validation fold. Each dot represents a document positioned in this two-dimensional space through TSNE dimensionality reduction. Each color represents a different class.\label{fig:tsne}}
 \end{figure}
 
-The difference between \gls{ZSL} and \gls{GZSL} is the data split. While \gls{ZSL} is class-disjoint, \gls{GZSL} has both seen and unseen classes on the validation split (see Section \ref{sec:zsl}). The \gls{GZSL} split has some great advantages: first, it is likely to decrease the error on models prone to overfitting on the seen classes, as some of them will appear on the validation test as well. Second, the greater class diversity on the training set should increase the model potential to generalize to unseen classes. On the other hand, the \gls{GZSL} also increases the amount of classes present on the validation set, raising the overall difficulty, especially for models that can not make use of the advantages. For reference, each \gls{ZSL} validation split has 111 classes, while the \gls{GZSL} splits have an average of 253.8 classes. This difference separates the trained models into two groups: ResNet, EfficientNet and \gls{ViT} perform better in the \gls{GZSL} split, while AlexNet, VGG and MobileNet perform worse. 
+The difference between \gls{ZSL} and \gls{GZSL} is the data split. While \gls{ZSL} is class-disjoint, \gls{GZSL} has both seen and unseen classes on the validation split (see Section \ref{sec:zsl}). The \gls{GZSL} split has some great advantages: first, it is likely to decrease the error on models prone to overfitting on the seen classes, as some of them will appear on the validation test as well. Second, the greater class diversity on the training set should increase the model potential to generalize to unseen classes. On the other hand, the \gls{GZSL} also increases the amount of classes present on the validation set, raising the overall difficulty, especially for models that cannot make use of the advantages. For reference, each \gls{ZSL} validation split has 111 classes, while the \gls{GZSL} splits have an average of 253.8 classes. This difference separates the trained models into two groups: ResNet, EfficientNet and \gls{ViT} perform better in the \gls{GZSL} split, while AlexNet, VGG and MobileNet perform worse. 
 
-The better performance on the \gls{GZSL} split with the ResNet and EfficientNet models suggest that the generalization advantages exceed the difficulty increase. The worse performance on the AlexNet, VGG and MobileNet suggest that the difficulty increase weighted more than the advantages. \gls{ViT} is a particular case. \refFig{fig:overfit} shows the \gls{ZSL} loss value per epoch on both the train and test split on every architecture. This figure shows that the \gls{ViT} architecture is the only one to diverge on the validation loss score, while overfitting on the train loss score, explaining why the \gls{GZSL} error decreased. \refTab{tab:gzsl_summary} shows the different error rates for two different categories: the error rate on pairs that their classes were not seen during training, and the error rate on pairs where at least one of the elements was seen during training. With the exception of VGG, every architecture performed better on the seen scenario, which indicates that the increased difficulty on the \gls{GZSL} scenario is, indeed, the culprit.
+The better performance on the \gls{GZSL} split with the ResNet and EfficientNet models suggests that the generalization advantages exceed the difficulty increase. The worse performance on the AlexNet, VGG and MobileNet suggests that the difficulty increase weighed more than the advantages. \gls{ViT} is a particular case. \refFig{fig:overfit} shows the \gls{ZSL} loss value per epoch on both the train and test split on every architecture. This figure shows that the \gls{ViT} architecture is the only one to diverge on the validation loss score, while overfitting on the train loss score, explaining why the \gls{GZSL} error decreased. \refTab{tab:gzsl_summary} shows the different error rates for two different categories: the error rate on pairs that their classes were not seen during training, and the error rate on pairs where at least one of the elements was seen during training. With the exception of VGG, every architecture performed better on the seen scenario, which indicates that the increased difficulty on the \gls{GZSL} scenario is, indeed, the culprit.
 
-\begin{figure}
+\begin{figure}[t!]
     \centering
-    \begin{subfigure}[a]{0.8\textwidth}
+    \begin{subfigure}[a]{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/grafico_treino_v1_cropped.pdf}
         \caption{Training loss.}
     \end{subfigure}
-    \begin{subfigure}[b]{0.8\textwidth}
+    \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/grafico_val_v1_cropped.pdf}
         \caption{Validation loss.}
@@ -242,7 +242,7 @@ The better performance on the \gls{GZSL} split with the ResNet and EfficientNet 
     \label{fig:overfit}
 \end{figure}
 
-\begin{table}[ht!]
+\begin{table}[t!]
     \centering
     \caption{Summary of error rates for each architectures in the \gls{GZSL} scenario, for seen or unseen pairs.}
     \label{tab:gzsl_summary}
@@ -266,7 +266,7 @@ With the trained models shown in this chapter, an industry system can leverage t
 
 Second, the model can be used in an identification system, which becomes similar to a multiclass classification problem: given a document reference for each available class, and with a predefined acceptance threshold, a query document must be assigned to the closest class with respect to the embedding distances, or detected as outside of the label space if no class is within the predefined threshold. \refFig{fig:ver_ind} illustrates the difference between the verification and identification tasks.
 
-\begin{figure*}[ht!]
+\begin{figure*}[t!]
     \begin{subfigure}[b]{0.35\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/verification.drawio.pdf}
