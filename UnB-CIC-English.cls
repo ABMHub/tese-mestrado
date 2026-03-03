@@ -424,6 +424,13 @@
 	\gdef\@@palavraschave{#2}
 }
 
+%Portuguese title definition - for resumo
+\newcommand*{\titulobr}{\@dblarg\set@titulobr}
+\newcommand*{\set@titulobr}[2][]{%
+	\gdef\@titulobr{#1}
+	\gdef\@@titulobr{#2}
+}
+
 %work date
 \def\diamesano#1#2#3{\def\@dia{#1}%
                      \def\@mes{#2}%
@@ -568,7 +575,8 @@
 	{\begin{paginatitulo}%
 	\begin{otherlanguage*}{brazil}
 	\pdfbookmark{Resumo}{resumo}%
-	\chapter*{Resumo}}%
+	\chapter*{Resumo}%
+	\@ifundefined{@@titulobr}{}{\vskip 10pt\noindent\textbf{\@@titulobr}\par\vskip 15pt}}%
 		{\vskip 15pt\noindent\textbf{Palavras-chave:}\ \@@palavraschave%
 	\end{otherlanguage*}
     \end{paginatitulo}}
