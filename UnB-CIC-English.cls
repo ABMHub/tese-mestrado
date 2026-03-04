@@ -571,14 +571,12 @@
 	\end{otherlanguage*}
 	\end{paginatitulo}}
 
+
 \newenvironment{resumo}
 	{\begin{paginatitulo}%
-	\begin{otherlanguage*}{brazil}
 	\pdfbookmark{Resumo}{resumo}%
-	\chapter*{Resumo}%
-	\@ifundefined{@@titulobr}{}{\vskip 10pt\noindent\textbf{\@@titulobr}\par\vskip 15pt}}%
+	\chapter*{\@@titulobr \\[0.7em] Resumo}}%
 		{\vskip 15pt\noindent\textbf{Palavras-chave:}\ \@@palavraschave%
-	\end{otherlanguage*}
     \end{paginatitulo}}
 
 \newenvironment{dedicatoria}
